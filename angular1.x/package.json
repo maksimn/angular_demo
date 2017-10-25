@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/maksimn/angular_demo#readme",
   "dependencies": {
-    "angular": "^1.6.6"
+    "angular": "^1.6.6",
+    "bootstrap": "^3.3.7"
   }
 }
