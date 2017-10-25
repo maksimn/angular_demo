@@ -9,8 +9,8 @@
 
 Сделать на фреймворках 
 
+- Vanilla JS 
 - Angular 1.x
-- Angular 4 (планы)
-- React, Redux (планы)
-- jQuery (планы)
-- Vanilla JS (планы)
+- Angular 4 
+- React, Redux
+- jQuery 
