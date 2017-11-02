@@ -8,11 +8,11 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-    res.render('../layout', { page: 'index' });
+    res.render('layout', { page: 'index' });
 });
 
 app.get('/:page', (req, res) => {
-    res.render('../layout', { page: req.params.page });
+    res.render('layout', { page: req.params.page });
 });
 
 app.listen(port, () => {
