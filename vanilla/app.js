@@ -11,8 +11,12 @@ app.get('/', (req, res) => {
     res.render('layout', { page: 'index' });
 });
 
-app.get('/:page', (req, res) => {
-    res.render('layout', { page: req.params.page });
+const routes = ['/index', '/login', '/photos', '/profile', '/register'];
+
+routes.forEach(route => {
+    app.get(route, (req, res) => {
+        res.render('layout', { page: route.substring(1) });
+    });
 });
 
 app.listen(port, () => {
