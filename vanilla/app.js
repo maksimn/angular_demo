@@ -12,12 +12,20 @@ app.get('/', (req, res) => {
     res.render('layout', { page: 'index' });
 });
 
-const routes = ['/index', '/login', '/photos', '/profile', '/register', '/error'];
+app.get('/login', (req, res) => {
+    res.render('layout', { page: 'login' });
+});
 
-routes.forEach(route => {
-    app.get(route, (req, res) => {
-        res.render('layout', { page: route.substring(1) });
-    });
+app.get('/register', (req, res) => {
+    res.render('layout', { page: 'register' });
+});
+
+app.get('/photos', (req, res) => {
+    res.render('layout', { page: 'photos' });
+});
+
+app.get('/profile', (req, res) => {
+    res.render('layout', { page: 'profile' });
 });
 
 app.get('*', (req, res) => {
