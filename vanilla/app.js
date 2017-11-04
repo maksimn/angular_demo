@@ -1,13 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const {validateRegisterFormData} = require('./common/validate');
+
 const app = express();
 const port = 8000;
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // List of app users
 // user schema: { id: some_id, name: some_name, token: some_token };
@@ -53,7 +55,15 @@ app.get('*', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    res.render('layout', { page: 'register' });
+    const {username, password, confirmPassword} = req.body;
+
+    const validationErrors = validateRegisterFormData({username, password, confirmPassword});
+
+    if (validationErrors) {
+        res.status(400).send({validationErrors});
+    } else {
+        res.status(200).send({username});
+    }
 });
 // app paths end
 
