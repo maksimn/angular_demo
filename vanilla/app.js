@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 8000;
@@ -6,6 +7,7 @@ const port = 8000;
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // List of app users
 // user schema: { id: some_id, name: some_name, token: some_token };
@@ -48,6 +50,10 @@ app.get('/profile', authMiddleware, (req, res) => {
 
 app.get('*', (req, res) => {
     res.render('layout', { page: 'error' });
+});
+
+app.post('/register', (req, res) => {
+    res.render('layout', { page: 'register' });
 });
 // app paths end
 
