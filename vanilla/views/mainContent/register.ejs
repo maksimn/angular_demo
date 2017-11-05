@@ -14,6 +14,7 @@
             <input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
         </div>
         <button type="submit" class="btn btn-primary">Отправить</button>
+        <div id="validationErrors" class="alert alert-danger hidden"></div>
     </form>
 </div>
 
@@ -48,8 +49,14 @@
                     window.location.href = 'login';
                 } else if (xhr.readyState === 4 && xhr.status === 400) {
                     var result = JSON.parse(xhr.responseText);
-
-                    alert('Ошибка регистрации ' + result);
+                    var validationErrors = result.validationErrors;
+                    
+                    var validationErrorsDiv = document.getElementById('validationErrors');
+                    validationErrorsDiv.classList.remove('hidden');
+                    
+                    validationErrors.forEach(err => {
+                        validationErrorsDiv.innerHTML += '<div>* ' + err.errorMessage + '</div><br>';
+                    });
                 }
             };
 

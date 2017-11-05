@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const {validateRegisterFormData} = require('./common/validate');
+const validator = require('validator');
 
 const app = express();
 const port = 8000;
@@ -12,8 +11,46 @@ app.use(express.static(__dirname));
 app.use(bodyParser.json());
 
 // List of app users
-// user schema: { id: some_id, name: some_name, token: some_token };
+// user schema: { id: some_id, name: some_name, password: some_password, token: some_token };
 const users = []; 
+
+const validateRegistrationData = registrationData => {
+    let {username, password, confirmPassword} = registrationData;
+    const validationErrors = [];
+
+    if (!validator.isAlpha(username, 'ru-RU')) {
+        validationErrors.push({
+            field: 'username',
+            errorMessage: 'Имя пользователя должно содержать только символы русского алфавита'
+        });
+    }
+    if (!validator.isLength(username, { min: 2, max: 30 })) {
+        validationErrors.push({
+            field: 'username',
+            errorMessage: 'Имя пользователя не должно содержать менее 2 и более 30 символов'
+        });
+    }
+    if (!validator.isAlphanumeric(password)) {
+        validationErrors.push({
+            field: 'password',
+            errorMessage: 'Пароль может содержать только латинские символы или числа'
+        });
+    }
+    if (!validator.isLength(password, { min: 4, max: 25 })) {
+        validationErrors.push({
+            field: 'password',
+            errorMessage: 'Пароль должен содержать не менее 4 и не более 25 символов'
+        });
+    }
+    if (password != confirmPassword) {
+        validationErrors.push({
+            field: 'confirmPassword',
+            errorMessage: 'Пароль и его повтор должны совпадать'
+        });
+    }
+
+    return validationErrors.length ? validationErrors : null;
+};
 
 const authMiddleware = (req, res, next) => {
     const authToken = req.get('x-auth');
@@ -57,11 +94,18 @@ app.get('*', (req, res) => {
 app.post('/register', (req, res) => {
     const {username, password, confirmPassword} = req.body;
 
-    const validationErrors = validateRegisterFormData({username, password, confirmPassword});
+    const validationErrors = validateRegistrationData({
+        username, password, confirmPassword
+    });
 
     if (validationErrors) {
         res.status(400).send({validationErrors});
     } else {
+        users.push({
+            id: users.length, 
+            name: username, 
+            password
+        });
         res.status(200).send({username});
     }
 });
