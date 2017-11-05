@@ -54,8 +54,9 @@
                     var validationErrorsDiv = document.getElementById('validationErrors');
                     validationErrorsDiv.classList.remove('hidden');
                     
+                    validationErrorsDiv.innerHTML = '';
                     validationErrors.forEach(err => {
-                        validationErrorsDiv.innerHTML += '<div>* ' + err.errorMessage + '</div><br>';
+                        validationErrorsDiv.innerHTML += '<div>* ' + err.errorMessage + '</div>';
                     });
                 }
             };
