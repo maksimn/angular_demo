@@ -1,15 +1,17 @@
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 const app = express();
-const port = 8000;
+const PORT = 8000;
 const JWT_SECRET = '123456';
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname));
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 // List of app users
@@ -103,7 +105,7 @@ const createToken = username => {
 };
 
 const authMiddleware = (req, res, next) => {
-    const authToken = req.get('x-auth');
+    const authToken = req.cookies['x-auth'];
     const isAuthorized = authToken && users.some(user => user.token === authToken);
     const url = req.url;
     
@@ -171,13 +173,18 @@ app.post('/login', (req, res) => {
     } else {
         const validUserName = validationResult.username;
 
+        const userToken = createToken(validUserName);
+
+        const user = users.find(u => u.name === validUserName);
+        user.token = userToken;
+
         res.status(200)
-           .header('x-auth', createToken(validUserName))
+           .header('x-auth', userToken)
            .send({ username: validUserName });
     }
 });
 // app paths end
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
 });
