@@ -1,9 +1,11 @@
-const express = require('express');
 const bodyParser = require('body-parser');
+const express = require('express');
+const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
 const app = express();
 const port = 8000;
+const JWT_SECRET = '123456';
 
 app.set('view engine', 'ejs');
 
@@ -48,8 +50,56 @@ const validateRegistrationData = registrationData => {
             errorMessage: 'Пароль и его повтор должны совпадать'
         });
     }
+    if (username && users.some(u => u.name === username)) {
+        validationErrors.push({
+            field: 'username',
+            errorMessage: `Имя ${username} уже занято. Попробуйте другое`
+        });        
+    }
 
     return validationErrors.length ? validationErrors : null;
+};
+
+const validateLoginData = loginData => {
+    let {username, password} = loginData;
+    const validationErrors = [];
+    const validationResult = {
+        username: null,
+        validationErrors: null
+    };
+
+    username = validator.trim(username);
+    password = validator.trim(password);
+
+    if (validator.isEmpty(username)) {
+        validationErrors.push({
+            field: 'username',
+            errorMessage: `Имя пользователя должно быть задано`
+        });             
+    }
+    if (validator.isEmpty(password)) {
+        validationErrors.push({
+            field: 'password',
+            errorMessage: `Пароль должен быть задан`
+        });
+    }
+    const user = users.find(u => u.name === username);
+    if (user && user.password === password) {
+        validationResult.username = username;
+        return validationResult;
+    } else {
+        validationErrors.push({
+            field: null,
+            errorMessage: 'Неверное имя пользователя или пароль'
+        });
+        validationResult.validationErrors = validationErrors;
+
+        return validationResult;
+    }
+};
+
+const createToken = username => {
+    return jwt.sign({username}, JWT_SECRET).toString();
 };
 
 const authMiddleware = (req, res, next) => {
@@ -107,6 +157,23 @@ app.post('/register', (req, res) => {
             password
         });
         res.status(200).send({username});
+    }
+});
+
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    const validationResult = validateLoginData({ username, password });
+    const {validationErrors} = validationResult;
+
+    if (validationErrors) {
+        res.status(400).send({ validationErrors });
+    } else {
+        const validUserName = validationResult.username;
+
+        res.status(200)
+           .header('x-auth', createToken(validUserName))
+           .send({ username: validUserName });
     }
 });
 // app paths end
