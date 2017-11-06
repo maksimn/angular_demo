@@ -18,10 +18,10 @@ const validateRegistrationData = registrationData => {
     let {username, password, confirmPassword} = registrationData;
     const validationErrors = [];
 
-    if (!validator.isAlpha(username, 'ru-RU')) {
+    if (!validator.isAlpha(username)) {
         validationErrors.push({
             field: 'username',
-            errorMessage: 'Имя пользователя должно содержать только символы русского алфавита'
+            errorMessage: 'Имя пользователя может содержать только латинские символы'
         });
     }
     if (!validator.isLength(username, { min: 2, max: 30 })) {
@@ -54,7 +54,7 @@ const validateRegistrationData = registrationData => {
 
 const authMiddleware = (req, res, next) => {
     const authToken = req.get('x-auth');
-    const isAuthorized = users.some(user => user.token === authToken);
+    const isAuthorized = authToken && users.some(user => user.token === authToken);
     const url = req.url;
     
     if (isAuthorized && (url === '/login' || url === '/register')) {
