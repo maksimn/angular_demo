@@ -1,124 +1,43 @@
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const validator = require('validator');
-
+const repository = require('./repository');
+const {createToken} = require('./security');
+const {
+    validateRegistrationData, 
+    validateLoginData
+} = require('./validation');
 const app = express();
 const PORT = 8000;
-const JWT_SECRET = '123456';
 
 app.set('view engine', 'ejs');
-
 app.use(express.static(__dirname));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-// List of app users
-// user schema: { id: some_id, name: some_name, password: some_password, token: some_token };
-const users = []; 
-
-const validateRegistrationData = registrationData => {
-    let {username, password, confirmPassword} = registrationData;
-    const validationErrors = [];
-
-    if (!validator.isAlpha(username)) {
-        validationErrors.push({
-            field: 'username',
-            errorMessage: 'Имя пользователя может содержать только латинские символы'
-        });
-    }
-    if (!validator.isLength(username, { min: 2, max: 30 })) {
-        validationErrors.push({
-            field: 'username',
-            errorMessage: 'Имя пользователя не должно содержать менее 2 и более 30 символов'
-        });
-    }
-    if (!validator.isAlphanumeric(password)) {
-        validationErrors.push({
-            field: 'password',
-            errorMessage: 'Пароль может содержать только латинские символы или числа'
-        });
-    }
-    if (!validator.isLength(password, { min: 4, max: 25 })) {
-        validationErrors.push({
-            field: 'password',
-            errorMessage: 'Пароль должен содержать не менее 4 и не более 25 символов'
-        });
-    }
-    if (password != confirmPassword) {
-        validationErrors.push({
-            field: 'confirmPassword',
-            errorMessage: 'Пароль и его повтор должны совпадать'
-        });
-    }
-    if (username && users.some(u => u.name === username)) {
-        validationErrors.push({
-            field: 'username',
-            errorMessage: `Имя ${username} уже занято. Попробуйте другое`
-        });        
-    }
-
-    return validationErrors.length ? validationErrors : null;
-};
-
-const validateLoginData = loginData => {
-    let {username, password} = loginData;
-    const validationErrors = [];
-    const validationResult = {
-        username: null,
-        validationErrors: null
-    };
-
-    username = validator.trim(username);
-    password = validator.trim(password);
-
-    if (validator.isEmpty(username)) {
-        validationErrors.push({
-            field: 'username',
-            errorMessage: `Имя пользователя должно быть задано`
-        });             
-    }
-    if (validator.isEmpty(password)) {
-        validationErrors.push({
-            field: 'password',
-            errorMessage: `Пароль должен быть задан`
-        });
-    }
-    const user = users.find(u => u.name === username);
-    if (user && user.password === password) {
-        validationResult.username = username;
-        return validationResult;
-    } else {
-        validationErrors.push({
-            field: null,
-            errorMessage: 'Неверное имя пользователя или пароль'
-        });
-        validationResult.validationErrors = validationErrors;
-
-        return validationResult;
-    }
-};
-
-const createToken = username => {
-    return jwt.sign({username}, JWT_SECRET).toString();
-};
-
 const authMiddleware = (req, res, next) => {
     const authToken = req.cookies['x-auth'];
-    const isAuthorized = authToken && users.some(user => user.token === authToken);
     const url = req.url;
-    
-    if (isAuthorized && (url === '/login' || url === '/register')) {
-        res.redirect('/photos');
-    } else if (!isAuthorized && (url === '/photos' || url === '/profile')) {
-        res.redirect('/login');
-    } else {
-        next();
-    }
+
+    repository.findUserByToken(authToken).then(user => {
+        const isAuthorized = true;
+
+        if (isAuthorized && (url === '/login' || url === '/register')) {
+            res.redirect('/photos');
+        } else {
+            next();
+        }
+    }).catch(() => {
+        const isAuthorized = false;
+
+        if (!isAuthorized && (url === '/photos' || url === '/profile')) {
+            res.redirect('/login');
+        } else {
+            next();
+        }
+    });
 };
 
-// app paths begin
 app.get('/', (req, res) => {
     res.render('layout', { page: 'index' });
 });
@@ -150,40 +69,43 @@ app.post('/register', (req, res) => {
         username, password, confirmPassword
     });
 
-    if (validationErrors) {
+    if (validationErrors.length) {
         res.status(400).send({validationErrors});
     } else {
-        users.push({
-            id: users.length, 
-            name: username, 
-            password
+        repository.addUser({username, password}).then(user => {
+            res.status(200).send({username});
+        }).catch(err => {
+            validationErrors.push('Ошибка добавления пользователя');
+            res.status(400).send({validationErrors});
         });
-        res.status(200).send({username});
     }
 });
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    const validationResult = validateLoginData({ username, password });
-    const {validationErrors} = validationResult;
+    const validationErrors = validateLoginData({ username, password });
 
-    if (validationErrors) {
+    if (validationErrors.length) {
         res.status(400).send({ validationErrors });
     } else {
-        const validUserName = validationResult.username;
+        const trimUsername = username.trim();
 
-        const userToken = createToken(validUserName);
+        repository.findUserByName(trimUsername).then(user => {
+            if (user && user.password === password) {
+                const userToken = createToken(trimUsername);
+                user.token = userToken; // does not work for a real DB
 
-        const user = users.find(u => u.name === validUserName);
-        user.token = userToken;
-
-        res.status(200)
-           .header('x-auth', userToken)
-           .send({ username: validUserName });
+                res.status(200)
+                    .header('x-auth', userToken)
+                    .send({ username: trimUsername });
+            } else {
+                validationErrors.push('Неверное имя пользователя или пароль');
+                res.status(400).send({ validationErrors });
+            }
+        });
     }
 });
-// app paths end
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
