@@ -1,12 +1,12 @@
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const express = require('express');
-const repository = require('./repository');
-const {createToken} = require('./security');
+const repository = require('./app/repository');
+const {createToken} = require('./app/security');
 const {
     validateRegistrationData, 
     validateLoginData
-} = require('./validation');
+} = require('./app/validation');
 const app = express();
 const PORT = 8000;
 
