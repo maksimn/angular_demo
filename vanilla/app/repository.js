@@ -59,6 +59,17 @@ const repository = {
         }
 
         return Promise.reject();
+    },
+    
+    removeToken: function (token) {
+        const user = this.users.find(u => u.token === token);
+
+        if (user) {
+            user.token = null;
+            return Promise.resolve();
+        } else {
+            return Promise.reject();
+        }
     }
 };
 

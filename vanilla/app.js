@@ -111,6 +111,16 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.post('/logout', (req, res) => {
+    const authToken = req.cookies['x-auth'];
+
+    repository.removeToken(authToken).then(() => {
+        res.redirect('/');
+    }).catch(() => {
+        res.redirect('/error');
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
