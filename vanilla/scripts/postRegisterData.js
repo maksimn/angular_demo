@@ -35,7 +35,7 @@ window.addEventListener('load', () => {
                 
                 validationErrorsDiv.innerHTML = '';
                 validationErrors.forEach(err => {
-                    validationErrorsDiv.innerHTML += '<div>* ' + err.errorMessage + '</div>';
+                    validationErrorsDiv.innerHTML += '<div>* ' + err + '</div>';
                 });
             }
         };
