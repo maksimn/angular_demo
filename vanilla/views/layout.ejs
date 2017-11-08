@@ -9,6 +9,12 @@
 </head>
 <body>
     <div class="container-fluid bg-primary">
+        <% if (user) { %>
+            <form style="float:right;" method="POST" action="logout">
+                <%= user.name  %>
+                <input class="btn bth-success" type="submit" value="Выйти" />
+            </form>
+        <% } %>
         <h2 class="text-white">Vanilla JS Демо</h2>
     </div>
     

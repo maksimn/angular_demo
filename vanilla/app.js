@@ -21,6 +21,7 @@ const authMiddleware = (req, res, next) => {
 
     repository.findUserByToken(authToken).then(user => {
         const isAuthorized = true;
+        req.user = user;
 
         if (isAuthorized && (url === '/login' || url === '/register')) {
             res.redirect('/photos');
@@ -39,27 +40,27 @@ const authMiddleware = (req, res, next) => {
 };
 
 app.get('/', (req, res) => {
-    res.render('layout', { page: 'index' });
+    res.render('layout', { page: 'index', user: req.user });
 });
 
 app.get('/login', authMiddleware, (req, res) => {
-    res.render('layout', { page: 'login' });
+    res.render('layout', { page: 'login', user: null });
 });
 
 app.get('/register', authMiddleware, (req, res) => {
-    res.render('layout', { page: 'register' });
+    res.render('layout', { page: 'register', user: null });
 });
 
 app.get('/photos', authMiddleware, (req, res) => {
-    res.render('layout', { page: 'photos' });
+    res.render('layout', { page: 'photos', user: req.user });
 });
 
 app.get('/profile', authMiddleware, (req, res) => {
-    res.render('layout', { page: 'profile' });
+    res.render('layout', { page: 'profile', user: req.user });
 });
 
 app.get('*', (req, res) => {
-    res.render('layout', { page: 'error' });
+    res.render('layout', { page: 'error', user: req.user });
 });
 
 app.post('/register', (req, res) => {
@@ -73,7 +74,7 @@ app.post('/register', (req, res) => {
         res.status(400).send({validationErrors});
     } else {
         repository.addUser({username, password}).then(user => {
-            res.status(200).send({username});
+            res.status(200).send(user);
         }).catch(err => {
             validationErrors.push('Ошибка добавления пользователя');
             res.status(400).send({validationErrors});
@@ -91,14 +92,17 @@ app.post('/login', (req, res) => {
     } else {
         const trimUsername = username.trim();
 
-        repository.findUserByName(trimUsername).then(user => {
-            if (user && user.password === password) {
-                const userToken = createToken(trimUsername);
-                user.token = userToken; // does not work for a real DB
-
-                res.status(200)
-                    .header('x-auth', userToken)
-                    .send({ username: trimUsername });
+        repository.authenticate(trimUsername, password).then(user => {
+            if (user) {
+                const userToken = createToken(user);
+                repository.setTokenForUser(user, userToken).then(() => {
+                    res.status(200)
+                       .header('x-auth', userToken)
+                       .send(user);
+                }).catch(() => {
+                    validationErrors.push('Произошла ошибка. Попробуйте ещё раз');
+                    res.status(400).send({ validationErrors });
+                });
             } else {
                 validationErrors.push('Неверное имя пользователя или пароль');
                 res.status(400).send({ validationErrors });

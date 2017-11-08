@@ -23,7 +23,7 @@ window.addEventListener('load', () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var result = JSON.parse(xhr.responseText);
 
-                alert('Пользователь ' + result.username + ' успешно зарегистрирован.');
+                alert('Пользователь ' + result.name + ' успешно зарегистрирован.');
 
                 window.location.href = 'login';
             } else if (xhr.readyState === 4 && xhr.status === 400) {

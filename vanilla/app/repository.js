@@ -16,23 +16,48 @@ const repository = {
                 token: null
             };
             this.users.push(newUser);
-            resolve({username: newUser.name});
+            resolve({id: newUser.id, name: newUser.name});
         });
     },
 
     findUserByName: function(username) {
         const user = this.users.find(u => u.name === username);
-
-        return Promise.resolve(user);
+  
+        if (user) {
+            return Promise.resolve({id: user.id, name: user.name});
+        } else {
+            return Promise.resolve(null);
+        }
     },
 
     findUserByToken: function(token) {
         const user = this.users.find(u => u.token === token);
         
         if (user) {
-            return Promise.resolve(user); 
+            return Promise.resolve({id: user.id, name: user.name}); 
         }
         
+        return Promise.reject();
+    },
+
+    authenticate: function (username, password) {
+        const user = this.users.find(u => u.name === username);
+
+        if (user) {
+            return Promise.resolve({id: user.id, name: user.name});
+        } else {
+            return Promise.resolve(null);
+        }
+    },
+
+    setTokenForUser: function (user, userToken) {
+        const _user = this.users.find(u => u.id === user.id);
+
+        if (_user) {
+            _user.token = userToken;
+            return Promise.resolve();
+        }
+
         return Promise.reject();
     }
 };
