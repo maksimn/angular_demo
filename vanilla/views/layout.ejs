@@ -10,15 +10,17 @@
 <body>
     <div class="container-fluid bg-primary">
         <% if (user) { %>
-            <form style="float:right;" method="POST" action="logout">
-                <%= user.name  %>
+            <form style="float:right;margin-top:10px;" method="POST" action="logout">
+                <a href="profile" style="color:#fff;">
+                    <%= user.name  %>
+                </a>
                 <input class="btn bth-success" type="submit" value="Выйти" />
             </form>
         <% } %>
         <h2 class="text-white">Vanilla JS Демо</h2>
     </div>
     
-    <%- include('mainContent/' + page) %>
+    <%- include('mainContent/' + page, {user}) %>
     
 </body>
 </html>
