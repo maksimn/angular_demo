@@ -3,7 +3,12 @@ var currentPage = 1;
 var photosData = [];
 
 var setCurrentPage = function (str) {
-    currentPage = str ? parseInt(str) : 1;
+    if (str === "") {
+        currentPage = 1;
+        return;
+    }
+
+    currentPage = parseInt(str);
     if (isNaN(currentPage)) {
         window.location.href = 'error';
     }
