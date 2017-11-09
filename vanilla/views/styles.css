@@ -1,8 +1,20 @@
 .user-area {
     float: right;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .user-area__link {
     color: #fff;
+}
+
+.photo-view {
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
+    margin: 15px;
+}
+
+.pagination-link {
+    margin: 5px;
+    display: inline-block;
 }
