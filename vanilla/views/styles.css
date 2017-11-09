@@ -18,3 +18,7 @@
     margin: 5px;
     display: inline-block;
 }
+
+.pagination-link.active {
+    font-weight: 900;
+}
