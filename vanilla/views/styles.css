@@ -1,0 +1,8 @@
+.user-area {
+    float: right;
+    margin-top: 10px;
+}
+
+.user-area__link {
+    color: #fff;
+}

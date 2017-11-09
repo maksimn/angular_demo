@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Фреймворки Демо</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/views/styles.css">
     <script src="scripts/cookieApi.js"></script>
 </head>
 <body>
     <div class="container-fluid bg-primary">
         <% if (user) { %>
-            <form style="float:right;margin-top:10px;" method="POST" action="logout">
-                <a href="profile" style="color:#fff;">
+            <form class="user-area" method="POST" action="logout">
+                <a class="user-area__link" href="profile">
                     <%= user.name  %>
                 </a>
                 <input class="btn bth-success" type="submit" value="Выйти" />
