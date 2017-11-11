@@ -2,7 +2,7 @@ import IPrinter from './IPrinter';
 import someFun from './someFun';
 
 class AbduloPrinter implements IPrinter {
-    print() : void {
+    print() {
         console.log("Анша Абдуль");
     }
 }

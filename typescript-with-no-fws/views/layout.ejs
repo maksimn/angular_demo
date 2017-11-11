@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Фреймворки Демо</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid bg-primary">
+        <% if (user) { %>
+            <form class="user-area" method="POST" action="logout">
+                <a class="user-area__link" href="profile">
+                    <%= user.name  %>
+                </a>
+                <input class="btn bth-success" type="submit" value="Выйти" />
+            </form>
+        <% } %>
+        <h2 class="text-white">Vanilla JS Демо</h2>
+    </div>
+    
+    <%- include('mainContent/' + page, {user}) %>
+    
+</body>
+</html>
