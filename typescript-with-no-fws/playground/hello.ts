@@ -1,6 +1,5 @@
-interface IPrinter {
-    print() : void;
-}
+import IPrinter from './IPrinter';
+import someFun from './someFun';
 
 class AbduloPrinter implements IPrinter {
     print() : void {
@@ -8,8 +7,12 @@ class AbduloPrinter implements IPrinter {
     }
 }
 
-var printer : IPrinter;
+var printer = new AbduloPrinter();
 
-printer = new AbduloPrinter();
+function printSth(s : IPrinter) : void {
+    s.print();
+}
 
-printer.print();
+printSth(printer);
+
+someFun();
