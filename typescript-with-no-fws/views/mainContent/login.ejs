@@ -1,0 +1,18 @@
+<div class="col-lg-3 col-lg-offset-4">
+    <h3>Вход в систему</h3>
+    <form id="loginForm" method="post" action="login">
+        <div class="form-group">
+            <label for="username">Имя:</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+        <a class="btn btn-success" href="/register">Регистрация</a>
+        <div id="validationErrors" class="alert alert-danger hidden"></div>
+    </form>
+</div>
+
+<script src="scripts/login.js"></script>
