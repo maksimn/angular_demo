@@ -4,6 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
+    "build:client": "node_modules/.bin/tsc scripts/login.ts scripts/photos.ts scripts/register.ts",
     "tsc": "node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
