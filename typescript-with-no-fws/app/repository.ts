@@ -39,9 +39,17 @@ export default class Repository {
     }
 
     FindUser(predicate: (user: User) => boolean): Promise<User> {
-        const user = Repository.users.find(predicate);
+        const length = Repository.users.length;
 
-        return Promise.resolve(user);
+        for (let i = 0; i < length; i++) {
+            const user = Repository.users[i];
+
+            if (predicate(user)) {
+                return Promise.resolve(user);
+            }
+        }
+
+        return Promise.resolve(null);
     }
 
     Authenticate(username: string, password: string): Promise<User> {
