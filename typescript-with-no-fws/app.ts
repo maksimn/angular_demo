@@ -21,14 +21,13 @@ const authMiddleware = (req, res, next) => {
     const repository = new Repository();
 
     repository.FindUserByToken(authToken).then(user => {
-        const isAuthorized = user !== null;
-        if (isAuthorized) {
+        if (user) {
             req.user = user;
         }
 
-        if (isAuthorized && (url === '/login' || url === '/register')) {
+        if (user && (url === '/login' || url === '/register')) {
             res.redirect('/photos');
-        } else if (!isAuthorized && (url === '/photos' || url === '/profile')) {
+        } else if (!user && (url === '/photos' || url === '/profile')) {
             res.redirect('/login'); 
         } else {
             next();

@@ -4,7 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
-    "build:server": "node_modules/.bin/tsc --target ES5 app.ts",
+    "build:server": "node_modules/.bin/tsc --inlineSourceMap --target ES5 app.ts",
     "build:client": "node_modules/.bin/tsc scripts/login.ts scripts/photos.ts scripts/register.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

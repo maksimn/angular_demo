@@ -13,18 +13,20 @@ export default class Repository {
                 resolve : (user : User) => void, 
                 reject: (err: Error) => void
         ) => {
-            if (Repository.users.find(u => u.Name === userData.username)) {
-                reject(new Error('Это имя пользователя уже занято'));
-            }
-
-            const newUser = new User(
-                Repository.NextUserId(),
-                userData.username,
-                userData.password,
-                null
-            );
-            Repository.users.push(newUser);
-            resolve(newUser);
+            this.FindUserByName(userData.username).then(user => {
+                if (user) {
+                    reject(new Error('Это имя пользователя уже занято'));
+                } else {
+                    const newUser = new User(
+                        Repository.NextUserId(),
+                        userData.username,
+                        userData.password,
+                        null
+                    );
+                    Repository.users.push(newUser);
+                    resolve(newUser);
+                }
+            });
         });
     }
 
