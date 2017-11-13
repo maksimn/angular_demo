@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 import * as express from "express";
-import repository from './app/repository';
+import Repository from './app/repository';
 import {createToken} from './app/security';
 import {validateRegistrationData, validateLoginData} from './app/validation';
 
@@ -18,21 +18,18 @@ app.use(bodyParser.json());
 const authMiddleware = (req, res, next) => {
     const authToken = req.cookies['x-auth'];
     const url = req.url;
+    const repository = new Repository();
 
-    repository.findUserByToken(authToken).then(user => {
-        const isAuthorized = true;
-        req.user = user;
+    repository.FindUserByToken(authToken).then(user => {
+        const isAuthorized = user !== null;
+        if (isAuthorized) {
+            req.user = user;
+        }
 
         if (isAuthorized && (url === '/login' || url === '/register')) {
             res.redirect('/photos');
-        } else {
-            next();
-        }
-    }).catch(() => {
-        const isAuthorized = false;
-
-        if (!isAuthorized && (url === '/photos' || url === '/profile')) {
-            res.redirect('/login');
+        } else if (!isAuthorized && (url === '/photos' || url === '/profile')) {
+            res.redirect('/login'); 
         } else {
             next();
         }
@@ -70,11 +67,13 @@ app.post('/register', (req, res) => {
         username, password, confirmPassword
     });
 
+    const repository = new Repository();
+
     if (validationErrors.length) {
         res.status(400).send({validationErrors});
     } else {
-        repository.addUser({username, password}).then(user => {
-            res.status(200).send(user);
+        repository.AddUser({username, password}).then(user => {
+            res.status(200).send({id: user.Id, name: user.Name});
         }).catch(err => {
             validationErrors.push('Ошибка добавления пользователя');
             res.status(400).send({validationErrors});
@@ -91,17 +90,15 @@ app.post('/login', (req, res) => {
         res.status(400).send({ validationErrors });
     } else {
         const trimUsername = username.trim();
+        const repository = new Repository();
 
-        repository.authenticate(trimUsername, password).then(user => {
+        repository.Authenticate(trimUsername, password).then(user => {
             if (user) {
-                const userToken = createToken(user);
-                repository.setTokenForUser(user, userToken).then(() => {
+                const userToken = createToken(user.Name);
+                repository.SetTokenForUser(user, userToken).then(() => {
                     res.status(200)
                        .header('x-auth', userToken)
-                       .send(user);
-                }).catch(() => {
-                    validationErrors.push('Произошла ошибка. Попробуйте ещё раз');
-                    res.status(400).send({ validationErrors });
+                       .send({id: user.Id, name: user.Name});
                 });
             } else {
                 validationErrors.push('Неверное имя пользователя или пароль');
@@ -113,11 +110,10 @@ app.post('/login', (req, res) => {
 
 app.post('/logout', (req, res) => {
     const authToken = req.cookies['x-auth'];
+    const repository = new Repository();
 
-    repository.removeToken(authToken).then(() => {
+    repository.RemoveToken(authToken).then(() => {
         res.redirect('/');
-    }).catch(() => {
-        res.redirect('/error');
     });
 });
 

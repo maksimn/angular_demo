@@ -1,6 +1,7 @@
 #### Сборка проекта
 
-`npm run tsc app.ts`
+`npm run build:server`
+
 `npm run build:client`
 
 #### Запуск

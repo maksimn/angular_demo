@@ -1,76 +1,72 @@
-const repository = {
-    // List of app users
-    // user schema: { id: some_id, name: some_name, password: some_password, token: some_token };
-    users: [],
+import UserDataInput from './models/UserDataInput';
+import User from './models/User';
 
-    addUser: function (userData) {
-        return new Promise((resolve, reject) => {
-            if (this.users.find(u => u.name === userData.username)) {
+export default class Repository {
+    private static users: User[] = [];
+
+    private static NextUserId() : number {
+        return Repository.users.length;
+    }
+
+    AddUser(userData: UserDataInput) : Promise<User> {
+        return new Promise((
+                resolve : (user : User) => void, 
+                reject: (err: Error) => void
+        ) => {
+            if (Repository.users.find(u => u.Name === userData.username)) {
                 reject(new Error('Это имя пользователя уже занято'));
             }
 
-            const newUser = {
-                id: this.users.length,
-                name: userData.username,
-                password: userData.password,
-                token: null
-            };
-            this.users.push(newUser);
-            resolve({id: newUser.id, name: newUser.name});
+            const newUser = new User(
+                Repository.NextUserId(),
+                userData.username,
+                userData.password,
+                null
+            );
+            Repository.users.push(newUser);
+            resolve(newUser);
         });
-    },
-
-    findUserByName: function(username) {
-        const user = this.users.find(u => u.name === username);
-  
-        if (user) {
-            return Promise.resolve({id: user.id, name: user.name});
-        } else {
-            return Promise.resolve(null);
-        }
-    },
-
-    findUserByToken: function(token) {
-        const user = this.users.find(u => u.token === token);
-        
-        if (user) {
-            return Promise.resolve({id: user.id, name: user.name}); 
-        }
-        
-        return Promise.reject(null);
-    },
-
-    authenticate: function (username, password) {
-        const user = this.users.find(u => u.name === username);
-
-        if (user) {
-            return Promise.resolve({id: user.id, name: user.name});
-        } else {
-            return Promise.resolve(null);
-        }
-    },
-
-    setTokenForUser: function (user, userToken) {
-        const _user = this.users.find(u => u.id === user.id);
-
-        if (_user) {
-            _user.token = userToken;
-            return Promise.resolve();
-        }
-
-        return Promise.reject(null);
-    },
-    
-    removeToken: function (token) {
-        const user = this.users.find(u => u.token === token);
-
-        if (user) {
-            user.token = null;
-            return Promise.resolve();
-        } else {
-            return Promise.reject(null);
-        }
     }
-};
 
-export default repository;
+    FindUserByName(username: string): Promise<User> {
+        return this.FindUser(u => u.Name === username);
+    }
+
+    FindUserByToken(token: string): Promise<User> {
+        return this.FindUser(u => u.Token === token);
+    }
+
+    FindUser(predicate: (user: User) => boolean): Promise<User> {
+        const user = Repository.users.find(predicate);
+
+        return Promise.resolve(user);
+    }
+
+    Authenticate(username: string, password: string): Promise<User> {
+        return new Promise(resolve => {
+            this.FindUserByName(username).then(user => {
+                if (user && user.ComparePasswords(password)) {
+                    resolve(user);
+                } else {
+                    resolve(null);
+                }
+            });
+        });
+    }
+
+    SetTokenForUser(user: User, token: string): Promise<null> {
+        user.Token = token;
+        return Promise.resolve(null);
+    }
+
+    RemoveToken(token: string): Promise<void> {
+        return new Promise(resolve => {
+            this.FindUserByToken(token).then(user => {
+                if (user) {
+                    user.Token = null;
+                }
+                resolve();
+            });
+        });
+    }
+}
