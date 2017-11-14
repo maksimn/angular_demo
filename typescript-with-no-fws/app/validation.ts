@@ -1,8 +1,11 @@
+import UserDataInput from './models/UserDataInput';
+import UserRegistrationInput from './models/UserRegistrationInput';
+import ValidationFieldError from './validate/ValidationFieldError';
 const validator = require('validator');
 
-const validateRegistrationData = registrationData => {
+function validateRegistrationData (registrationData: UserRegistrationInput) : ValidationFieldError[] {
     let {username, password, confirmPassword} = registrationData;
-    const validationErrors = [];
+    const validationErrors: ValidationFieldError[] = [];
 
     if (!validator.isAlpha(username)) {
         validationErrors.push({
@@ -38,9 +41,9 @@ const validateRegistrationData = registrationData => {
     return validationErrors;
 };
 
-const validateLoginData = loginData => {
+const validateLoginData = (loginData: UserDataInput) : ValidationFieldError[] => {
     let {username, password} = loginData;
-    const validationErrors = [];
+    const validationErrors: ValidationFieldError[] = [];
 
     username = validator.trim(username);
     password = validator.trim(password);
