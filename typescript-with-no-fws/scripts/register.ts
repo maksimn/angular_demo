@@ -1,7 +1,7 @@
 import showValidationErrors from './common/showValidationErrors';
 
 window.addEventListener('load', () => {
-    var registerForm = document.getElementById('registerForm');
+    var registerForm = <HTMLFormElement>document.getElementById('registerForm');
 
     registerForm.addEventListener('submit', function (e) {
         e.preventDefault();

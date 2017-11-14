@@ -1,8 +1,16 @@
+interface PhotoInfo {
+    albumId?: number,
+    id?: number,
+    title: string,
+    url?: string,
+    thumbnailUrl: string
+}
+
 var MAX_NUM_PHOTOS_PER_PAGE = 50;
 var currentPage = 1;
-var photosData = [];
+var photosData: PhotoInfo[];
 
-var setCurrentPage = function (str) {
+var setCurrentPage = function (str: string) {
     if (str === "") {
         currentPage = 1;
         return;
@@ -14,7 +22,7 @@ var setCurrentPage = function (str) {
     }
 }
 
-function createPhotoView(photoData) {
+function createPhotoView(photoData: PhotoInfo) {
     var photoView = document.createElement('div');
     var photoImg = document.createElement('img');
     var caption = document.createElement('div');
@@ -30,8 +38,8 @@ function createPhotoView(photoData) {
     return photoView;
 }
 
-function paginationLinkClickHandler(event) {
-    var a = event.target;
+function paginationLinkClickHandler(event: Event) {
+    var a = <HTMLLinkElement>(event.target);
     document.querySelector('.pagination-link.active').classList.remove('active');
     a.classList.add('active');
     setCurrentPage(a.innerText);
@@ -39,7 +47,7 @@ function paginationLinkClickHandler(event) {
     showPhotos(MAX_NUM_PHOTOS_PER_PAGE * (currentPage - 1), MAX_NUM_PHOTOS_PER_PAGE * currentPage);
 }
 
-function setupPagination(photosNumber) {
+function setupPagination(photosNumber: number) {
     if (photosNumber > MAX_NUM_PHOTOS_PER_PAGE) {
         var numberPaginationLinks = Math.ceil(photosNumber / MAX_NUM_PHOTOS_PER_PAGE);
         var pagination = document.getElementById('pagination');
@@ -59,7 +67,7 @@ function setupPagination(photosNumber) {
     }
 }
 
-function showPhotos(begin, end) {
+function showPhotos(begin: number, end: number) {
     var photosView = document.getElementById('photos');
 
     while (photosView.firstChild) {

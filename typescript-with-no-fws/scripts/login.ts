@@ -1,6 +1,6 @@
 import showValidationErrors from './common/showValidationErrors';
 
-function createCookie(name,value,days) {
+function createCookie(name: string, value: string, days: number) {
     var expires = "";
     if (days) {
         var date = new Date();
@@ -16,7 +16,7 @@ window.addEventListener('load', () => {
     loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
-        var form = e.target;
+        var form = <HTMLFormElement>(e.target);
         var username = form['username'].value;
         var password = form['password'].value;
 
