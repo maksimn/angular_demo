@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "outDir": "./scripts/",
+      "noImplicitAny": false,
+      "module": "es6",
+      "target": "es5",
+      "allowJs": true
+    },
+    "files": [
+        "./scripts/register.ts",
+        "./scripts/login.ts",
+        "./scripts/photos.ts"
+    ]
+}
