@@ -1,3 +1,5 @@
+import showValidationErrors from './common/showValidationErrors';
+
 function createCookie(name,value,days) {
     var expires = "";
     if (days) {
@@ -39,16 +41,7 @@ window.addEventListener('load', () => {
 
                 window.location.href = 'photos';
             } else if (xhr.readyState === 4 && xhr.status === 400) {
-                var result = JSON.parse(xhr.responseText);
-                var validationErrors = result.validationErrors;
-                
-                var validationErrorsDiv = document.getElementById('validationErrors');
-                validationErrorsDiv.classList.remove('hidden');
-                
-                validationErrorsDiv.innerHTML = '';
-                validationErrors.forEach(err => {
-                    validationErrorsDiv.innerHTML += '<div>* ' + err.errorMessage + '</div>';
-                });
+                showValidationErrors(xhr.responseText);
             }
         };
 
