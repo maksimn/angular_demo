@@ -1,5 +1,5 @@
-
-const jwt = require('jsonwebtoken');
+/// <reference types="jsonwebtoken" />
+import * as jwt from 'jsonwebtoken';
 
 const JWT_SECRET = '123456';
 

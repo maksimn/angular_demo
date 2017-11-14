@@ -1,7 +1,8 @@
+/// <reference types="validator" />
+import * as validator from 'validator';
 import UserDataInput from './models/UserDataInput';
 import UserRegistrationInput from './models/UserRegistrationInput';
 import ValidationFieldError from './validate/ValidationFieldError';
-const validator = require('validator');
 
 function validateRegistrationData (registrationData: UserRegistrationInput) : ValidationFieldError[] {
     let {username, password, confirmPassword} = registrationData;
