@@ -1,16 +1,16 @@
 var path = require('path');
 
 module.exports = {
-    entry: path.resolve(__dirname, 'client/index.ts'),
+    entry: path.resolve(__dirname, 'client/index.tsx'),
     module: {
         rules: [{
-            test: /\.ts$/,
+            test: /\.tsx?$/,
             use: 'ts-loader',
             exclude: /node_modules/
         }]
     },
     resolve: {
-        extensions: [ '.ts', '.js' ]
+        extensions: [ '.tsx', '.ts', '.js' ]
     },
     output: {
         filename: "index.js",

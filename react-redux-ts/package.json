@@ -5,6 +5,7 @@
   "main": "",
   "scripts": {
     "build:server": "node_modules/.bin/tsc",
+    "start": "npm run build:server && webpack && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,23 +19,27 @@
   },
   "homepage": "https://github.com/maksimn/angular_demo#readme",
   "dependencies": {
-    "@types/body-parser": "^1.16.8",
-    "@types/cookie-parser": "^1.4.1",
-    "@types/ejs": "^2.3.33",
-    "@types/express": "^4.0.39",
-    "@types/jsonwebtoken": "^7.2.3",
-    "@types/validator": "^6.3.0",
     "body-parser": "^1.18.2",
     "bootstrap": "^3.3.7",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
-    "typescript": "^2.6.1",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
     "validator": "^9.1.1"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.16.8",
+    "@types/cookie-parser": "^1.4.1",
+    "@types/ejs": "^2.3.33",
     "@types/es6-promise": "0.0.33",
-    "ts-loader": "^3.1.1"
+    "@types/express": "^4.0.39",
+    "@types/jsonwebtoken": "^7.2.3",
+    "@types/react": "^16.0.25",
+    "@types/react-dom": "^16.0.3",
+    "@types/validator": "^6.3.0",
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.1"
   }
 }

@@ -4,9 +4,12 @@
       "noImplicitAny": true,
       "module": "CommonJS",
       "target": "es5",
-      "allowJs": true
+      "allowJs": true,
+      "inlineSourceMap": true,
+      "jsx": "react"
     },
     "files": [
-        "app.ts"
+        "app.ts",
+        "./client/index.tsx"
     ]
 }
