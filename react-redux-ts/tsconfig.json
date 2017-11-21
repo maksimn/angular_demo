@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "outDir": "",
+      "noImplicitAny": true,
+      "module": "CommonJS",
+      "target": "es5",
+      "allowJs": true
+    },
+    "files": [
+        "app.ts"
+    ]
+}
