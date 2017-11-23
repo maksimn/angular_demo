@@ -19,17 +19,6 @@
   },
   "homepage": "https://github.com/maksimn/angular_demo#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "bootstrap": "^3.3.7",
-    "cookie-parser": "^1.4.3",
-    "ejs": "^2.5.7",
-    "express": "^4.16.2",
-    "jsonwebtoken": "^8.1.0",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
-    "validator": "^9.1.1"
-  },
-  "devDependencies": {
     "@types/body-parser": "^1.16.8",
     "@types/cookie-parser": "^1.4.1",
     "@types/ejs": "^2.3.33",
@@ -38,7 +27,20 @@
     "@types/jsonwebtoken": "^7.2.3",
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
+    "@types/react-router-dom": "^4.2.2",
     "@types/validator": "^6.3.0",
+    "body-parser": "^1.18.2",
+    "bootstrap": "^3.3.7",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-router-dom": "^4.2.2",
+    "validator": "^9.1.1"
+  },
+  "devDependencies": {
     "ts-loader": "^3.1.1",
     "typescript": "^2.6.1"
   }
