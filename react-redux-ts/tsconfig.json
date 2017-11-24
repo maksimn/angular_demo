@@ -6,7 +6,10 @@
       "target": "es5",
       "allowJs": true,
       "inlineSourceMap": true,
-      "jsx": "react"
+      "jsx": "react" /*,
+      "paths": {
+        "redux": ["node_modules/redux-next"]        
+      }*/
     },
     "files": [
         "app.ts",
