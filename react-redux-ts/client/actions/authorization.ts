@@ -7,17 +7,48 @@ import {
     REGISTRATION_ERROR
 } from './constants';
 import RegistrationData from '../interfaces/RegistrationData';
+import ValidationFieldError from '../interfaces/ValidationFieldError';
+
+export type Actions = {
+    REGISTRATION_START: {
+        type: typeof REGISTRATION_START,
+        payload: RegistrationData
+    },
+    REGISTRATION_SUCCESS: {
+        type: typeof REGISTRATION_SUCCESS,
+        username: string
+    },
+    REGISTRATION_ERROR: {
+        type: typeof REGISTRATION_ERROR,
+        validationErrors: ValidationFieldError[]
+    }
+};
+
+export const actionCreators = {
+    registrationStart: (registerData: RegistrationData): Actions[typeof REGISTRATION_START] => ({
+        type: REGISTRATION_START,
+        payload: registerData
+    }),
+    registrationSuccess: (username: string): Actions[typeof REGISTRATION_SUCCESS] => ({
+        type: REGISTRATION_SUCCESS,
+        username
+    }),
+    registrationError: (validationErrors: ValidationFieldError[]): Actions[typeof REGISTRATION_ERROR] => ({
+        type: REGISTRATION_ERROR,
+        validationErrors
+    })
+};
 
 export const submitRegistrationData = (registrationData: RegistrationData) => {
     return (dispatch: any) => {
-        dispatch({type: REGISTRATION_START, registrationData});
+        dispatch(actionCreators.registrationStart(registrationData));
         axios.post('/register', registrationData).then(response => {
-            const {username} = response.data;
-
-            dispatch({type: REGISTRATION_SUCCESS, response});
-            alert(`Пользователь ${username} успешно зарегистрирован.`);
+            const {name} = response.data;
+            dispatch(actionCreators.registrationSuccess(name));
+            alert(`Пользователь ${name} успешно зарегистрирован.`);
         }).catch(error => {
-            dispatch({type: REGISTRATION_ERROR, error});
+            const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
+            dispatch(actionCreators.registrationError(validationErrors));
         });
     };
 };

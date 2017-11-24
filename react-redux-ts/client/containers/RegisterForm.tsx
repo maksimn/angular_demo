@@ -1,19 +1,23 @@
 /// <reference types="react" />
+/// <reference types="react-redux" />
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import {submitRegistrationData} from "../actions/authorization";
+import RegistrationData from '../interfaces/RegistrationData';
 
-type RegisterFormState = {
-    username: string,
-    password: string,
-    confirmPassword: string
-};
-
-class RegisterForm extends React.Component<any, RegisterFormState> {
+class RegisterForm extends React.Component<any, RegistrationData> {
     constructor(props: any){
         super(props);
+    }
+
+    componentWillMount() {
+        this.setState({
+            username: '',
+            password: '',
+            confirmPassword: ' '
+        });
     }
 
     onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
