@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import {submitRegistrationData} from "../actions/authorization";
 import RegistrationData from '../interfaces/RegistrationData';
+import ValidationErrors from '../components/ValidationErrors';
 
 class RegisterForm extends React.Component<any, RegistrationData> {
     constructor(props: any){
@@ -37,13 +38,14 @@ class RegisterForm extends React.Component<any, RegistrationData> {
         this.props.dispatch(submitRegistrationData(this.state));
     }
 
-    public render() {
+    render() {
         const { 
             onUsernameChange, 
             onPasswordChange, 
             onConfirmPasswordChange, 
-            onFormSubmit 
+            onFormSubmit
         } = this;
+        const {validationErrors} = this.props;
 
         return (
             <div className="col-lg-3 col-lg-offset-4">
@@ -69,11 +71,13 @@ class RegisterForm extends React.Component<any, RegistrationData> {
                         Отправить
                     </button>
                     <Link className="btn btn-success" to="/login">Войти</Link>
-                    <div id="validationErrors" className="alert alert-danger hidden" />
+                    
+                    <ValidationErrors validationErrors={ validationErrors } />
+
                 </form>
             </div>
         );
     }
 }
 
-export default connect()(RegisterForm);
+export default connect((state: any) => ({ validationErrors: state.validation }))(RegisterForm);
