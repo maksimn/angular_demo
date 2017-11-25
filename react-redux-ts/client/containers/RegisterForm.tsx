@@ -39,7 +39,6 @@ class RegisterForm extends React.Component<any, RegistrationData> {
     render() {
         const { onUsernameChange, onPasswordChange, onConfirmPasswordChange, onFormSubmit } = this;
         const { validationErrors } = this.props;
-        
         const props = { onUsernameChange, onPasswordChange, onConfirmPasswordChange, onFormSubmit, 
             validationErrors };
 

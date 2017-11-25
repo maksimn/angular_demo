@@ -53,7 +53,6 @@ const RegisterForm: React.StatelessComponent<RegisterFormProps> = (props) => {
                 <Link className="btn btn-success" to="/login">Войти</Link>
 
                 <ValidationErrors validationErrors={validationErrors} />
-
             </form>
         </div>
     );
