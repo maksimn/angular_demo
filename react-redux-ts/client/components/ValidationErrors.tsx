@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import * as React from 'react';
-import ValidationFieldError from '../interfaces/ValidationFieldError';
+import ValidationFieldError from '../../app/validate/ValidationFieldError';
 
 export interface ValidationErrorsProps {
     validationErrors: ValidationFieldError[]

@@ -4,10 +4,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {submitRegistrationData} from "../actions/authorization";
-import RegistrationData from '../interfaces/RegistrationData';
+import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import RegisterFormComponent from '../components/RegisterForm';
 
-class RegisterForm extends React.Component<any, RegistrationData> {
+class RegisterForm extends React.Component<any, UserRegistrationInput> {
     constructor(props: any){
         super(props);
     }

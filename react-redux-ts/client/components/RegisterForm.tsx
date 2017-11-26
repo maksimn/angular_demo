@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import ValidationFieldError from '../interfaces/ValidationFieldError';
+import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import ValidationErrors from '../components/ValidationErrors';
 
 export interface RegisterFormProps {

@@ -3,7 +3,7 @@ import {
     REGISTRATION_SUCCESS,
     REGISTRATION_ERROR
 } from '../actions/constants';
-import ValidationFieldError from '../interfaces/ValidationFieldError';
+import ValidationFieldError from '../../app/validate/ValidationFieldError';
 
 const noValidationErrors: ValidationFieldError[] = [];
 

@@ -6,13 +6,13 @@ import {
     REGISTRATION_SUCCESS,
     REGISTRATION_ERROR
 } from './constants';
-import RegistrationData from '../interfaces/RegistrationData';
-import ValidationFieldError from '../interfaces/ValidationFieldError';
+import UserRegistrationInput from '../../app/models/UserRegistrationInput';
+import ValidationFieldError from '../../app/validate/ValidationFieldError';
 
 export type Actions = {
     REGISTRATION_START: {
         type: typeof REGISTRATION_START,
-        payload: RegistrationData
+        payload: UserRegistrationInput
     },
     REGISTRATION_SUCCESS: {
         type: typeof REGISTRATION_SUCCESS,
@@ -25,7 +25,7 @@ export type Actions = {
 };
 
 export const actionCreators = {
-    registrationStart: (registerData: RegistrationData): Actions[typeof REGISTRATION_START] => ({
+    registrationStart: (registerData: UserRegistrationInput): Actions[typeof REGISTRATION_START] => ({
         type: REGISTRATION_START,
         payload: registerData
     }),
@@ -39,7 +39,7 @@ export const actionCreators = {
     })
 };
 
-export const submitRegistrationData = (registrationData: RegistrationData) => {
+export const submitRegistrationData = (registrationData: UserRegistrationInput) => {
     return (dispatch: any) => {
         dispatch(actionCreators.registrationStart(registrationData));
         axios.post('/register', registrationData).then(response => {
