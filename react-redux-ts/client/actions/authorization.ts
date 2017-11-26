@@ -38,13 +38,15 @@ export const authActionCreators = {
     })
 };
 
-export const submitRegistrationData = (registrationData: UserRegistrationInput) => {
+export const submitRegistrationData = (registrationData: UserRegistrationInput,
+                                       redirectCallback: () => void) => {
     return (dispatch: any) => {
         dispatch(authActionCreators.registrationStart(registrationData));
         axios.post('/register', registrationData).then(response => {
             const {name} = response.data;
             dispatch(authActionCreators.registrationSuccess(name));
             alert(`Пользователь ${name} успешно зарегистрирован.`);
+            redirectCallback();
         }).catch(error => {
             const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
             dispatch(authActionCreators.registrationError(validationErrors));

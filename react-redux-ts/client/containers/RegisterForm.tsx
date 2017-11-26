@@ -11,6 +11,8 @@ import RegisterFormComponent from '../components/RegisterForm';
 class RegisterForm extends React.Component<any, UserRegistrationInput> {
     constructor(props: any){
         super(props);
+
+        this.redirectToLoginOnSuccess = this.redirectToLoginOnSuccess.bind(this);
     }
 
     componentWillMount() {
@@ -34,7 +36,11 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
     }
     
     onFormSubmit = () => {
-        this.props.dispatch(submitRegistrationData(this.state));
+        this.props.dispatch(submitRegistrationData(this.state, this.redirectToLoginOnSuccess));
+    }
+
+    redirectToLoginOnSuccess() {
+        this.props.history.push('/login');
     }
 
     render() {
