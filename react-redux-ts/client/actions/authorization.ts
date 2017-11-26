@@ -1,6 +1,5 @@
 /// <reference types="axios" />
 import axios from 'axios';
-
 import {
     REGISTRATION_START,
     REGISTRATION_SUCCESS,
@@ -9,7 +8,7 @@ import {
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
 
-export type Actions = {
+export type AuthActions = {
     REGISTRATION_START: {
         type: typeof REGISTRATION_START,
         payload: UserRegistrationInput
@@ -24,16 +23,16 @@ export type Actions = {
     }
 };
 
-export const actionCreators = {
-    registrationStart: (registerData: UserRegistrationInput): Actions[typeof REGISTRATION_START] => ({
+export const authActionCreators = {
+    registrationStart: (registerData: UserRegistrationInput): AuthActions[typeof REGISTRATION_START] => ({
         type: REGISTRATION_START,
         payload: registerData
     }),
-    registrationSuccess: (username: string): Actions[typeof REGISTRATION_SUCCESS] => ({
+    registrationSuccess: (username: string): AuthActions[typeof REGISTRATION_SUCCESS] => ({
         type: REGISTRATION_SUCCESS,
         username
     }),
-    registrationError: (validationErrors: ValidationFieldError[]): Actions[typeof REGISTRATION_ERROR] => ({
+    registrationError: (validationErrors: ValidationFieldError[]): AuthActions[typeof REGISTRATION_ERROR] => ({
         type: REGISTRATION_ERROR,
         validationErrors
     })
@@ -41,14 +40,14 @@ export const actionCreators = {
 
 export const submitRegistrationData = (registrationData: UserRegistrationInput) => {
     return (dispatch: any) => {
-        dispatch(actionCreators.registrationStart(registrationData));
+        dispatch(authActionCreators.registrationStart(registrationData));
         axios.post('/register', registrationData).then(response => {
             const {name} = response.data;
-            dispatch(actionCreators.registrationSuccess(name));
+            dispatch(authActionCreators.registrationSuccess(name));
             alert(`Пользователь ${name} успешно зарегистрирован.`);
         }).catch(error => {
             const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
-            dispatch(actionCreators.registrationError(validationErrors));
+            dispatch(authActionCreators.registrationError(validationErrors));
         });
     };
 };

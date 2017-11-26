@@ -1,7 +1,8 @@
 /// <reference types="redux" />
-import {combineReducers} from 'redux';
-import validation from './validation';
+import { combineReducers } from 'redux';
+import validationErrors from './validationErrors';
+import { AppState } from '../store/AppState';
 
-export default combineReducers({
-    validation
+export default combineReducers<AppState>({
+    validationErrors
 });

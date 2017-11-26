@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { AppState } from '../store/AppState';
 import {submitRegistrationData} from "../actions/authorization";
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import RegisterFormComponent from '../components/RegisterForm';
@@ -46,4 +47,6 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
     }
 }
 
-export default connect((state: any) => ({ validationErrors: state.validation }))(RegisterForm);
+export default connect(
+    (state: AppState) => ({ validationErrors: state.validationErrors })
+)(RegisterForm);

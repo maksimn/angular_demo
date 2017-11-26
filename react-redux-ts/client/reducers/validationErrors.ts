@@ -4,14 +4,14 @@ import {
     REGISTRATION_ERROR
 } from '../actions/constants';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
+import {AuthActions} from '../actions/authorization';
 
 const noValidationErrors: ValidationFieldError[] = [];
 
-interface validationReducer {
-    (state: ValidationFieldError[], action: any): ValidationFieldError[];
-}
-
-const validation: validationReducer = (state = noValidationErrors, action) => {
+const validationErrors: 
+    (state: ValidationFieldError[], action: AuthActions[keyof AuthActions]) => 
+    ValidationFieldError[] = 
+            (state = noValidationErrors, action) => {
     switch (action.type) {
         case REGISTRATION_START:
             return noValidationErrors;
@@ -24,4 +24,4 @@ const validation: validationReducer = (state = noValidationErrors, action) => {
     }
 }
 
-export default validation;
+export default validationErrors;
