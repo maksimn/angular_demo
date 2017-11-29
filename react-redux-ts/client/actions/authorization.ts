@@ -14,6 +14,7 @@ import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import { AppState } from '../store/AppState';
+import { ThunkAction } from 'redux-thunk';
 
 export type AuthActions = {
     REGISTRATION_START: {
@@ -72,7 +73,7 @@ export const authActionCreators = {
 
 export const submitRegistrationData = (registrationData: UserRegistrationInput,
                                        redirectCallback: () => void) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<AppState>) => {
         dispatch(authActionCreators.registrationStart(registrationData));
         axios.post('/register', registrationData).then(response => {
             const {name} = response.data;
@@ -89,7 +90,7 @@ export const submitRegistrationData = (registrationData: UserRegistrationInput,
 
 
 export const login = (loginData: UserDataInput, redirectCallback: () => void) => {
-    return (dispatch: Dispatch<AppState>) => {
+    const loginThunkAction: ThunkAction<void, AppState, void> = (dispatch) => {
         dispatch(authActionCreators.loginStart(loginData));
         axios.post('/login', loginData).then(response => {
             const user = <UserView> response.data;
@@ -99,6 +100,7 @@ export const login = (loginData: UserDataInput, redirectCallback: () => void) =>
         }).catch(error => {
             const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
             dispatch(authActionCreators.loginError(validationErrors));
-        });
-    }
+        })
+    };
+    return loginThunkAction;
 };
