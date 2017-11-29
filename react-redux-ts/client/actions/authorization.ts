@@ -86,13 +86,14 @@ export const submitRegistrationData = (registrationData: UserRegistrationInput,
 
 
 
-export const login = (loginData: UserDataInput) => {
+export const login = (loginData: UserDataInput, redirectCallback: () => void) => {
     return (dispatch: any) => {
         dispatch(authActionCreators.loginStart(loginData));
         axios.post('/login', loginData).then(response => {
             const user = <UserView> response.data;
             user.token = response.headers['x-auth'];
             dispatch(authActionCreators.loginSuccess(user));
+            redirectCallback();
         }).catch(error => {
             const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
             dispatch(authActionCreators.loginError(validationErrors));

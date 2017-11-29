@@ -1,7 +1,9 @@
 /// <reference types="react" />
 /// <reference types="react-redux" />
+/// <reference types="history" />
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { History } from 'history';
 import { AppState } from '../store/AppState';
 import { login } from "../actions/authorization";
 import UserDataInput from '../../app/models/UserDataInput';
@@ -10,7 +12,8 @@ import ValidationFieldError from '../../app/validate/ValidationFieldError';
 
 export interface LoginFormProps {
     validationErrors: ValidationFieldError[];
-    login: (loginData: UserDataInput) => void;
+    login: (loginData: UserDataInput, redirectCallback: () => void) => void;
+    history: History
 }
 
 export interface LoginFormState extends UserDataInput {
@@ -37,7 +40,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     }
 
     onFormSubmit = () => {
-        this.props.login(this.state);
+        this.props.login(this.state, this.redirectToPhotosOnSuccess.bind(this));
+    }
+
+    redirectToPhotosOnSuccess() {
+        this.props.history.push('/photos');
     }
 
     render() {
@@ -55,6 +62,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 export default connect(
     (state: AppState) => ({ validationErrors: state.validationErrors }),
     (dispatch) => ({
-        login: (loginData: UserDataInput) => { dispatch(login(loginData)); }
+        login: (loginData: UserDataInput, redirectCallback: () => void) => { 
+            dispatch(login(loginData, redirectCallback)); 
+        }
     })
 )(LoginForm);
