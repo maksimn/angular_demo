@@ -3,16 +3,12 @@
       "outDir": "",
       "noImplicitAny": true,
       "module": "CommonJS",
-      "target": "es5",
+      "target": "ES5",
       "allowJs": true,
       "inlineSourceMap": true,
-      "jsx": "react" /*,
-      "paths": {
-        "redux": ["node_modules/redux-next"]        
-      }*/
+      "jsx": "react"
     },
     "files": [
-        "app.ts",
-        "./client/index.tsx"
+        "app.ts"
     ]
 }

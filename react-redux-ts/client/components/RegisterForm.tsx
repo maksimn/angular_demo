@@ -47,9 +47,8 @@ const RegisterForm: React.StatelessComponent<RegisterFormProps> = (props) => {
                     <input type="password" className="form-control" name="confirmPassword" id="confirmPassword"
                         onChange={onConfirmPasswordChange} />
                 </div>
-                <button type="submit" className="btn btn-primary">
-                    Отправить
-                    </button>
+                <button type="submit" className="btn btn-primary">Отправить</button>
+
                 <Link className="btn btn-success" to="/login">Войти</Link>
 
                 <ValidationErrors validationErrors={validationErrors} />

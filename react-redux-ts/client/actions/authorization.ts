@@ -53,3 +53,9 @@ export const submitRegistrationData = (registrationData: UserRegistrationInput,
         });
     };
 };
+
+export const login = () => {
+    return (dispatch: any) => {
+
+    }
+};
