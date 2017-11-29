@@ -10,14 +10,14 @@ import ValidationFieldError from '../../app/validate/ValidationFieldError';
 
 export interface LoginFormProps {
     validationErrors: ValidationFieldError[];
-    login: () => void;
+    login: (loginData: UserDataInput) => void;
 }
 
 export interface LoginFormState extends UserDataInput {
 }
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
-    constructor(props){
+    constructor(props: LoginFormProps){
         super(props);
     }
 
@@ -37,7 +37,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     }
 
     onFormSubmit = () => {
-        this.props.login();
+        this.props.login(this.state);
     }
 
     render() {
@@ -55,6 +55,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 export default connect(
     (state: AppState) => ({ validationErrors: state.validationErrors }),
     (dispatch) => ({
-        login: () => { dispatch(login()); }
+        login: (loginData: UserDataInput) => { dispatch(login(loginData)); }
     })
 )(LoginForm);

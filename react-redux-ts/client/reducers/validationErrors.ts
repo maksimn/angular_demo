@@ -1,7 +1,10 @@
 import {
     REGISTRATION_START,
     REGISTRATION_SUCCESS,
-    REGISTRATION_ERROR
+    REGISTRATION_ERROR,
+    LOGIN_START,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR
 } from '../actions/constants';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import {AuthActions} from '../actions/authorization';
@@ -18,6 +21,12 @@ const validationErrors:
         case REGISTRATION_SUCCESS:
             return noValidationErrors;
         case REGISTRATION_ERROR:
+            return action.validationErrors;
+        case LOGIN_START:
+            return noValidationErrors;
+        case LOGIN_SUCCESS:
+            return noValidationErrors;
+        case LOGIN_ERROR:
             return action.validationErrors;
         default:
             return state;
