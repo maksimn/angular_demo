@@ -4,6 +4,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { History } from 'history';
+import { Dispatch } from 'redux';
 import { AppState } from '../store/AppState';
 import { login } from "../actions/authorization";
 import UserDataInput from '../../app/models/UserDataInput';
@@ -61,7 +62,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
 export default connect(
     (state: AppState) => ({ validationErrors: state.validationErrors }),
-    (dispatch) => ({
+    (dispatch: Dispatch<AppState>) => ({
         login: (loginData: UserDataInput, redirectCallback: () => void) => { 
             dispatch(login(loginData, redirectCallback)); 
         }

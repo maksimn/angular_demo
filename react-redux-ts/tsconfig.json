@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
-      "outDir": "",
-      "noImplicitAny": true,
-      "module": "CommonJS",
-      "target": "ES5",
-      "allowJs": true,
-      "inlineSourceMap": true,
-      "jsx": "react"
+        "strict": true,
+        "outDir": "",
+        "noImplicitAny": true,
+        "module": "CommonJS",
+        "target": "ES5",
+        "allowJs": true,
+        "inlineSourceMap": true,
+        "jsx": "react"
     },
     "files": [
         "app.ts"

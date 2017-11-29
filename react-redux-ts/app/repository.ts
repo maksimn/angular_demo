@@ -21,7 +21,7 @@ export default class Repository {
                         Repository.NextUserId(),
                         userData.username,
                         userData.password,
-                        null
+                        ''
                     );
                     Repository.users.push(newUser);
                     resolve(newUser);
@@ -49,7 +49,7 @@ export default class Repository {
             }
         }
 
-        return Promise.resolve(null);
+        return Promise.resolve();
     }
 
     Authenticate(username: string, password: string): Promise<User> {
@@ -58,7 +58,7 @@ export default class Repository {
                 if (user && user.ComparePasswords(password)) {
                     resolve(user);
                 } else {
-                    resolve(null);
+                    resolve();
                 }
             });
         });
@@ -73,7 +73,7 @@ export default class Repository {
         return new Promise(resolve => {
             this.FindUserByToken(token).then(user => {
                 if (user) {
-                    user.Token = null;
+                    user.Token = '';
                 }
                 resolve();
             });

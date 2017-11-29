@@ -1,4 +1,5 @@
 /// <reference types="axios" />
+import { Dispatch } from 'redux';
 import axios from 'axios';
 import {
     REGISTRATION_START,
@@ -12,6 +13,7 @@ import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
+import { AppState } from '../store/AppState';
 
 export type AuthActions = {
     REGISTRATION_START: {
@@ -87,7 +89,7 @@ export const submitRegistrationData = (registrationData: UserRegistrationInput,
 
 
 export const login = (loginData: UserDataInput, redirectCallback: () => void) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<AppState>) => {
         dispatch(authActionCreators.loginStart(loginData));
         axios.post('/login', loginData).then(response => {
             const user = <UserView> response.data;
