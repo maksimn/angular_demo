@@ -7,13 +7,12 @@ import {
     LOGIN_ERROR
 } from '../actions/constants';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
-import {AuthActions} from '../actions/authorization';
+import { AnyAction } from 'redux';
 
 const noValidationErrors: ValidationFieldError[] = [];
 
 const validationErrors: 
-    (state: ValidationFieldError[], action: AuthActions[keyof AuthActions]) => 
-    ValidationFieldError[] = 
+    (state: ValidationFieldError[], action: AnyAction) => ValidationFieldError[] = 
             (state = noValidationErrors, action) => {
     switch (action.type) {
         case REGISTRATION_START:

@@ -1,10 +1,10 @@
 import { LOGIN_SUCCESS } from '../actions/constants';
-import { AuthActions } from '../actions/authorization';
+import { AnyAction } from 'redux';
 import UserView from '../../app/models/UserView';
 
 const notAuthorized = null;
 
-const user: (state: UserView | null, action: AuthActions[keyof AuthActions]) => UserView | null = 
+const user: (state: UserView | null, action: AnyAction) => UserView | null = 
         (state = notAuthorized, action) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
