@@ -3,7 +3,7 @@
 /// <reference types="cookie-parser" />
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as express from "express";
+import * as express from 'express';
 import Repository from './app/repository';
 import {createToken} from './app/security';
 import {validateRegistrationData, validateLoginData} from './app/validation';
@@ -34,7 +34,7 @@ app.post('/register', (req, res) => {
         repository.AddUser({username, password}).then(user => {
             res.status(200).send({id: user.Id, name: user.Name});
         }).catch(err => {
-            validationErrors.push({field: '', errorMessage:'Ошибка добавления пользователя'});
+            validationErrors.push({field: '', errorMessage: 'Ошибка добавления пользователя'});
             res.status(400).send({validationErrors});
         });
     }
@@ -60,7 +60,7 @@ app.post('/login', (req, res) => {
                        .send({id: user.Id, name: user.Name});
                 });
             } else {
-                validationErrors.push({field: '', errorMessage:'Неверное имя пользователя или пароль'});
+                validationErrors.push({field: '', errorMessage: 'Неверное имя пользователя или пароль'});
                 res.status(400).send({ validationErrors });
             }
         });
