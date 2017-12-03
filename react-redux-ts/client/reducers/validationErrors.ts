@@ -11,8 +11,7 @@ import { Reducer } from 'redux';
 
 const noValidationErrors: ValidationFieldError[] = [];
 
-const validationErrors: Reducer<ValidationFieldError[]> = 
-        (state = noValidationErrors, action) => {
+const validationErrors: Reducer<ValidationFieldError[]> = (state = noValidationErrors, action) => {
     switch (action.type) {
         case REGISTRATION_START:
             return noValidationErrors;
@@ -29,6 +28,6 @@ const validationErrors: Reducer<ValidationFieldError[]> =
         default:
             return state;
     }
-}
+};
 
 export default validationErrors;

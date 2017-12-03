@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-const IndexView = () : JSX.Element => <
+const IndexView = (): JSX.Element => <
     div className="col-lg-4 col-lg-offset-4">
         <h3>Страницы приложения</h3>
         <ul className="nav navbar">

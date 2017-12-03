@@ -11,6 +11,6 @@ const user: Reducer<UserView | null> = (state = notAuthorized, action) => {
         default:
             return state;
     }
-}
+};
 
 export default user;

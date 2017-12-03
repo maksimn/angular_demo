@@ -3,12 +3,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../store/AppState';
-import {submitRegistrationData} from "../actions/authorization";
+import { submitRegistrationData } from '../actions/authorization';
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import RegisterFormComponent from '../components/RegisterForm';
 
 class RegisterForm extends React.Component<any, UserRegistrationInput> {
-    constructor(props: any){
+    constructor(props: any) {
         super(props);
 
         this.redirectToLoginOnSuccess = this.redirectToLoginOnSuccess.bind(this);
@@ -33,7 +33,7 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
     onConfirmPasswordChange =  (confirmPassword: string) => {
         this.setState({...this.state, confirmPassword});
     }
-    
+
     onFormSubmit = () => {
         this.props.dispatch(submitRegistrationData(this.state, this.redirectToLoginOnSuccess));
     }
@@ -45,7 +45,7 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
     render() {
         const { onUsernameChange, onPasswordChange, onConfirmPasswordChange, onFormSubmit } = this;
         const { validationErrors } = this.props;
-        const props = { onUsernameChange, onPasswordChange, onConfirmPasswordChange, onFormSubmit, 
+        const props = { onUsernameChange, onPasswordChange, onConfirmPasswordChange, onFormSubmit,
             validationErrors };
 
         return <RegisterFormComponent {...props}  />;

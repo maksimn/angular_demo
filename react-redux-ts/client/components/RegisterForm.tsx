@@ -4,11 +4,11 @@ import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import ValidationErrors from '../components/ValidationErrors';
 
 export interface RegisterFormProps {
-    onUsernameChange: (username: string) => void,
-    onPasswordChange: (password: string) => void,
-    onConfirmPasswordChange: (confirmPassword: string) => void,
-    onFormSubmit: () => void,
-    validationErrors: ValidationFieldError[]
+    onUsernameChange: (username: string) => void;
+    onPasswordChange: (password: string) => void;
+    onConfirmPasswordChange: (confirmPassword: string) => void;
+    onFormSubmit: () => void;
+    validationErrors: ValidationFieldError[];
 }
 
 const RegisterForm: React.StatelessComponent<RegisterFormProps> = (props) => {
@@ -20,7 +20,7 @@ const RegisterForm: React.StatelessComponent<RegisterFormProps> = (props) => {
     },
     onConfirmPasswordChange =  (event: React.ChangeEvent<HTMLInputElement>) => {
         props.onConfirmPasswordChange(event.target.value);
-    },    
+    },
     onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         props.onFormSubmit();

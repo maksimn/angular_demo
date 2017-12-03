@@ -1,7 +1,7 @@
 export default class User {
     constructor(
-        private id: number, 
-        private name: string, 
+        private id: number,
+        private name: string,
         private password: string,
         private token: string
     ) {
@@ -23,7 +23,7 @@ export default class User {
         this.token = value;
     }
 
-    ComparePasswords(passwordToCompare: string) : boolean {
+    ComparePasswords(passwordToCompare: string): boolean {
         return this.password === passwordToCompare;
     }
 }

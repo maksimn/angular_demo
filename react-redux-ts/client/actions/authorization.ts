@@ -100,7 +100,7 @@ export const login = (loginData: UserDataInput, redirectCallback: () => void) =>
         }).catch(error => {
             const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
             dispatch(authActionCreators.loginError(validationErrors));
-        })
+        });
     };
     return loginThunkAction;
 };

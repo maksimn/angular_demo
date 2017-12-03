@@ -4,7 +4,7 @@ import UserDataInput from './models/UserDataInput';
 import UserRegistrationInput from './models/UserRegistrationInput';
 import ValidationFieldError from './validate/ValidationFieldError';
 
-function validateRegistrationData (registrationData: UserRegistrationInput) : ValidationFieldError[] {
+function validateRegistrationData (registrationData: UserRegistrationInput): ValidationFieldError[] {
     let {username, password, confirmPassword} = registrationData;
     const validationErrors: ValidationFieldError[] = [];
 
@@ -32,7 +32,7 @@ function validateRegistrationData (registrationData: UserRegistrationInput) : Va
             errorMessage: 'Пароль должен содержать не менее 4 и не более 25 символов'
         });
     }
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
         validationErrors.push({
             field: 'confirmPassword',
             errorMessage: 'Пароль и его повтор должны совпадать'
@@ -40,9 +40,9 @@ function validateRegistrationData (registrationData: UserRegistrationInput) : Va
     }
 
     return validationErrors;
-};
+}
 
-const validateLoginData = (loginData: UserDataInput) : ValidationFieldError[] => {
+const validateLoginData = (loginData: UserDataInput): ValidationFieldError[] => {
     let {username, password} = loginData;
     const validationErrors: ValidationFieldError[] = [];
 
@@ -53,7 +53,7 @@ const validateLoginData = (loginData: UserDataInput) : ValidationFieldError[] =>
         validationErrors.push({
             field: 'username',
             errorMessage: `Имя пользователя должно быть задано`
-        });             
+        });
     }
     if (validator.isEmpty(password)) {
         validationErrors.push({

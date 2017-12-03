@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { History } from 'history';
 import { Dispatch } from 'redux';
 import { AppState } from '../store/AppState';
-import { login } from "../actions/authorization";
+import { login } from '../actions/authorization';
 import UserDataInput from '../../app/models/UserDataInput';
 import LoginFormComponent from '../components/LoginForm';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
@@ -14,14 +14,14 @@ import ValidationFieldError from '../../app/validate/ValidationFieldError';
 export interface LoginFormProps {
     validationErrors: ValidationFieldError[];
     login: (loginData: UserDataInput, redirectCallback: () => void) => void;
-    history: History
+    history: History;
 }
 
 export interface LoginFormState extends UserDataInput {
 }
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
-    constructor(props: LoginFormProps){
+    constructor(props: LoginFormProps) {
         super(props);
     }
 
@@ -52,7 +52,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         const { onUsernameChange, onPasswordChange, onFormSubmit } = this;
         const { validationErrors } = this.props;
 
-        return <LoginFormComponent 
+        return <LoginFormComponent
                    onUsernameChange={ onUsernameChange }
                    onPasswordChange={ onPasswordChange }
                    onFormSubmit={ onFormSubmit }
@@ -63,8 +63,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 export default connect(
     (state: AppState) => ({ validationErrors: state.validationErrors }),
     (dispatch: Dispatch<AppState>) => ({
-        login: (loginData: UserDataInput, redirectCallback: () => void) => { 
-            dispatch(login(loginData, redirectCallback)); 
+        login: (loginData: UserDataInput, redirectCallback: () => void) => {
+            dispatch(login(loginData, redirectCallback));
         }
     })
 )(LoginForm);

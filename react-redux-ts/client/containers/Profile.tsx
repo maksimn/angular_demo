@@ -3,7 +3,7 @@ import * as React from 'react';
 import ProfileComponent from '../components/Profile';
 
 class Profile extends React.Component<any, any> {
-    constructor(props: any){
+    constructor(props: any) {
         super(props);
     }
 

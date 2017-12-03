@@ -1,4 +1,4 @@
 export default interface ValidationFieldError {
-    field: string,
-    errorMessage: string
+    field: string;
+    errorMessage: string;
 }

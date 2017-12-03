@@ -4,13 +4,13 @@ import User from './models/User';
 export default class Repository {
     private static users: User[] = [];
 
-    private static NextUserId() : number {
+    private static NextUserId(): number {
         return Repository.users.length;
     }
 
-    AddUser(userData: UserDataInput) : Promise<User> {
+    AddUser(userData: UserDataInput): Promise<User> {
         return new Promise((
-                resolve : (user : User) => void, 
+                resolve: (user: User) => void,
                 reject: (err: Error) => void
         ) => {
             this.FindUserByName(userData.username).then(user => {

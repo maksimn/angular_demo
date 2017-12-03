@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const Photos = () => 
+const Photos = () =>
     <div>
 
     </div>;
