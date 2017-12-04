@@ -72,7 +72,7 @@ app.post('/logout', (req, res) => {
     const repository = new Repository();
 
     repository.RemoveToken(authToken).then(() => {
-        res.redirect('/');
+        res.send({});
     });
 });
 

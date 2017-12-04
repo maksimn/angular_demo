@@ -1,6 +1,8 @@
 /// <reference types="axios" />
-import { Dispatch } from 'redux';
 import axios from 'axios';
+import * as Cookies from 'js-cookie';
+import { Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import {
     REGISTRATION_START,
     REGISTRATION_SUCCESS,
@@ -14,7 +16,7 @@ import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import { AppState } from '../store/AppState';
-import { ThunkAction } from 'redux-thunk';
+
 
 export type AuthActions = {
     REGISTRATION_START: {
@@ -95,6 +97,7 @@ export const login = (loginData: UserDataInput, redirectCallback: () => void) =>
         axios.post('/login', loginData).then(response => {
             const user = <UserView> response.data;
             user.token = response.headers['x-auth'];
+            Cookies.set('x-auth', user.token, { expires: 14 });
             dispatch(authActionCreators.loginSuccess(user));
             redirectCallback();
         }).catch(error => {
