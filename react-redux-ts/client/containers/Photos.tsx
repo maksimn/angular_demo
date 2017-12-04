@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import * as React from 'react';
 import PhotosComponent from '../components/Photos';
 

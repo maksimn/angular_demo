@@ -34,7 +34,7 @@ app.post('/register', (req, res) => {
         repository.AddUser({username, password}).then(user => {
             res.status(200).send({id: user.Id, name: user.Name});
         }).catch(err => {
-            validationErrors.push({field: '', errorMessage: 'Ошибка добавления пользователя'});
+            validationErrors.push({field: '', errorMessage: err.message});
             res.status(400).send({validationErrors});
         });
     }
