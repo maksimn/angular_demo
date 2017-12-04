@@ -1,21 +1,31 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { AppState } from '../store/AppState';
+import UserLoginComponent from '../components/UserLogin';
+import UserView from '../../app/models/UserView';
 
-export interface UserLoginProps {
-    username: string;
+interface UserLoginProps {
+    user: UserView;
 }
 
-const UserLogin: React.StatelessComponent<UserLoginProps> = props => {
-    const { username } = props;
+class UserLogin extends React.Component<UserLoginProps, any> {
+    constructor(props: UserLoginProps) {
+        super(props);
+    }
 
-    return (
-        <form className="user-area" method="POST" action="logout">
-            <Link className="user-area__link" to="/profile">
-                { username }
-            </Link>
-            <input className="btn bth-success" type="submit" defaultValue="Выйти" />
-        </form>
-    );
-};
+    render() {
+        const { user } = this.props;
 
-export default UserLogin;
+        if (!user) {
+            return null;
+        }
+
+        const username = user.name;
+
+        return <UserLoginComponent username={ username } />;
+    }
+}
+
+export default connect(
+    (state: AppState) => ({ user: state.user })
+)(UserLogin);
