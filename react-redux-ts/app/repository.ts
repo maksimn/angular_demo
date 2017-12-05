@@ -35,7 +35,7 @@ export default class Repository {
     }
 
     FindUserByToken(token: string): Promise<User> {
-        return this.FindUser(u => u.Token === token);
+        return this.FindUser(u => token !== '' && u.Token === token);
     }
 
     FindUser(predicate: (user: User) => boolean): Promise<User> {

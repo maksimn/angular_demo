@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import IndexView from './IndexView';
 import ErrorView from './ErrorView';
@@ -8,7 +8,6 @@ import RegisterForm from '../containers/RegisterForm';
 import LoginForm from '../containers/LoginForm';
 import Photos from '../containers/Photos';
 import Profile from '../containers/Profile';
-
 
 const MainContent = () => (
     <main>

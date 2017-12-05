@@ -1,22 +1,17 @@
-/// <reference types="axios" />
 import axios from 'axios';
 import * as Cookies from 'js-cookie';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import {
-    REGISTRATION_START,
-    REGISTRATION_SUCCESS,
-    REGISTRATION_ERROR,
-    LOGIN_START,
-    LOGIN_SUCCESS,
-    LOGIN_ERROR
+    REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR,
+    LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR,
+    LOGOUT_START, LOGOUT_SUCCESS, LOGOUT_ERROR
 } from './constants';
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import { AppState } from '../store/AppState';
-
 
 export type AuthActions = {
     REGISTRATION_START: {
@@ -42,7 +37,10 @@ export type AuthActions = {
     LOGIN_ERROR: {
         type: typeof LOGIN_ERROR,
         validationErrors: ValidationFieldError[]
-    }
+    },
+    LOGOUT_START: { type: typeof LOGOUT_START },
+    LOGOUT_SUCCESS: { type: typeof LOGOUT_SUCCESS },
+    LOGOUT_ERROR: { type: typeof LOGOUT_ERROR }
 };
 
 export const authActionCreators = {
@@ -70,7 +68,10 @@ export const authActionCreators = {
     loginError: (validationErrors: ValidationFieldError[]): AuthActions[typeof LOGIN_ERROR] => ({
         type: LOGIN_ERROR,
         validationErrors
-    })
+    }),
+    logoutStart: (): AuthActions[typeof LOGOUT_START] => ({ type: LOGOUT_START }),
+    logoutSuccess: (): AuthActions[typeof LOGOUT_SUCCESS] => ({ type: LOGOUT_SUCCESS }),
+    logoutError: (): AuthActions[typeof LOGOUT_ERROR] => ({ type: LOGOUT_ERROR })
 };
 
 export const submitRegistrationData = (registrationData: UserRegistrationInput,
@@ -89,7 +90,17 @@ export const submitRegistrationData = (registrationData: UserRegistrationInput,
     };
 };
 
-
+export const logout = () => {
+    return (dispatch: Dispatch<AppState>) => {
+        dispatch(authActionCreators.logoutStart());
+        Cookies.remove('x-auth');
+        axios.post('/logout').then(response => {
+            dispatch(authActionCreators.logoutSuccess());
+        }).catch(error => {
+            dispatch(authActionCreators.logoutError());
+        });
+    };
+};
 
 export const login = (loginData: UserDataInput, redirectCallback: () => void) => {
     const loginThunkAction: ThunkAction<void, AppState, void> = (dispatch) => {
