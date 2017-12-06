@@ -1,12 +1,18 @@
 import * as React from 'react';
 import UserLogin from '../containers/UserLogin';
 
-const Header = () => <div className="container-fluid bg-primary">
+const Header = (props: any) => {
+    const redirect = props.history.push;
 
-    <UserLogin />
+    return (
+        <div className="container-fluid bg-primary">
 
-    <h2 className="text-white">React TypeScript Демо</h2>
+            <UserLogin redirect={ redirect } />
 
-</div>;
+            <h2 className="text-white">React TypeScript Демо</h2>
+
+        </div>
+    );
+};
 
 export default Header;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { History } from 'history';
 import { logout } from '../actions/authorization';
 import { AppState } from '../store/AppState';
 import UserLoginComponent from '../components/UserLogin';
@@ -9,6 +10,7 @@ import UserView from '../../app/models/UserView';
 interface UserLoginProps {
     user: UserView;
     logout: () => void;
+    redirect: (path: string) => void;
 }
 
 class UserLogin extends React.Component<UserLoginProps, any> {
@@ -18,6 +20,7 @@ class UserLogin extends React.Component<UserLoginProps, any> {
 
     onFormSubmit = () => {
         this.props.logout();
+        this.props.redirect('/');
     }
 
     render() {

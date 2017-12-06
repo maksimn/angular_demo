@@ -3,8 +3,8 @@
 /// <reference types="history" />
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { History } from 'history';
 import { Dispatch } from 'redux';
+import { History } from 'history';
 import { AppState } from '../store/AppState';
 import { login } from '../actions/authorization';
 import UserDataInput from '../../app/models/UserDataInput';
