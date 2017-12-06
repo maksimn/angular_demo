@@ -4,4 +4,5 @@ import UserView from '../../app/models/UserView';
 export interface AppState {
     validationErrors: ValidationFieldError[];
     user: UserView;
+    isAuthRequestPending: boolean;
 }

@@ -15,6 +15,28 @@ app.use(express.static(__dirname));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+app.get('/auth', (req, res) => {
+    const authToken = req.cookies['x-auth'];
+
+    if (authToken) {
+        const repository = new Repository();
+
+        repository.FindUserByToken(authToken).then(user => {
+            if (user) {
+                res.send({
+                    id: user.Id,
+                    name: user.Name,
+                    token: authToken
+                });
+            } else {
+                res.status(400).send();
+            }
+        });
+    } else {
+        res.status(400).send();
+    }
+});
+
 app.get('*', (req, res) => {
     res.sendFile(__dirname + '/client/index.html');
 });

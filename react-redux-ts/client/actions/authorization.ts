@@ -5,7 +5,8 @@ import { ThunkAction } from 'redux-thunk';
 import {
     REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR,
     LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR,
-    LOGOUT_START, LOGOUT_SUCCESS, LOGOUT_ERROR
+    LOGOUT_START, LOGOUT_SUCCESS, LOGOUT_ERROR,
+    AUTH_START, AUTH_SUCCESS, AUTH_ERROR
 } from './constants';
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import UserDataInput from '../../app/models/UserDataInput';
@@ -40,7 +41,17 @@ export type AuthActions = {
     },
     LOGOUT_START: { type: typeof LOGOUT_START },
     LOGOUT_SUCCESS: { type: typeof LOGOUT_SUCCESS },
-    LOGOUT_ERROR: { type: typeof LOGOUT_ERROR }
+    LOGOUT_ERROR: { type: typeof LOGOUT_ERROR },
+    AUTH_START: {
+        type: typeof AUTH_START
+    },
+    AUTH_SUCCESS: {
+        type: typeof AUTH_SUCCESS,
+        user: UserView
+    },
+    AUTH_ERROR: {
+        type: typeof AUTH_ERROR
+    }
 };
 
 export const authActionCreators = {
@@ -71,7 +82,25 @@ export const authActionCreators = {
     }),
     logoutStart: (): AuthActions[typeof LOGOUT_START] => ({ type: LOGOUT_START }),
     logoutSuccess: (): AuthActions[typeof LOGOUT_SUCCESS] => ({ type: LOGOUT_SUCCESS }),
-    logoutError: (): AuthActions[typeof LOGOUT_ERROR] => ({ type: LOGOUT_ERROR })
+    logoutError: (): AuthActions[typeof LOGOUT_ERROR] => ({ type: LOGOUT_ERROR }),
+    authStart: (): AuthActions[typeof AUTH_START] => ({ type: AUTH_START }),
+    authSuccess: (user: UserView): AuthActions[typeof AUTH_SUCCESS] => ({
+        type: AUTH_SUCCESS,
+        user
+    }),
+    authError: (): AuthActions[typeof AUTH_ERROR] => ({ type: AUTH_ERROR })
+};
+
+export const authenticateUser = () => {
+    return (dispatch: Dispatch<AppState>) => {
+        dispatch(authActionCreators.authStart());
+        axios.get('/auth').then(res => {
+            const user = <UserView>res.data;
+            dispatch(authActionCreators.authSuccess(user));
+        }).catch(err => {
+            dispatch(authActionCreators.authError());
+        });
+    };
 };
 
 export const submitRegistrationData = (registrationData: UserRegistrationInput,
