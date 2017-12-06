@@ -7,8 +7,10 @@ const isAuthRequestPending: Reducer<boolean> = (state = false, action) => {
             return true;
         case AUTH_SUCCESS:
             return false;
-        default:
+        case AUTH_ERROR:
             return false;
+        default:
+            return state;
     }
 };
 
