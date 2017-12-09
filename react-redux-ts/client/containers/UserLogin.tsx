@@ -39,7 +39,7 @@ class UserLogin extends React.Component<UserLoginProps, any> {
 }
 
 export default connect(
-    (state: AppState) => ({ user: state.user }),
+    (state: AppState) => ({ user: state.auth.user }),
     (dispatch: Dispatch<AppState>) => ({
         logout: () => {
             dispatch(logout());

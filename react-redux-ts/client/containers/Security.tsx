@@ -29,7 +29,7 @@ class Security extends React.Component<any, any> {
 
 export default connect(
     (state: AppState) => ({
-        user: state.user,
-        isAuthRequestPending: state.isAuthRequestPending
+        user: state.auth.user,
+        isAuthRequestPending: state.auth.isAuthRequestPending
     })
 )(Security);

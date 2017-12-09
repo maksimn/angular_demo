@@ -61,7 +61,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 }
 
 export default connect(
-    (state: AppState) => ({ validationErrors: state.validationErrors }),
+    (state: AppState) => ({ validationErrors: state.auth.validationErrors }),
     (dispatch: Dispatch<AppState>) => ({
         login: (loginData: UserDataInput, redirectCallback: () => void) => {
             dispatch(login(loginData, redirectCallback));

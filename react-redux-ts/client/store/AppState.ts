@@ -1,8 +1,12 @@
 import ValidationFieldError from '../../app/validate/ValidationFieldError';
 import UserView from '../../app/models/UserView';
 
-export interface AppState {
+export type AuthState = {
     validationErrors: ValidationFieldError[];
-    user: UserView;
+    user: UserView | null;
     isAuthRequestPending: boolean;
+};
+
+export interface AppState {
+    auth: AuthState;
 }

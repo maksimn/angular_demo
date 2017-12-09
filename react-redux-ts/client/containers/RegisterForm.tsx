@@ -53,5 +53,5 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
 }
 
 export default connect(
-    (state: AppState) => ({ validationErrors: state.validationErrors })
+    (state: AppState) => ({ validationErrors: state.auth.validationErrors })
 )(RegisterForm);
