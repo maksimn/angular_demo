@@ -6,7 +6,8 @@
   "scripts": {
     "build:server": "node_modules/.bin/tsc",
     "start": "npm run build:server && webpack && node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint -c tslint.json app.ts 'app/**/*.ts' 'client/**/*.ts'"
   },
   "repository": {
     "type": "git",
