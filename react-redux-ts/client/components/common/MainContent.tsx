@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import IndexView from './IndexView';
-import ErrorView from './ErrorView';
+import IndexView from '../pages/IndexView';
+import ErrorView from '../pages/ErrorView';
 
-import RegisterForm from '../containers/RegisterForm';
-import LoginForm from '../containers/LoginForm';
-import Photos from '../containers/Photos';
-import Profile from '../containers/Profile';
+import RegisterForm from '../../containers/auth/RegisterForm';
+import LoginForm from '../../containers/auth/LoginForm';
+import Photos from '../../containers/photos/Photos';
+import Profile from '../../containers/pages/Profile';
 
 const MainContent = () => (
     <main>

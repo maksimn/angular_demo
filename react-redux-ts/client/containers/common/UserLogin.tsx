@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { History } from 'history';
-import { logout } from '../actions/authorization';
-import { AppState } from '../store/AppState';
-import UserLoginComponent from '../components/UserLogin';
-import UserView from '../../app/models/UserView';
+import { logout } from '../../actions/authorization';
+import { AppState } from '../../store/AppState';
+import UserLoginComponent from '../../components/common/UserLogin';
+import UserView from '../../../app/models/UserView';
 
 interface UserLoginProps {
     user: UserView;

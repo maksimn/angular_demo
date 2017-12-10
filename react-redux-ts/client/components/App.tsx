@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 
-import Header from './Header';
-import MainContent from './MainContent';
-import Security from '../containers/Security';
+import Header from './common/Header';
+import MainContent from './common/MainContent';
+import Security from '../containers/common/Security';
 
 const App = () => (
     <div>

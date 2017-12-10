@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import ValidationFieldError from '../../app/validate/ValidationFieldError';
-import ValidationErrors from '../components/ValidationErrors';
+import ValidationFieldError from '../../../app/validate/ValidationFieldError';
+import ValidationErrors from './ValidationErrors';
 
 export interface RegisterFormProps {
     onUsernameChange: (username: string) => void;

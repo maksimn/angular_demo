@@ -2,8 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Redirect } from 'react-router-dom';
-import { AppState } from '../store/AppState';
-import { authenticateUser } from '../actions/authorization';
+import { AppState } from '../../store/AppState';
+import { authenticateUser } from '../../actions/authorization';
 
 class Security extends React.Component<any, any> {
     constructor(props: any) {

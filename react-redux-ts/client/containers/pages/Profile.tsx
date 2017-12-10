@@ -1,6 +1,5 @@
-/// <reference types="react" />
 import * as React from 'react';
-import ProfileComponent from '../components/Profile';
+import ProfileComponent from '../../components/pages/Profile';
 
 class Profile extends React.Component<any, any> {
     constructor(props: any) {

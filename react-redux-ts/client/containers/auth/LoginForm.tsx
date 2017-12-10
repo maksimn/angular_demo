@@ -1,15 +1,12 @@
-/// <reference types="react" />
-/// <reference types="react-redux" />
-/// <reference types="history" />
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { History } from 'history';
-import { AppState } from '../store/AppState';
-import { login } from '../actions/authorization';
-import UserDataInput from '../../app/models/UserDataInput';
-import LoginFormComponent from '../components/LoginForm';
-import ValidationFieldError from '../../app/validate/ValidationFieldError';
+import { AppState } from '../../store/AppState';
+import { login } from '../../actions/authorization';
+import UserDataInput from '../../../app/models/UserDataInput';
+import LoginFormComponent from '../../components/auth/LoginForm';
+import ValidationFieldError from '../../../app/validate/ValidationFieldError';
 
 export interface LoginFormProps {
     validationErrors: ValidationFieldError[];

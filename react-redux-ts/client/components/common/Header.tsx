@@ -1,5 +1,5 @@
 import * as React from 'react';
-import UserLogin from '../containers/UserLogin';
+import UserLogin from '../../containers/common/UserLogin';
 
 const Header = (props: any) => {
     const redirect = props.history.push;

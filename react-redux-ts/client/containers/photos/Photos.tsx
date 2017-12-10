@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PhotosComponent from '../components/Photos';
+import PhotosComponent from '../../components/photos/Photos';
 
 class Photos extends React.Component<any, any> {
     constructor(props: any) {
@@ -7,7 +7,7 @@ class Photos extends React.Component<any, any> {
     }
 
     public render() {
-        return <PhotosComponent/>;
+        return <PhotosComponent />;
     }
 }
 
