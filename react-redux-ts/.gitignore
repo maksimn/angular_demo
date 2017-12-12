@@ -1,3 +1,4 @@
 *.js
 *.log
 !webpack.config.js
+!gulpfile.js
