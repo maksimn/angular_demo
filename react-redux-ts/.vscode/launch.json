@@ -1,0 +1,16 @@
+{
+    "configurations": [
+      {
+        "name": "Launch Program",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceRoot}",
+        "program": "${workspaceRoot}/app.ts",
+        "outFiles": [
+          "${workspaceRoot}/app.js"
+        ],
+        "sourceMaps": true
+      }
+    ],
+    "version": "0.0.0"
+}

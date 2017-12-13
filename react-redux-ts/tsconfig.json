@@ -6,8 +6,8 @@
         "module": "CommonJS",
         "target": "ES5",
         "allowJs": true,
-        "inlineSourceMap": true,
-        "jsx": "react"
+        "jsx": "react",
+        "sourceMap": true
     },
     "files": [
         "app.ts"

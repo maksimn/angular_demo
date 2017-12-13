@@ -1,6 +1,3 @@
-/// <reference types="express" />
-/// <reference types="body-parser" />
-/// <reference types="cookie-parser" />
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
