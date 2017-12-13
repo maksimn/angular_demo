@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var open = require('gulp-open');
 var nodemon = require('gulp-nodemon');
 var gutil = require("gulp-util");
+var tslint = require("gulp-tslint");
 var webpack = require("webpack");
 var webpackConfig = require('./webpack.config');
 
@@ -26,4 +27,12 @@ gulp.task('open', ['nodestart'], function() {
         .pipe(open({ uri: 'http://localhost:8000/' }));
 });
 
-gulp.task('default', ['webpack', 'nodestart', 'open']);
+gulp.task("tslint", () =>
+   gulp.src(['app.ts', 'app/**/*.ts', 'client/**/*.ts', 'client/**/*.tsx'])
+       .pipe(tslint({
+           formatter: "verbose"
+       }))
+       .pipe(tslint.report())
+);
+
+gulp.task('default', ['webpack', 'nodestart', 'open', 'tslint']);
