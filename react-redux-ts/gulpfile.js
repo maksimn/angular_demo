@@ -21,7 +21,7 @@ gulp.task('nodestart', ['webpack'], function () {
     });
 });
 
-gulp.task('open', ['webpack', 'nodestart'], function() {
+gulp.task('open', ['nodestart'], function() {
     gulp.src(__filename) 
         .pipe(open({ uri: 'http://localhost:8000/' }));
 });

@@ -17,7 +17,11 @@ const clientDevBuild = {
         filename: "index.js",
         path: path.resolve(__dirname, 'client')
     },
-    devtool: "inline-source-map"
+    devtool: "inline-source-map",
+    watch: true,
+    watchOptions: {
+        aggregateTimeout: 200
+    }
 };
 
 const serverDevBuild = {
@@ -43,7 +47,11 @@ const serverDevBuild = {
         path: __dirname,
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
-    devtool: "inline-source-map"
+    devtool: "inline-source-map",
+    watch: true,
+    watchOptions: {
+        aggregateTimeout: 200
+    }
 };
 
 module.exports = [clientDevBuild, serverDevBuild];
