@@ -21,7 +21,7 @@ gulp.task("webpack", function(callback) {
 
 gulp.task('nodestart', ['webpack'], function () {
     nodemon({
-        script: 'app.js'
+        script: 'dist/app.js'
     });
 });
 
@@ -31,7 +31,7 @@ gulp.task('open', ['nodestart'], function() {
 });
 
 gulp.task("tslint", () =>
-   gulp.src(['app.ts', 'app/**/*.ts', 'client/**/*.ts', 'client/**/*.tsx'])
+   gulp.src('src/**/*.ts')
        .pipe(tslint({
            formatter: "verbose"
        }))

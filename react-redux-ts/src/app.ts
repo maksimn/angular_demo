@@ -9,7 +9,6 @@ import * as path from 'path';
 const app = express();
 const PORT = 8000;
 
-console.log('dirname=', path.resolve(__dirname, '../'));
 app.use(express.static(path.resolve(__dirname, '../')));
 app.use(express.static(__dirname));
 app.use(cookieParser());
