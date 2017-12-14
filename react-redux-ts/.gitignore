@@ -1,3 +1,2 @@
 *.log
-app.js
-client/index.js
+dist/*.js

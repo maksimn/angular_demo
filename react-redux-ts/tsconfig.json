@@ -10,6 +10,6 @@
         "sourceMap": true
     },
     "files": [
-        "app.ts"
+        "src/app.ts"
     ]
 }

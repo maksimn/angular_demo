@@ -2,7 +2,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
 const clientDevBuild = {
-    entry: path.resolve(__dirname, 'client/index.tsx'),
+    entry: path.resolve(__dirname, 'src/client/index.tsx'),
     module: {
         rules: [{
             test: /\.tsx?$/,
@@ -15,7 +15,7 @@ const clientDevBuild = {
     },
     output: {
         filename: "index.js",
-        path: path.resolve(__dirname, 'client')
+        path: path.resolve(__dirname, 'dist')
     },
     devtool: "inline-source-map",
     watch: true,
@@ -31,7 +31,7 @@ const serverDevBuild = {
       __filename: false,
     },
     externals: [nodeExternals()],
-    entry: path.resolve(__dirname, 'app.ts'),
+    entry: path.resolve(__dirname, 'src/app.ts'),
     module: {
         rules: [{
             test: /\.ts$/,
@@ -44,7 +44,7 @@ const serverDevBuild = {
     },
     output: {
         filename: "app.js",
-        path: __dirname,
+        path: path.resolve(__dirname, 'dist'),
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
     devtool: "inline-source-map",

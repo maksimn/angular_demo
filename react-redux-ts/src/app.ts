@@ -4,10 +4,13 @@ import * as express from 'express';
 import Repository from './app/repository';
 import {createToken} from './app/security';
 import {validateRegistrationData, validateLoginData} from './app/validation';
+import * as path from 'path';
 
 const app = express();
 const PORT = 8000;
 
+console.log('dirname=', path.resolve(__dirname, '../'));
+app.use(express.static(path.resolve(__dirname, '../')));
 app.use(express.static(__dirname));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -34,8 +37,8 @@ app.get('/auth', (req, res) => {
     }
 });
 
-app.get('*', (req, res) => {
-    res.sendFile(__dirname + '/client/index.html');
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.post('/register', (req, res) => {
