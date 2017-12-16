@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import ValidationFieldError from '../../../app/validate/ValidationFieldError';
+import ValidationErrorsModel from '../../../app/models/ValidationErrors';
 import ValidationErrors from './ValidationErrors';
 
 export interface LoginFormProps {
     onUsernameChange: (username: string) => void;
     onPasswordChange: (password: string) => void;
     onFormSubmit: () => void;
-    validationErrors: ValidationFieldError[];
+    validationErrors: ValidationErrorsModel;
 }
 
 const LoginForm: React.StatelessComponent<LoginFormProps> = props => {
@@ -21,7 +21,7 @@ const LoginForm: React.StatelessComponent<LoginFormProps> = props => {
         event.preventDefault();
         props.onFormSubmit();
     },
-    {validationErrors} = props;
+    { validationErrors } = props;
 
     return (
         <div className="col-lg-3 col-lg-offset-4">
@@ -41,7 +41,7 @@ const LoginForm: React.StatelessComponent<LoginFormProps> = props => {
 
                 <Link className="btn btn-success" to="/register">Регистрация</Link>
 
-                <ValidationErrors validationErrors={validationErrors} />
+                <ValidationErrors validationErrors={ validationErrors } />
             </form>
         </div>
     );

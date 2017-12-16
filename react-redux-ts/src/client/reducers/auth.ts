@@ -16,7 +16,9 @@ import {
 const initState: AuthState = {
     isAuthRequestPending: false,
     user: null,
-    validationErrors: []
+    validationErrors: {
+        errors: []
+    }
 };
 
 const auth: Reducer<AuthState> = (state = initState, action) => {
@@ -40,12 +42,12 @@ const auth: Reducer<AuthState> = (state = initState, action) => {
         case REGISTRATION_START:
             return {
                 ...state,
-                validationErrors: []
+                validationErrors: initState.validationErrors
             };
         case REGISTRATION_SUCCESS:
             return {
                 ...state,
-                validationErrors: []
+                validationErrors: initState.validationErrors
             };
         case REGISTRATION_ERROR:
             return {
@@ -55,13 +57,13 @@ const auth: Reducer<AuthState> = (state = initState, action) => {
         case LOGIN_START:
             return {
                 ...state,
-                validationErrors: []
+                validationErrors: initState.validationErrors
             };
         case LOGIN_SUCCESS:
             return {
                 ...state,
                 user: action.user,
-                validationErrors: []
+                validationErrors: initState.validationErrors
             };
         case LOGIN_ERROR:
             return {

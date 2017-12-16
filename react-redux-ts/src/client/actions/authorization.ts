@@ -11,7 +11,7 @@ import {
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
-import ValidationFieldError from '../../app/validate/ValidationFieldError';
+import ValidationErrors from '../../app/models/ValidationErrors';
 import { AppState } from '../store/AppState';
 
 export type AuthActions = {
@@ -25,7 +25,7 @@ export type AuthActions = {
     },
     REGISTRATION_ERROR: {
         type: typeof REGISTRATION_ERROR,
-        validationErrors: ValidationFieldError[]
+        validationErrors: ValidationErrors
     },
     LOGIN_START: {
         type: typeof LOGIN_START,
@@ -37,7 +37,7 @@ export type AuthActions = {
     },
     LOGIN_ERROR: {
         type: typeof LOGIN_ERROR,
-        validationErrors: ValidationFieldError[]
+        validationErrors: ValidationErrors
     },
     LOGOUT_START: { type: typeof LOGOUT_START },
     LOGOUT_SUCCESS: { type: typeof LOGOUT_SUCCESS },
@@ -63,7 +63,7 @@ export const authActionCreators = {
         type: REGISTRATION_SUCCESS,
         username
     }),
-    registrationError: (validationErrors: ValidationFieldError[]): AuthActions[typeof REGISTRATION_ERROR] => ({
+    registrationError: (validationErrors: ValidationErrors): AuthActions[typeof REGISTRATION_ERROR] => ({
         type: REGISTRATION_ERROR,
         validationErrors
     }),
@@ -76,7 +76,7 @@ export const authActionCreators = {
         type: LOGIN_SUCCESS,
         user
     }),
-    loginError: (validationErrors: ValidationFieldError[]): AuthActions[typeof LOGIN_ERROR] => ({
+    loginError: (validationErrors: ValidationErrors): AuthActions[typeof LOGIN_ERROR] => ({
         type: LOGIN_ERROR,
         validationErrors
     }),
@@ -113,7 +113,7 @@ export const submitRegistrationData = (registrationData: UserRegistrationInput,
             alert(`Пользователь ${name} успешно зарегистрирован.`);
             redirectCallback();
         }).catch(error => {
-            const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
+            const validationErrors = <ValidationErrors> error.response.data.validationErrors;
             dispatch(authActionCreators.registrationError(validationErrors));
         });
     };
@@ -141,7 +141,7 @@ export const login = (loginData: UserDataInput, redirectCallback: () => void) =>
             dispatch(authActionCreators.loginSuccess(user));
             redirectCallback();
         }).catch(error => {
-            const validationErrors = <ValidationFieldError[]> error.response.data.validationErrors;
+            const validationErrors = <ValidationErrors> error.response.data.validationErrors;
             dispatch(authActionCreators.loginError(validationErrors));
         });
     };

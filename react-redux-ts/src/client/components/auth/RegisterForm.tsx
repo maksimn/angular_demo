@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import ValidationFieldError from '../../../app/validate/ValidationFieldError';
+import ValidationErrorsModel from '../../../app/models/ValidationErrors';
 import ValidationErrors from './ValidationErrors';
 
 export interface RegisterFormProps {
@@ -8,7 +8,7 @@ export interface RegisterFormProps {
     onPasswordChange: (password: string) => void;
     onConfirmPasswordChange: (confirmPassword: string) => void;
     onFormSubmit: () => void;
-    validationErrors: ValidationFieldError[];
+    validationErrors: ValidationErrorsModel;
 }
 
 const RegisterForm: React.StatelessComponent<RegisterFormProps> = (props) => {
@@ -51,7 +51,7 @@ const RegisterForm: React.StatelessComponent<RegisterFormProps> = (props) => {
 
                 <Link className="btn btn-success" to="/login">Войти</Link>
 
-                <ValidationErrors validationErrors={validationErrors} />
+                <ValidationErrors validationErrors={ validationErrors } />
             </form>
         </div>
     );

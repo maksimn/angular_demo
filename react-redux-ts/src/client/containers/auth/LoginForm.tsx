@@ -6,10 +6,10 @@ import { AppState } from '../../store/AppState';
 import { login } from '../../actions/authorization';
 import UserDataInput from '../../../app/models/UserDataInput';
 import LoginFormComponent from '../../components/auth/LoginForm';
-import ValidationFieldError from '../../../app/validate/ValidationFieldError';
+import ValidationErrorsModel from '../../../app/models/ValidationErrors';
 
 export interface LoginFormProps {
-    validationErrors: ValidationFieldError[];
+    validationErrors: ValidationErrorsModel;
     login: (loginData: UserDataInput, redirectCallback: () => void) => void;
     history: History;
 }

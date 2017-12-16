@@ -36,7 +36,7 @@ app.get('/auth', (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
@@ -49,13 +49,13 @@ app.post('/register', (req, res) => {
 
     const repository = new Repository();
 
-    if (validationErrors.length) {
+    if (validationErrors.errors.length) {
         res.status(400).send({validationErrors});
     } else {
         repository.AddUser({username, password}).then(user => {
             res.status(200).send({id: user.Id, name: user.Name});
         }).catch(err => {
-            validationErrors.push({field: '', errorMessage: err.message});
+            validationErrors.errors.push(err.message);
             res.status(400).send({validationErrors});
         });
     }
@@ -66,7 +66,7 @@ app.post('/login', (req, res) => {
 
     const validationErrors = validateLoginData({ username, password });
 
-    if (validationErrors.length) {
+    if (validationErrors.errors.length) {
         res.status(400).send({ validationErrors });
     } else {
         const trimUsername = username.trim();
@@ -81,7 +81,7 @@ app.post('/login', (req, res) => {
                        .send({id: user.Id, name: user.Name});
                 });
             } else {
-                validationErrors.push({field: '', errorMessage: 'Неверное имя пользователя или пароль'});
+                validationErrors.errors.push('Неверное имя пользователя или пароль');
                 res.status(400).send({ validationErrors });
             }
         });
