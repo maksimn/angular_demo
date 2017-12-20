@@ -103,22 +103,6 @@ export const authenticateUser = () => {
     };
 };
 
-export const submitRegistrationData = (registrationData: UserRegistrationInput,
-                                       redirectCallback: () => void) => {
-    return (dispatch: Dispatch<AppState>) => {
-        dispatch(authActionCreators.registrationStart(registrationData));
-        axios.post('/register', registrationData).then(response => {
-            const {name} = response.data;
-            dispatch(authActionCreators.registrationSuccess(name));
-            alert(`Пользователь ${name} успешно зарегистрирован.`);
-            redirectCallback();
-        }).catch(error => {
-            const validationErrors = <ValidationErrors> error.response.data.validationErrors;
-            dispatch(authActionCreators.registrationError(validationErrors));
-        });
-    };
-};
-
 export const logout = () => {
     return (dispatch: Dispatch<AppState>) => {
         dispatch(authActionCreators.logoutStart());

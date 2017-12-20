@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { authActionCreators } from '../../actions/authorization';
 import { AppState } from '../../store/AppState';
-import { submitRegistrationData } from '../../actions/authorization';
 import UserRegistrationInput from '../../../app/models/UserRegistrationInput';
 import RegisterFormComponent from '../../components/auth/RegisterForm';
 
 class RegisterForm extends React.Component<any, UserRegistrationInput> {
     constructor(props: any) {
         super(props);
-
-        this.redirectToLoginOnSuccess = this.redirectToLoginOnSuccess.bind(this);
     }
 
     componentWillMount() {
@@ -33,11 +31,7 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
     }
 
     onFormSubmit = () => {
-        this.props.dispatch(submitRegistrationData(this.state, this.redirectToLoginOnSuccess));
-    }
-
-    redirectToLoginOnSuccess() {
-        this.props.history.push('/login');
+        this.props.dispatch(authActionCreators.registrationStart(this.state));
     }
 
     render() {

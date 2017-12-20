@@ -5,9 +5,9 @@
         "type": "node",
         "request": "launch",
         "cwd": "${workspaceRoot}",
-        "program": "${workspaceRoot}/app.ts",
+        "program": "${workspaceRoot}/src/app.ts",
         "outFiles": [
-          "${workspaceRoot}/app.js"
+          "${workspaceRoot}/dist/app.js"
         ],
         "sourceMaps": true
       }
