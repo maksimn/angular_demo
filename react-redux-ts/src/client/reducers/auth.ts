@@ -75,6 +75,11 @@ const auth: Reducer<AuthState> = (state = initState, action) => {
                 ...state,
                 user: null
             };
+        case '@@router/LOCATION_CHANGE':
+            return {
+                ...state,
+                validationErrors: initState.validationErrors
+            };
         default:
             return state;
     }

@@ -114,20 +114,3 @@ export const logout = () => {
         });
     };
 };
-
-export const login = (loginData: UserDataInput, redirectCallback: () => void) => {
-    const loginThunkAction: ThunkAction<void, AppState, void> = (dispatch) => {
-        dispatch(authActionCreators.loginStart(loginData));
-        axios.post('/login', loginData).then(response => {
-            const user = <UserView> response.data;
-            user.token = response.headers['x-auth'];
-            Cookies.set('x-auth', user.token, { expires: 14 });
-            dispatch(authActionCreators.loginSuccess(user));
-            redirectCallback();
-        }).catch(error => {
-            const validationErrors = <ValidationErrors> error.response.data.validationErrors;
-            dispatch(authActionCreators.loginError(validationErrors));
-        });
-    };
-    return loginThunkAction;
-};
