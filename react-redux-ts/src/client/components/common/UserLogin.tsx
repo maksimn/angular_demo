@@ -14,7 +14,7 @@ const UserLogin: React.StatelessComponent<UserLoginProps> = props => {
     };
 
     return (
-        <form className="user-area" method="POST" action="logout" onSubmit={ onFormSubmit }>
+        <form className="user-area" onSubmit={ onFormSubmit }>
             <Link className="user-area__link" to="/profile">
                 { username }
             </Link>

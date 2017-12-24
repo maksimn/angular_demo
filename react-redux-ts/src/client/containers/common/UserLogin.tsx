@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { History } from 'history';
-import { logout } from '../../actions/authorization';
+import { authActionCreators } from '../../actions/authorization';
 import { AppState } from '../../store/AppState';
 import UserLoginComponent from '../../components/common/UserLogin';
 import UserView from '../../../app/models/UserView';
@@ -20,7 +19,6 @@ class UserLogin extends React.Component<UserLoginProps, any> {
 
     onFormSubmit = () => {
         this.props.logout();
-        this.props.redirect('/');
     }
 
     render() {
@@ -42,7 +40,7 @@ export default connect(
     (state: AppState) => ({ user: state.auth.user }),
     (dispatch: Dispatch<AppState>) => ({
         logout: () => {
-            dispatch(logout());
+            dispatch(authActionCreators.logoutStart());
         }
     })
 )(UserLogin);

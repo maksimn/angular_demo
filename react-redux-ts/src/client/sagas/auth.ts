@@ -4,8 +4,8 @@ import * as Cookies from 'js-cookie';
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import ValidationErrors from '../../app/models/ValidationErrors';
 import { authActionCreators } from '../actions/authorization';
-import { REGISTRATION_START, LOGIN_START } from '../actions/constants';
-import { registerUserApi, loginUserApi, authenticateUserApi } from '../api/auth';
+import { REGISTRATION_START, LOGIN_START, LOGOUT_START } from '../actions/constants';
+import { registerUserApi, loginUserApi, authenticateUserApi, logoutUserApi } from '../api/auth';
 import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
 
@@ -15,6 +15,24 @@ export function* authUser() {
         yield put(authActionCreators.authSuccess(user));
     } catch {
         yield put(authActionCreators.authError());
+    }
+}
+
+export function* logoutUser() {
+    try {
+        yield call(logoutUserApi);
+        Cookies.remove('x-auth');
+        yield put(authActionCreators.logoutSuccess());
+        yield put(push('/'));
+    } catch {
+        yield put(authActionCreators.logoutError());
+    }
+}
+
+export function* watchLogoutUser(): any {
+    while (true) {
+        yield take(LOGOUT_START);
+        yield logoutUser();
     }
 }
 

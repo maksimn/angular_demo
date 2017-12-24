@@ -1,5 +1,4 @@
 import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import createHistory from 'history/createBrowserHistory';
@@ -15,7 +14,7 @@ const routingMiddleware = routerMiddleware(history);
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = applyMiddleware(routingMiddleware, sagaMiddleware, thunk, logger);
+const middleware = applyMiddleware(routingMiddleware, sagaMiddleware, logger);
 const store = createStore(reducers, middleware);
 
 sagaMiddleware.run(saga);

@@ -14,3 +14,7 @@ export const loginUserApi = (loginData: UserDataInput) => {
 export const authenticateUserApi = () => {
     return axios.get('/auth').then(res => (<UserView> res.data));
 };
+
+export const logoutUserApi = () => {
+    return axios.post('/logout').then(response => ({}));
+};

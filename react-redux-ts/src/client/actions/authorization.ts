@@ -1,7 +1,3 @@
-import axios from 'axios';
-import * as Cookies from 'js-cookie';
-import { Dispatch } from 'redux';
-import { ThunkAction } from 'redux-thunk';
 import {
     REGISTRATION_START, REGISTRATION_SUCCESS, REGISTRATION_ERROR,
     LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR,
@@ -12,7 +8,6 @@ import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
 import ValidationErrors from '../../app/models/ValidationErrors';
-import { AppState } from '../store/AppState';
 
 export type AuthActions = {
     REGISTRATION_START: {
@@ -89,16 +84,4 @@ export const authActionCreators = {
         user
     }),
     authError: (): AuthActions[typeof AUTH_ERROR] => ({ type: AUTH_ERROR })
-};
-
-export const logout = () => {
-    return (dispatch: Dispatch<AppState>) => {
-        dispatch(authActionCreators.logoutStart());
-        Cookies.remove('x-auth');
-        axios.post('/logout').then(response => {
-            dispatch(authActionCreators.logoutSuccess());
-        }).catch(error => {
-            dispatch(authActionCreators.logoutError());
-        });
-    };
 };
