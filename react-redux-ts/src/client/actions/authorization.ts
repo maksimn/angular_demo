@@ -91,18 +91,6 @@ export const authActionCreators = {
     authError: (): AuthActions[typeof AUTH_ERROR] => ({ type: AUTH_ERROR })
 };
 
-export const authenticateUser = () => {
-    return (dispatch: Dispatch<AppState>) => {
-        dispatch(authActionCreators.authStart());
-        axios.get('/auth').then(res => {
-            const user = <UserView>res.data;
-            dispatch(authActionCreators.authSuccess(user));
-        }).catch(err => {
-            dispatch(authActionCreators.authError());
-        });
-    };
-};
-
 export const logout = () => {
     return (dispatch: Dispatch<AppState>) => {
         dispatch(authActionCreators.logoutStart());

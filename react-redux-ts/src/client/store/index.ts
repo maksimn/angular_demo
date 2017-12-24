@@ -1,4 +1,4 @@
-import {applyMiddleware, createStore} from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
@@ -6,7 +6,7 @@ import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
 
 import reducers from '../reducers';
-import { authenticateUser } from '../actions/authorization';
+import { authActionCreators } from '../actions/authorization';
 
 import saga from '../sagas';
 
@@ -19,6 +19,6 @@ const middleware = applyMiddleware(routingMiddleware, sagaMiddleware, thunk, log
 const store = createStore(reducers, middleware);
 
 sagaMiddleware.run(saga);
-store.dispatch(authenticateUser());
+store.dispatch(authActionCreators.authStart());
 
 export default store;
