@@ -4,9 +4,18 @@ import { authActionCreators } from '../../actions/authorization';
 import { AppState } from '../../store/AppState';
 import UserRegistrationInput from '../../../app/models/UserRegistrationInput';
 import RegisterFormComponent from '../../components/auth/RegisterForm';
+import ValidationErrors from '../../../app/models/ValidationErrors';
+import { Dispatch } from 'redux';
 
-class RegisterForm extends React.Component<any, UserRegistrationInput> {
-    constructor(props: any) {
+export interface State extends UserRegistrationInput {}
+
+export interface Props {
+    validationErrors: ValidationErrors;
+    register: (registerData: UserRegistrationInput) => void;
+}
+
+class RegisterForm extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -31,7 +40,7 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
     }
 
     onFormSubmit = () => {
-        this.props.dispatch(authActionCreators.registrationStart(this.state));
+        this.props.register(this.state);
     }
 
     render() {
@@ -45,5 +54,10 @@ class RegisterForm extends React.Component<any, UserRegistrationInput> {
 }
 
 export default connect(
-    (state: AppState) => ({ validationErrors: state.auth.validationErrors })
+    (state: AppState) => ({ validationErrors: state.auth.validationErrors }),
+    (dispatch: Dispatch<AppState>) => ({
+        register: (registerData: UserRegistrationInput) => {
+            dispatch(authActionCreators.registrationStart(registerData));
+        }
+    })
 )(RegisterForm);
