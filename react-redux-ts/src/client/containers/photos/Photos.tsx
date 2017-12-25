@@ -1,9 +1,21 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import PhotosComponent from '../../components/photos/Photos';
+import { photoActionCreators } from '../../actions/photos';
 
-class Photos extends React.Component<any, any> {
-    constructor(props: any) {
+interface Props {
+    loadPhotos: () => void;
+}
+
+interface State {}
+
+class Photos extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
+    }
+
+    componentWillMount() {
+        this.props.loadPhotos();
     }
 
     public render() {
@@ -11,4 +23,11 @@ class Photos extends React.Component<any, any> {
     }
 }
 
-export default Photos;
+export default connect(
+    (state) => ({}),
+    (dispatch) => ({
+        loadPhotos: () => {
+            dispatch(photoActionCreators.loadPhotos());
+        }
+    })
+)(Photos);
