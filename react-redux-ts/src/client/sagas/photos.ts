@@ -1,4 +1,4 @@
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { loadPhotoData } from '../api/photos';
 import { photoActionCreators } from '../actions/photos';
 import { LOAD_PHOTOS_DATA } from '../actions/constants';
@@ -13,8 +13,5 @@ export function* loadPhotos() {
 }
 
 export function* watchLoadPhotos(): any {
-    while (true) {
-        yield take(LOAD_PHOTOS_DATA);
-        yield loadPhotos();
-    }
+    yield takeEvery(LOAD_PHOTOS_DATA, loadPhotos);
 }
