@@ -1,4 +1,4 @@
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, take, takeEvery } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import * as Cookies from 'js-cookie';
 import UserRegistrationInput from '../../app/models/UserRegistrationInput';
@@ -30,10 +30,7 @@ export function* logoutUser() {
 }
 
 export function* watchLogoutUser(): any {
-    while (true) {
-        yield take(LOGOUT_START);
-        yield logoutUser();
-    }
+    yield takeEvery(LOGOUT_START, logoutUser);
 }
 
 export function* registerUser(registrationData: UserRegistrationInput) {
