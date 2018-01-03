@@ -8,12 +8,14 @@ interface Props {
 
 const Photos: React.StatelessComponent<Props> = props => {
     if (props.photoData.length > 0) {
-        const { thumbnailUrl, title } = props.photoData[0];
+        const thumbnails = props.photoData.map((photo, i) => (
+            <PhotoThumbnail key={ i }
+                            thumbnailUrl={ photo.thumbnailUrl }
+                            title={ photo.title } />
+        ));
 
         return <div>
-            <PhotoThumbnail
-                thumbnailUrl={ thumbnailUrl }
-                title={ title }/>
+            { thumbnails }
         </div>;
     }
 
