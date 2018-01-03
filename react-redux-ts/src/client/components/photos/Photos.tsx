@@ -7,19 +7,15 @@ interface Props {
 }
 
 const Photos: React.StatelessComponent<Props> = props => {
-    if (props.photoData.length > 0) {
-        const thumbnails = props.photoData.map((photo, i) => (
-            <PhotoThumbnail key={ i }
-                            thumbnailUrl={ photo.thumbnailUrl }
-                            title={ photo.title } />
-        ));
+    const thumbnails = props.photoData.map((photo, i) => (
+        <PhotoThumbnail key={ i }
+                        thumbnailUrl={ photo.thumbnailUrl }
+                        title={ photo.title } />
+    ));
 
-        return <div>
-            { thumbnails }
-        </div>;
-    }
-
-    return null;
+    return <div>
+        { thumbnails }
+    </div>;
 };
 
 export default Photos;
