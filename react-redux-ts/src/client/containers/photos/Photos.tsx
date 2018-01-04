@@ -1,13 +1,20 @@
 import * as React from 'react';
+import { match } from 'react-router';
 import { connect } from 'react-redux';
 import PhotosComponent from '../../components/photos/Photos';
 import { photoActionCreators } from '../../actions/photos';
 import Photo from '../../store/Photo';
 import { AppState } from '../../store/AppState';
+import PhotosPagination from '../../components/photos/PhotosPagination';
+
+interface PhotosRouteParams {
+    page: string;
+}
 
 interface Props {
     loadPhotos: () => void;
     photoData: Photo[];
+    match: match<PhotosRouteParams>;
 }
 
 interface State {}
@@ -24,9 +31,23 @@ class Photos extends React.Component<Props, State> {
     static maxPhotosPerPage = 50;
 
     public render() {
-        const photosToRender = this.props.photoData.slice(0, Photos.maxPhotosPerPage);
+        const { params } = this.props.match;
 
-        return <PhotosComponent photoData={ photosToRender } />;
+        const page = params.page ? parseInt(params.page) : 1;
+
+        const photosToRender = this.props.photoData.slice(Photos.maxPhotosPerPage * (page - 1),
+            Photos.maxPhotosPerPage * page);
+
+        return (
+            <div>
+                <PhotosComponent photoData={ photosToRender } />
+
+                <PhotosPagination
+                    numPhotos={ this.props.photoData.length }
+                    page={ page }
+                    maxPhotosPerPage={ Photos.maxPhotosPerPage } />
+            </div>
+        );
     }
 }
 

@@ -16,7 +16,7 @@ class Security extends React.Component<any, any> {
         if (!isAuthRequestPending) {
             if (isAuthenticated && (url === '/login' || url === '/register')) {
                 return <Redirect to="/photos" />;
-            } else if (!isAuthenticated && (url === '/photos' || url === '/profile')) {
+            } else if (!isAuthenticated && (url.startsWith('/photos') || url === '/profile')) {
                 return <Redirect to="/login" />;
             }
         }
