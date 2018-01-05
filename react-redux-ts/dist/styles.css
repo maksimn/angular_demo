@@ -22,3 +22,24 @@
 .pagination-link.active {
     font-weight: 900;
 }
+
+.photo-bigsize {
+    position: fixed;
+    top: 20px;
+    left: calc(50vw - 300px);
+}
+
+.photo-bigsize__shadow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    opacity: 0.5;
+}
+
+.photo-bigsize__title {
+    background-color: #fff;
+    padding: 5px 0 5px 12px;
+}

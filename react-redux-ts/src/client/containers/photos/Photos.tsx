@@ -6,9 +6,11 @@ import { photoActionCreators } from '../../actions/photos';
 import Photo from '../../store/Photo';
 import { AppState } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
+import PhotoBigSize from '../../components/photos/PhotoBigSize';
 
 interface PhotosRouteParams {
-    page: string;
+    page?: string;
+    photoId?: string;
 }
 
 interface Props {
@@ -31,21 +33,29 @@ class Photos extends React.Component<Props, State> {
     static maxPhotosPerPage = 50;
 
     public render() {
+        const { photoData } = this.props;
         const { params } = this.props.match;
 
         const page = params.page ? parseInt(params.page) : 1;
 
-        const photosToRender = this.props.photoData.slice(Photos.maxPhotosPerPage * (page - 1),
+        const photosToRender = photoData.slice(Photos.maxPhotosPerPage * (page - 1),
             Photos.maxPhotosPerPage * page);
+
+        const photoId = params.photoId ? params.photoId : '';
+        const photo = photoId ? photoData[parseInt(photoId) - 1] : undefined;
 
         return (
             <div>
-                <PhotosComponent photoData={ photosToRender } />
+                <PhotosComponent
+                    page={ page }
+                    photoData={ photosToRender } />
 
                 <PhotosPagination
                     numPhotos={ this.props.photoData.length }
                     page={ page }
                     maxPhotosPerPage={ Photos.maxPhotosPerPage } />
+
+                <PhotoBigSize photo={ photo }/>
             </div>
         );
     }

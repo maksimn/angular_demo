@@ -4,13 +4,18 @@ import Photo from '../../store/Photo';
 
 interface Props {
     photoData: Photo[];
+    page: number;
 }
 
 const Photos: React.StatelessComponent<Props> = props => {
+    const { page } = props;
+
     const thumbnails = props.photoData.map((photo, i) => (
         <PhotoThumbnail key={ i }
                         thumbnailUrl={ photo.thumbnailUrl }
-                        title={ photo.title } />
+                        title={ photo.title }
+                        page={ page }
+                        photoId={ photo.id } />
     ));
 
     return <div>
