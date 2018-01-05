@@ -47,6 +47,40 @@ class Photos extends React.Component<Props, State> {
         return page;
     }
 
+    getNextPhotoUrl(): string {
+        const { params } = this.props.match;
+        if (params.photoId) {
+            const page = this.getCurrentPage();
+            const photoId = params.photoId;
+            const photoIndex = parseInt(photoId) - 1;
+            const { maxPhotosPerPage } = Photos;
+            const numPhotos = this.props.photoData.length;
+            const pagesQty = Math.ceil(numPhotos / maxPhotosPerPage);
+            const nextPage = page < pagesQty ? page + 1 : 1;
+            const nextPhotoIndex = photoIndex === numPhotos - 1 ? 0 : photoIndex + 1;
+            const nextPhotoUrlPage = photoIndex === page * maxPhotosPerPage - 1 ? nextPage : page;
+            return `/photos/${ nextPhotoUrlPage }/photoId/${ nextPhotoIndex + 1 }`;
+        }
+        return '';
+    }
+
+    getPrevPhotoUrl(): string {
+        const { params } = this.props.match;
+        if (params.photoId) {
+            const page = this.getCurrentPage();
+            const photoId = params.photoId;
+            const photoIndex = parseInt(photoId) - 1;
+            const { maxPhotosPerPage } = Photos;
+            const numPhotos = this.props.photoData.length;
+            const pagesQty = Math.ceil(numPhotos / maxPhotosPerPage);
+            const prevPage = page > 1 ? page - 1 : pagesQty;
+            const prevPhotoIndex = photoIndex === 0 ? numPhotos - 1 : photoIndex - 1;
+            const prevPhotoUrlPage = photoIndex === (page - 1) * maxPhotosPerPage ? prevPage : page;
+            return `/photos/${ prevPhotoUrlPage }/photoId/${ prevPhotoIndex + 1 }`;
+        }
+        return '';
+    }
+
     public render() {
         const { photoData } = this.props;
         const { params } = this.props.match;
@@ -58,24 +92,11 @@ class Photos extends React.Component<Props, State> {
 
         let photoId = '';
         let photo: Photo | undefined = undefined;
-        let nextPhotoUrl: string | undefined = undefined;
-        let prevPhotoUrl: string | undefined = undefined;
 
         if (params.photoId) {
             photoId = params.photoId;
-            const numPhotos = photoData.length;
-            const { maxPhotosPerPage } = Photos;
-            const pagesQty = Math.ceil(numPhotos / maxPhotosPerPage);
             const photoIndex = parseInt(photoId) - 1;
-            const prevPhotoIndex = photoIndex === 0 ? numPhotos - 1 : photoIndex - 1;
-            const nextPhotoIndex = photoIndex === numPhotos - 1 ? 0 : photoIndex + 1;
             photo = photoData[photoIndex];
-            const prevPage = page > 1 ? page - 1 : pagesQty;
-            const nextPage = page < pagesQty ? page + 1 : 1;
-            const prevPhotoUrlPage = photoIndex === (page - 1) * maxPhotosPerPage ? prevPage : page;
-            const nextPhotoUrlPage = photoIndex === page * maxPhotosPerPage - 1 ? nextPage : page;
-            nextPhotoUrl = `/photos/${ nextPhotoUrlPage }/photoId/${ nextPhotoIndex + 1 }`;
-            prevPhotoUrl = `/photos/${ prevPhotoUrlPage }/photoId/${ prevPhotoIndex + 1 }`;
         }
 
         return (
@@ -91,8 +112,8 @@ class Photos extends React.Component<Props, State> {
 
                 <PhotoBigSize
                     photo={ photo }
-                    prevPhotoUrl={ prevPhotoUrl }
-                    nextPhotoUrl={ nextPhotoUrl }
+                    prevPhotoUrl={ this.getPrevPhotoUrl() }
+                    nextPhotoUrl={ this.getNextPhotoUrl() }
                     onOuterAreaClick={ this.onOuterAreaClick }
                 />
             </div>
