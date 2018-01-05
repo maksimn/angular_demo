@@ -25,7 +25,7 @@
 
 .photo-bigsize {
     position: fixed;
-    top: 20px;
+    top: 17px;
     left: calc(50vw - 300px);
 }
 
@@ -42,4 +42,13 @@
 .photo-bigsize__title {
     background-color: #fff;
     padding: 5px 0 5px 12px;
+}
+
+.photo-bigsize__prev-photo-link {
+    margin-right: 10px;
+}
+
+.photo-bigsize__next-photo-link {
+    float: right;
+    margin-right: 12px;
 }

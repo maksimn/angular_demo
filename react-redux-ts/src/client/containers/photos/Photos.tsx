@@ -56,8 +56,27 @@ class Photos extends React.Component<Props, State> {
         const photosToRender = photoData.slice(Photos.maxPhotosPerPage * (page - 1),
             Photos.maxPhotosPerPage * page);
 
-        const photoId = params.photoId ? params.photoId : '';
-        const photo = photoId ? photoData[parseInt(photoId) - 1] : undefined;
+        let photoId = '';
+        let photo: Photo | undefined = undefined;
+        let nextPhotoUrl: string | undefined = undefined;
+        let prevPhotoUrl: string | undefined = undefined;
+
+        if (params.photoId) {
+            photoId = params.photoId;
+            const numPhotos = photoData.length;
+            const { maxPhotosPerPage } = Photos;
+            const pagesQty = Math.ceil(numPhotos / maxPhotosPerPage);
+            const photoIndex = parseInt(photoId) - 1;
+            const prevPhotoIndex = photoIndex === 0 ? numPhotos - 1 : photoIndex - 1;
+            const nextPhotoIndex = photoIndex === numPhotos - 1 ? 0 : photoIndex + 1;
+            photo = photoData[photoIndex];
+            const prevPage = page > 1 ? page - 1 : pagesQty;
+            const nextPage = page < pagesQty ? page + 1 : 1;
+            const prevPhotoUrlPage = photoIndex === (page - 1) * maxPhotosPerPage ? prevPage : page;
+            const nextPhotoUrlPage = photoIndex === page * maxPhotosPerPage - 1 ? nextPage : page;
+            nextPhotoUrl = `/photos/${ nextPhotoUrlPage }/photoId/${ nextPhotoIndex + 1 }`;
+            prevPhotoUrl = `/photos/${ prevPhotoUrlPage }/photoId/${ prevPhotoIndex + 1 }`;
+        }
 
         return (
             <div>
@@ -72,6 +91,8 @@ class Photos extends React.Component<Props, State> {
 
                 <PhotoBigSize
                     photo={ photo }
+                    prevPhotoUrl={ prevPhotoUrl }
+                    nextPhotoUrl={ nextPhotoUrl }
                     onOuterAreaClick={ this.onOuterAreaClick }
                 />
             </div>
