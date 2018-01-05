@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { match } from 'react-router';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import PhotosComponent from '../../components/photos/Photos';
 import { photoActionCreators } from '../../actions/photos';
 import Photo from '../../store/Photo';
@@ -15,6 +16,7 @@ interface PhotosRouteParams {
 
 interface Props {
     loadPhotos: () => void;
+    backToPhotosPage: (page: number) => void;
     photoData: Photo[];
     match: match<PhotosRouteParams>;
 }
@@ -24,6 +26,8 @@ interface State {}
 class Photos extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
+
+        this.onOuterAreaClick = this.onOuterAreaClick.bind(this);
     }
 
     componentWillMount() {
@@ -32,11 +36,22 @@ class Photos extends React.Component<Props, State> {
 
     static maxPhotosPerPage = 50;
 
+    onOuterAreaClick() {
+        this.props.backToPhotosPage(this.getCurrentPage());
+    }
+
+    getCurrentPage(): number {
+        const { params } = this.props.match;
+        const page = params.page ? parseInt(params.page) : 1;
+
+        return page;
+    }
+
     public render() {
         const { photoData } = this.props;
         const { params } = this.props.match;
 
-        const page = params.page ? parseInt(params.page) : 1;
+        const page = this.getCurrentPage();
 
         const photosToRender = photoData.slice(Photos.maxPhotosPerPage * (page - 1),
             Photos.maxPhotosPerPage * page);
@@ -55,7 +70,10 @@ class Photos extends React.Component<Props, State> {
                     page={ page }
                     maxPhotosPerPage={ Photos.maxPhotosPerPage } />
 
-                <PhotoBigSize photo={ photo }/>
+                <PhotoBigSize
+                    photo={ photo }
+                    onOuterAreaClick={ this.onOuterAreaClick }
+                />
             </div>
         );
     }
@@ -66,6 +84,9 @@ export default connect(
     (dispatch) => ({
         loadPhotos: () => {
             dispatch(photoActionCreators.loadPhotos());
+        },
+        backToPhotosPage: (page: number) => {
+            dispatch(push(`/photos/${page}`));
         }
     })
 )(Photos);
