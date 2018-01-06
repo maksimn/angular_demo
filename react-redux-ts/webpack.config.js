@@ -1,5 +1,8 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack');
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const clientDevBuild = {
     entry: path.resolve(__dirname, 'src/client/index.tsx'),
@@ -14,14 +17,19 @@ const clientDevBuild = {
         extensions: [ '.tsx', '.ts', '.js' ]
     },
     output: {
-        filename: "index.js",
+        filename: isProd ? "index.min.js" : "index.js",
         path: path.resolve(__dirname, 'dist')
     },
     devtool: "inline-source-map",
-    watch: true,
+    watch: !isProd,
     watchOptions: {
         aggregateTimeout: 200
-    }
+    },
+    plugins: isProd ? [
+        new webpack.optimize.UglifyJsPlugin({
+          compress: { warnings: false }
+        })
+    ] : []
 };
 
 const serverDevBuild = {
@@ -48,7 +56,7 @@ const serverDevBuild = {
         devtoolModuleFilenameTemplate: '[absolute-resource-path]'
     },
     devtool: "inline-source-map",
-    watch: true,
+    watch: !isProd,
     watchOptions: {
         aggregateTimeout: 200
     }
