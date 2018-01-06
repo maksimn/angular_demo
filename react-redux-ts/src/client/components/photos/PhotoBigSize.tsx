@@ -12,33 +12,34 @@ interface Props {
 const PhotoBigSize: React.StatelessComponent<Props> = props => {
     const { photo, prevPhoto, nextPhoto } = props;
 
-    if (!photo) {
+    if (!photo || !prevPhoto || !nextPhoto) {
        return null;
     }
 
-    const url = photo ? photo.url : '';
-    const title = photo ? photo.title : '';
+    const { url, title } = photo;
 
     const onOuterAreaClick = () => {
         props.onOuterAreaClick();
     };
 
-    return <div>
-        <div
-            className="photo-bigsize__shadow"
-            onClick={onOuterAreaClick}>
-        </div>
-        <div className="photo-bigsize">
-            <img src={url} />
-            <div className="photo-bigsize__title">
-                <Link className="photo-bigsize__prev-photo-link btn btn-default"
-                    to={ prevPhoto ? `/photos/${prevPhoto.page}/photoId/${prevPhoto.id}` : '' }>&lt;</Link>
-                {title}
-                <Link className="photo-bigsize__next-photo-link btn btn-default"
-                    to={ nextPhoto ? `/photos/${nextPhoto.page}/photoId/${nextPhoto.id}` : '' }>&gt;</Link>
+    return (
+        <div>
+            <div
+                className="photo-bigsize__shadow"
+                onClick={onOuterAreaClick}>
+            </div>
+            <div className="photo-bigsize">
+                <img src={url} />
+                <div className="photo-bigsize__title">
+                    <Link className="photo-bigsize__prev-photo-link btn btn-default"
+                        to={`/photos/${prevPhoto.page}/photoId/${prevPhoto.id}`}>&lt;</Link>
+                    {title}
+                    <Link className="photo-bigsize__next-photo-link btn btn-default"
+                        to={`/photos/${nextPhoto.page}/photoId/${nextPhoto.id}`}>&gt;</Link>
+                </div>
             </div>
         </div>
-    </div>;
+    );
 };
 
 export default PhotoBigSize;
