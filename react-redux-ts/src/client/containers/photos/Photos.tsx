@@ -54,20 +54,18 @@ class Photos extends React.Component<Props, State> {
         const photosToRender = photoData.slice(MAX_PHOTOS_ON_PAGE * (page - 1), MAX_PHOTOS_ON_PAGE * page);
 
         let photo: Photo | undefined;
-        let prevPhotoUrl = '';
-        let nextPhotoUrl = '';
+        let prevPhoto: Photo | undefined;
+        let nextPhoto: Photo | undefined;
 
         if (params.photoId) {
             const photoIndex = parseInt(params.photoId) - 1;
             const lastPhotoIndex = photoData.length - 1;
             const prevPhotoIndex = photoIndex > 0 ? photoIndex - 1 : lastPhotoIndex;
             const nextPhotoIndex = photoIndex < lastPhotoIndex ? photoIndex + 1 : 0;
-            const prevPhoto = photoData[prevPhotoIndex];
-            const nextPhoto = photoData[nextPhotoIndex];
 
             photo = photoData[photoIndex];
-            prevPhotoUrl = `/photos/${prevPhoto.page}/photoId/${prevPhoto.id}`;
-            nextPhotoUrl = `/photos/${nextPhoto.page}/photoId/${nextPhoto.id}`;
+            prevPhoto = photoData[prevPhotoIndex];
+            nextPhoto = photoData[nextPhotoIndex];
         }
 
         return (
@@ -82,8 +80,8 @@ class Photos extends React.Component<Props, State> {
 
                 <PhotoBigSize
                     photo={ photo }
-                    prevPhotoUrl={ prevPhotoUrl }
-                    nextPhotoUrl={ nextPhotoUrl }
+                    prevPhoto={ prevPhoto }
+                    nextPhoto={ nextPhoto }
                     onOuterAreaClick={ this.onOuterAreaClick }
                 />
             </div>
