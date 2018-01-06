@@ -10,13 +10,14 @@ interface Props {
 }
 
 const PhotoBigSize: React.StatelessComponent<Props> = props => {
-    if (!props.photo) {
+    const { photo, prevPhotoUrl, nextPhotoUrl } = props;
+
+    if (!photo) {
        return null;
     }
 
-    const url = props.photo ? props.photo.url : '';
-    const title = props.photo ? props.photo.title : '';
-    const { prevPhotoUrl, nextPhotoUrl } = props;
+    const url = photo ? photo.url : '';
+    const title = photo ? photo.title : '';
 
     const onOuterAreaClick = () => {
         props.onOuterAreaClick();

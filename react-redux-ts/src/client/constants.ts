@@ -1,0 +1,1 @@
+export const MAX_PHOTOS_ON_PAGE = 50;

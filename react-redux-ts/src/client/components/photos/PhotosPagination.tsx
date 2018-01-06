@@ -3,15 +3,13 @@ import { Link } from 'react-router-dom';
 
 interface Props {
     page: number;
-    maxPhotosPerPage: number;
-    numPhotos: number;
+    numPages: number;
 }
 
 const PhotosPagination: React.StatelessComponent<Props> = props => {
-    const { page, maxPhotosPerPage, numPhotos } = props;
-    const numPaginationLinks = Math.ceil(numPhotos / maxPhotosPerPage);
+    const { page, numPages } = props;
 
-    const links = Array.apply(null, Array(numPaginationLinks)).map((e: any, i: number) => (
+    const links = Array.apply(null, Array(numPages)).map((e: any, i: number) => (
         <Link
             key={i}
             className={`pagination-link ${i + 1 === page ? 'active' : ''}`}

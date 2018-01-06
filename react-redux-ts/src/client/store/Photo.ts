@@ -4,4 +4,5 @@ export default interface Photo {
     title: string;
     url: string;
     thumbnailUrl: string;
+    page?: number; // номер страницы, на которой расположено это фото
 }

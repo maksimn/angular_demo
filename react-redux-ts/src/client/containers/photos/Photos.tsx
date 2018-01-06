@@ -8,6 +8,7 @@ import Photo from '../../store/Photo';
 import { AppState } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
+import { MAX_PHOTOS_ON_PAGE } from '../../constants';
 
 interface PhotosRouteParams {
     page?: string;
@@ -34,8 +35,6 @@ class Photos extends React.Component<Props, State> {
         this.props.loadPhotos();
     }
 
-    static maxPhotosPerPage = 50;
-
     onOuterAreaClick() {
         this.props.backToPhotosPage(this.getCurrentPage());
     }
@@ -47,43 +46,28 @@ class Photos extends React.Component<Props, State> {
         return page;
     }
 
-    getNextPhotoUrl(photoId: string, page: number, maxPhotosPerPage: number, numPhotos: number): string {
-        if (!photoId) return '';
-
-        const photoIndex = parseInt(photoId) - 1;
-        const pagesQty = Math.ceil(numPhotos / maxPhotosPerPage);
-        const nextPage = page < pagesQty ? page + 1 : 1;
-        const nextPhotoIndex = photoIndex === numPhotos - 1 ? 0 : photoIndex + 1;
-        const nextPhotoUrlPage = photoIndex === page * maxPhotosPerPage - 1 ? nextPage : page;
-        return `/photos/${ nextPhotoUrlPage }/photoId/${ nextPhotoIndex + 1 }`;
-    }
-
-    getPrevPhotoUrl(photoId: string, page: number, maxPhotosPerPage: number, numPhotos: number): string {
-        if (!photoId) return '';
-
-        const photoIndex = parseInt(photoId) - 1;
-        const pagesQty = Math.ceil(numPhotos / maxPhotosPerPage);
-        const prevPage = page > 1 ? page - 1 : pagesQty;
-        const prevPhotoIndex = photoIndex === 0 ? numPhotos - 1 : photoIndex - 1;
-        const prevPhotoUrlPage = photoIndex === (page - 1) * maxPhotosPerPage ? prevPage : page;
-        return `/photos/${prevPhotoUrlPage}/photoId/${prevPhotoIndex + 1}`;
-    }
-
     public render() {
         const { photoData } = this.props;
         const { params } = this.props.match;
-        const { maxPhotosPerPage } = Photos;
         const page = this.getCurrentPage();
-        const numPhotos = photoData.length;
-        const photosToRender = photoData.slice(maxPhotosPerPage * (page - 1), maxPhotosPerPage * page);
+        const numPages = Math.ceil(photoData.length / MAX_PHOTOS_ON_PAGE);
+        const photosToRender = photoData.slice(MAX_PHOTOS_ON_PAGE * (page - 1), MAX_PHOTOS_ON_PAGE * page);
 
-        let photoId = '';
-        let photo: Photo | undefined = undefined;
+        let photo: Photo | undefined;
+        let prevPhotoUrl = '';
+        let nextPhotoUrl = '';
 
         if (params.photoId) {
-            photoId = params.photoId;
-            const photoIndex = parseInt(photoId) - 1;
+            const photoIndex = parseInt(params.photoId) - 1;
+            const lastPhotoIndex = photoData.length - 1;
+            const prevPhotoIndex = photoIndex > 0 ? photoIndex - 1 : lastPhotoIndex;
+            const nextPhotoIndex = photoIndex < lastPhotoIndex ? photoIndex + 1 : 0;
+            const prevPhoto = photoData[prevPhotoIndex];
+            const nextPhoto = photoData[nextPhotoIndex];
+
             photo = photoData[photoIndex];
+            prevPhotoUrl = `/photos/${prevPhoto.page}/photoId/${prevPhoto.id}`;
+            nextPhotoUrl = `/photos/${nextPhoto.page}/photoId/${nextPhoto.id}`;
         }
 
         return (
@@ -93,14 +77,13 @@ class Photos extends React.Component<Props, State> {
                     photoData={ photosToRender } />
 
                 <PhotosPagination
-                    numPhotos={ this.props.photoData.length }
-                    page={ page }
-                    maxPhotosPerPage={ Photos.maxPhotosPerPage } />
+                    numPages={ numPages }
+                    page={ page }/>
 
                 <PhotoBigSize
                     photo={ photo }
-                    prevPhotoUrl={ this.getPrevPhotoUrl(photoId, page, maxPhotosPerPage, numPhotos) }
-                    nextPhotoUrl={ this.getNextPhotoUrl(photoId, page, maxPhotosPerPage, numPhotos) }
+                    prevPhotoUrl={ prevPhotoUrl }
+                    nextPhotoUrl={ nextPhotoUrl }
                     onOuterAreaClick={ this.onOuterAreaClick }
                 />
             </div>
