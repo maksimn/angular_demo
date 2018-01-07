@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { AppState } from '../../store/AppState';
 import SearchBlockComponent from '../../components/photos/SearchBlock';
 import Photo from '../../store/Photo';
+import { photoActionCreators } from '../../actions/photos';
 
 interface Props {
-    photoData: Photo[];
+    setPhotosSearchParam: (searchParam: string) => void;
 }
 
 interface State {}
@@ -18,7 +19,7 @@ class SearchBlock extends React.Component<Props, State> {
     }
 
     onSearchParamChange(searchParam: string) {
-
+        this.props.setPhotosSearchParam(searchParam);
     }
 
     render() {
@@ -28,5 +29,10 @@ class SearchBlock extends React.Component<Props, State> {
 }
 
 export default connect(
-    (state: AppState) => ({ photoData: state.photos.data })
+    undefined,
+    (dispatch) => ({
+        setPhotosSearchParam: (searchParam: string) => {
+            dispatch(photoActionCreators.setPhotosSearchParam(searchParam));
+        }
+    })
 )(SearchBlock);

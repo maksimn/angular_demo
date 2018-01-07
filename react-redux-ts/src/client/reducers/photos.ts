@@ -1,13 +1,17 @@
 import { Reducer } from 'redux';
-import { PhotosState } from '../store/AppState';
+import { PhotosState, PhotosRenderMode } from '../store/AppState';
 import {
     LOAD_PHOTOS_DATA,
     LOAD_PHOTOS_DATA_SUCCESS,
-    LOAD_PHOTOS_DATA_ERROR
+    LOAD_PHOTOS_DATA_ERROR,
+    SET_PHOTOS_SEARCH_PARAM
 } from '../actions/constants';
 
 const initState: PhotosState = {
-    data: []
+    data: [],
+    favoriteData: [],
+    filteredData: [],
+    photosRenderMode: PhotosRenderMode.all
 };
 
 const photos: Reducer<PhotosState> = (state = initState, action) => {
@@ -28,6 +32,25 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
                 ...state,
                 data: initState.data
             };
+        case SET_PHOTOS_SEARCH_PARAM: {
+            const searchParam = action.payload.trim();
+
+            if (searchParam) {
+                const filteredData = state.data.filter(photo =>
+                    photo.title.toLowerCase().indexOf(searchParam) !== -1);
+
+                return {
+                    ...state,
+                    photosRenderMode: PhotosRenderMode.filtered,
+                    filteredData
+                };
+            }
+
+            return {
+                ...state,
+                photosRenderMode: PhotosRenderMode.all
+            };
+        }
         default:
             return state;
     }

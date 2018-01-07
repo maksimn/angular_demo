@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import PhotosComponent from '../../components/photos/Photos';
 import { photoActionCreators } from '../../actions/photos';
 import Photo from '../../store/Photo';
-import { AppState } from '../../store/AppState';
+import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
 import PhotoDataManager from '../../utils/PhotoDataManager';
@@ -19,7 +19,7 @@ interface PhotosRouteParams {
 interface Props {
     loadPhotos: () => void;
     backToPhotosPage: (page: number) => void;
-    photoData: Photo[];
+    photos: PhotosState;
     match: match<PhotosRouteParams>;
 }
 
@@ -48,7 +48,16 @@ class Photos extends React.Component<Props, State> {
     }
 
     public render() {
-        const photoDataManager = new PhotoDataManager(this.props.photoData);
+        const renderMode = this.props.photos.photosRenderMode;
+        let photoData: Photo[] = [];
+
+        if (renderMode === PhotosRenderMode.all) {
+            photoData = this.props.photos.data;
+        } else if (renderMode === PhotosRenderMode.filtered) {
+            photoData = this.props.photos.filteredData;
+        }
+
+        const photoDataManager = new PhotoDataManager(this.props.photos.data);
         const { params } = this.props.match;
         const page = this.getCurrentPage();
         const numPages = photoDataManager.numPages;
@@ -83,7 +92,7 @@ class Photos extends React.Component<Props, State> {
 }
 
 export default connect(
-    (state: AppState) => ({ photoData: state.photos.data }),
+    (state: AppState) => ({ photos: state.photos }),
     (dispatch) => ({
         loadPhotos: () => {
             dispatch(photoActionCreators.loadPhotos());

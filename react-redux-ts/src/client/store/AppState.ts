@@ -8,8 +8,17 @@ export type AuthState = {
     isAuthRequestPending: boolean;
 };
 
+export enum PhotosRenderMode {
+    all = 'all',
+    filtered = 'filtered',
+    favorite = 'favorite'
+}
+
 export interface PhotosState {
     data: Photo[];
+    filteredData: Photo[];
+    favoriteData: Photo[];
+    photosRenderMode: PhotosRenderMode;
 }
 
 export interface AppState {
