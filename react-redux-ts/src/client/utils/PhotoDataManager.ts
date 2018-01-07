@@ -16,8 +16,8 @@ export default class PhotoDataManager {
         return Math.ceil(this.photoData.length / MAX_PHOTOS_ON_PAGE);
     }
 
-    getPhotosToRenderOnPage(pageIndex: number): Photo[] {
-        return this.photoData.slice(MAX_PHOTOS_ON_PAGE * (pageIndex - 1), MAX_PHOTOS_ON_PAGE * pageIndex);
+    getPhotosToRenderOnPage(page: number): Photo[] {
+        return this.photoData.slice(MAX_PHOTOS_ON_PAGE * (page - 1), MAX_PHOTOS_ON_PAGE * page);
     }
 
     getPhoto(photoId: number): Photo | undefined {
