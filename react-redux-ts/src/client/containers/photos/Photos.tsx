@@ -8,7 +8,7 @@ import Photo from '../../store/Photo';
 import { AppState } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
-import { MAX_PHOTOS_ON_PAGE } from '../../constants';
+import PhotoDataManager from '../../utils/PhotoDataManager';
 
 interface PhotosRouteParams {
     page?: string;
@@ -47,26 +47,16 @@ class Photos extends React.Component<Props, State> {
     }
 
     public render() {
-        const { photoData } = this.props;
+        const photoDataManager = new PhotoDataManager(this.props.photoData);
         const { params } = this.props.match;
         const page = this.getCurrentPage();
-        const numPages = Math.ceil(photoData.length / MAX_PHOTOS_ON_PAGE);
-        const photosToRender = photoData.slice(MAX_PHOTOS_ON_PAGE * (page - 1), MAX_PHOTOS_ON_PAGE * page);
+        const numPages = photoDataManager.numPages;
+        const photosToRender = photoDataManager.getPhotosToRenderOnPage(page);
 
-        let photo: Photo | undefined;
-        let prevPhoto: Photo | undefined;
-        let nextPhoto: Photo | undefined;
-
-        if (params.photoId) {
-            const photoIndex = parseInt(params.photoId) - 1;
-            const lastPhotoIndex = photoData.length - 1;
-            const prevPhotoIndex = photoIndex > 0 ? photoIndex - 1 : lastPhotoIndex;
-            const nextPhotoIndex = photoIndex < lastPhotoIndex ? photoIndex + 1 : 0;
-
-            photo = photoData[photoIndex];
-            prevPhoto = photoData[prevPhotoIndex];
-            nextPhoto = photoData[nextPhotoIndex];
-        }
+        const photoId = parseInt(params.photoId ? params.photoId : '');
+        const photo = photoDataManager.getPhoto(photoId);
+        const prevPhoto = photoDataManager.getPrevPhoto(photoId);
+        const nextPhoto = photoDataManager.getNextPhoto(photoId);
 
         return (
             <div>
