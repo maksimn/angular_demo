@@ -4,14 +4,21 @@ import {
     LOAD_PHOTOS_DATA,
     LOAD_PHOTOS_DATA_SUCCESS,
     LOAD_PHOTOS_DATA_ERROR,
-    SET_PHOTOS_SEARCH_PARAM
+    SET_PHOTOS_SEARCH_PARAM,
+    UPDATE_PHOTOS_STATE
 } from '../actions/constants';
 
 const initState: PhotosState = {
     data: [],
     favoriteData: [],
     filteredData: [],
-    photosRenderMode: PhotosRenderMode.all
+    photosRenderMode: PhotosRenderMode.all,
+    searchParam: ''
+};
+
+const getFilteredData = (state: PhotosState) => {
+    return state.data.filter(photo =>
+        photo.title.toLowerCase().indexOf(state.searchParam) !== -1);
 };
 
 const photos: Reducer<PhotosState> = (state = initState, action) => {
@@ -41,14 +48,22 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
 
                 return {
                     ...state,
+                    filteredData,
                     photosRenderMode: PhotosRenderMode.filtered,
-                    filteredData
+                    searchParam
                 };
             }
 
             return {
                 ...state,
-                photosRenderMode: PhotosRenderMode.all
+                photosRenderMode: PhotosRenderMode.all,
+                searchParam
+            };
+        }
+        case UPDATE_PHOTOS_STATE: {
+            return {
+                ...state,
+                filteredData: getFilteredData(state)
             };
         }
         default:

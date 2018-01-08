@@ -7,6 +7,7 @@ export function* loadPhotos() {
     try {
         const photos = yield call(loadPhotoData);
         yield put(photoActionCreators.loadPhotosSuccess(photos));
+        yield put(photoActionCreators.updatePhotosState());
     } catch {
         yield put(photoActionCreators.loadPhotosError());
     }

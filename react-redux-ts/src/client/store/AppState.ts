@@ -19,6 +19,7 @@ export interface PhotosState {
     filteredData: Photo[];
     favoriteData: Photo[];
     photosRenderMode: PhotosRenderMode;
+    searchParam: string;
 }
 
 export interface AppState {

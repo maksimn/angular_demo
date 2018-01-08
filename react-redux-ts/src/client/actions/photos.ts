@@ -1,5 +1,5 @@
 import { LOAD_PHOTOS_DATA, LOAD_PHOTOS_DATA_SUCCESS, LOAD_PHOTOS_DATA_ERROR,
-    SET_PHOTOS_SEARCH_PARAM } from './constants';
+    SET_PHOTOS_SEARCH_PARAM, UPDATE_PHOTOS_STATE } from './constants';
 import Photo from '../store/Photo';
 
 export interface PhotoActions {
@@ -17,6 +17,9 @@ export interface PhotoActions {
         type: typeof SET_PHOTOS_SEARCH_PARAM;
         payload: string;
     };
+    UPDATE_PHOTOS_STATE: {
+        type: typeof UPDATE_PHOTOS_STATE;
+    };
 }
 
 export const photoActionCreators = {
@@ -31,5 +34,8 @@ export const photoActionCreators = {
     setPhotosSearchParam: (searchParam: string): PhotoActions[typeof SET_PHOTOS_SEARCH_PARAM] => ({
         type: SET_PHOTOS_SEARCH_PARAM,
         payload: searchParam
+    }),
+    updatePhotosState: (): PhotoActions[typeof UPDATE_PHOTOS_STATE] => ({
+        type: UPDATE_PHOTOS_STATE
     })
 };
