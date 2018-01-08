@@ -31,7 +31,7 @@ class SearchBlock extends React.Component<SearchBlockProps, State> {
     }
 
     onSearchParamChange(searchParam: string) {
-        const searchParamTrimmed = searchParam.trim(),
+        const searchParamTrimmed = searchParam,
             { setPhotosSearchParam, updatePhotosState, history } = this.props;
 
         setPhotosSearchParam(searchParamTrimmed);
