@@ -7,6 +7,7 @@ import { AppState } from '../../store/AppState';
 
 interface SearchBlockProps {
     setPhotosSearchParam: (searchParam: string) => void;
+    updatePhotosState: () => void;
     history: any;
     match: any;
     searchParam: string;
@@ -31,13 +32,14 @@ class SearchBlock extends React.Component<SearchBlockProps, State> {
 
     onSearchParamChange(searchParam: string) {
         const searchParamTrimmed = searchParam.trim(),
-            { setPhotosSearchParam, history } = this.props;
+            { setPhotosSearchParam, updatePhotosState, history } = this.props;
+
+        setPhotosSearchParam(searchParamTrimmed);
+        updatePhotosState();
 
         if (searchParamTrimmed) {
-            setPhotosSearchParam(searchParamTrimmed);
             history.push(`/photos/searching/${searchParamTrimmed}`);
         } else {
-            setPhotosSearchParam('');
             history.push('/photos');
         }
     }
@@ -54,6 +56,9 @@ const SearchBlockConnected = connect(
     (dispatch) => ({
         setPhotosSearchParam: (searchParam: string) => {
             dispatch(photoActionCreators.setPhotosSearchParam(searchParam));
+        },
+        updatePhotosState: () => {
+            dispatch(photoActionCreators.updatePhotosState());
         }
     })
 )(SearchBlock);

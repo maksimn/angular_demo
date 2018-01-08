@@ -17,8 +17,7 @@ const initState: PhotosState = {
 };
 
 const getFilteredData = (state: PhotosState) => {
-    return state.data.filter(photo =>
-        photo.title.toLowerCase().indexOf(state.searchParam) !== -1);
+    return state.data.filter(photo => photo.title.toLowerCase().indexOf(state.searchParam) !== -1);
 };
 
 const photos: Reducer<PhotosState> = (state = initState, action) => {
@@ -40,30 +39,23 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
                 data: initState.data
             };
         case SET_PHOTOS_SEARCH_PARAM: {
-            const searchParam = action.payload;
-
-            if (searchParam) {
-                const filteredData = state.data.filter(photo =>
-                    photo.title.toLowerCase().indexOf(searchParam) !== -1);
-
+            return {
+                ...state,
+                searchParam: action.payload
+            };
+        }
+        case UPDATE_PHOTOS_STATE: {
+            if (state.searchParam) {
                 return {
                     ...state,
-                    filteredData,
-                    photosRenderMode: PhotosRenderMode.filtered,
-                    searchParam
+                    filteredData: getFilteredData(state),
+                    photosRenderMode: PhotosRenderMode.filtered
                 };
             }
 
             return {
                 ...state,
-                photosRenderMode: PhotosRenderMode.all,
-                searchParam
-            };
-        }
-        case UPDATE_PHOTOS_STATE: {
-            return {
-                ...state,
-                filteredData: getFilteredData(state)
+                photosRenderMode: PhotosRenderMode.all
             };
         }
         default:
