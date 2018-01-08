@@ -4,7 +4,8 @@ import {
     LOAD_PHOTOS_DATA,
     LOAD_PHOTOS_DATA_SUCCESS,
     LOAD_PHOTOS_DATA_ERROR,
-    SET_PHOTOS_SEARCH_PARAM
+    SET_PHOTOS_SEARCH_PARAM,
+    RESET_PHOTOS_SEARCH_PARAM
 } from '../actions/constants';
 
 const initState: PhotosState = {
@@ -33,7 +34,7 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
                 data: initState.data
             };
         case SET_PHOTOS_SEARCH_PARAM: {
-            const searchParam = action.payload.trim();
+            const searchParam = action.payload;
 
             if (searchParam) {
                 const filteredData = state.data.filter(photo =>
@@ -46,6 +47,12 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
                 };
             }
 
+            return {
+                ...state,
+                photosRenderMode: PhotosRenderMode.all
+            };
+        }
+        case RESET_PHOTOS_SEARCH_PARAM: {
             return {
                 ...state,
                 photosRenderMode: PhotosRenderMode.all

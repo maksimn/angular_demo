@@ -7,6 +7,8 @@ import { photoActionCreators } from '../../actions/photos';
 
 interface Props {
     setPhotosSearchParam: (searchParam: string) => void;
+    resetPhotosSearchParam: () => void;
+    history: any;
 }
 
 interface State {}
@@ -19,7 +21,15 @@ class SearchBlock extends React.Component<Props, State> {
     }
 
     onSearchParamChange(searchParam: string) {
-        this.props.setPhotosSearchParam(searchParam);
+        const searchParamTrimmed = searchParam.trim();
+
+        if (searchParamTrimmed) {
+            this.props.setPhotosSearchParam(searchParamTrimmed);
+            this.props.history.push(`/photos/searching/${searchParamTrimmed}`);
+        } else {
+            this.props.resetPhotosSearchParam();
+            this.props.history.push('/photos');
+        }
     }
 
     render() {
@@ -33,6 +43,9 @@ export default connect(
     (dispatch) => ({
         setPhotosSearchParam: (searchParam: string) => {
             dispatch(photoActionCreators.setPhotosSearchParam(searchParam));
+        },
+        resetPhotosSearchParam: () => {
+            dispatch(photoActionCreators.resetPhotosSearchParam());
         }
     })
 )(SearchBlock);

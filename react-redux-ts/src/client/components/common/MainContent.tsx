@@ -18,6 +18,7 @@ const MainContent = () => (
             <Route exact path="/photos" component={Photos} />
             <Route exact path="/photos/:page" component={Photos} />
             <Route exact path="/photos/:page/photoId/:photoId" component={Photos} />
+            <Route exact path="/photos/searching/:searchParam" component={Photos} />
             <Route exact path="/profile" component={Profile} />
             <Route path="*" component={ErrorView}/>
         </Switch>

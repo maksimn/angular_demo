@@ -15,6 +15,7 @@ import SearchBlock from '../../containers/photos/SearchBlock';
 interface PhotosRouteParams {
     page?: string;
     photoId?: string;
+    searchParam?: string;
 }
 
 interface Props {
@@ -22,6 +23,7 @@ interface Props {
     backToPhotosPage: (page: number) => void;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
+    history: any;
 }
 
 interface State {}
@@ -64,7 +66,7 @@ class Photos extends React.Component<Props, State> {
 
         return (
             <div>
-                <SearchBlock />
+                <SearchBlock history={ this.props.history } />
 
                 <PhotosComponent
                     page={ page }
