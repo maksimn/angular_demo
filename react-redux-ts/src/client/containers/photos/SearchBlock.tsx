@@ -1,34 +1,33 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { AppState } from '../../store/AppState';
+import { Route } from 'react-router-dom';
 import SearchBlockComponent from '../../components/photos/SearchBlock';
-import Photo from '../../store/Photo';
 import { photoActionCreators } from '../../actions/photos';
 
-interface Props {
+interface SearchBlockProps {
     setPhotosSearchParam: (searchParam: string) => void;
-    resetPhotosSearchParam: () => void;
     history: any;
 }
 
 interface State {}
 
-class SearchBlock extends React.Component<Props, State> {
-    constructor(props: Props) {
+class SearchBlock extends React.Component<SearchBlockProps, State> {
+    constructor(props: SearchBlockProps) {
         super(props);
 
         this.onSearchParamChange = this.onSearchParamChange.bind(this);
     }
 
     onSearchParamChange(searchParam: string) {
-        const searchParamTrimmed = searchParam.trim();
+        const searchParamTrimmed = searchParam.trim(),
+            { setPhotosSearchParam, history } = this.props;
 
         if (searchParamTrimmed) {
-            this.props.setPhotosSearchParam(searchParamTrimmed);
-            this.props.history.push(`/photos/searching/${searchParamTrimmed}`);
+            setPhotosSearchParam(searchParamTrimmed);
+            history.push(`/photos/searching/${searchParamTrimmed}`);
         } else {
-            this.props.resetPhotosSearchParam();
-            this.props.history.push('/photos');
+            setPhotosSearchParam('');
+            history.push('/photos');
         }
     }
 
@@ -38,14 +37,13 @@ class SearchBlock extends React.Component<Props, State> {
     }
 }
 
-export default connect(
+const SearchBlockConnected = connect(
     undefined,
     (dispatch) => ({
         setPhotosSearchParam: (searchParam: string) => {
             dispatch(photoActionCreators.setPhotosSearchParam(searchParam));
-        },
-        resetPhotosSearchParam: () => {
-            dispatch(photoActionCreators.resetPhotosSearchParam());
         }
     })
 )(SearchBlock);
+
+export default () => (<Route path="/photos" component={ SearchBlockConnected } />);
