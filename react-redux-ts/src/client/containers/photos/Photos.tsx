@@ -49,8 +49,10 @@ class Photos extends React.Component<Props, State> {
     }
 
     public render() {
-        const renderMode = this.props.photos.photosRenderMode;
-        const photoData = PhotoDataFactory(this.props.photos);
+        const photosState = this.props.photos;
+        const { searchParam } = photosState;
+        const renderMode = photosState.photosRenderMode;
+        const photoData = PhotoDataFactory(photosState);
         const photoDataManager = new PhotoDataManager(photoData);
         const { params } = this.props.match;
         const page = this.getCurrentPage();
@@ -72,7 +74,9 @@ class Photos extends React.Component<Props, State> {
 
                 <PhotosPagination
                     numPages={ numPages }
-                    page={ page }/>
+                    page={ page }
+                    renderMode={ renderMode }
+                    searchParam={ searchParam } />
 
                 <PhotoBigSize
                     photo={ photo }

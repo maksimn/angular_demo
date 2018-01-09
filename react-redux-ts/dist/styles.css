@@ -14,6 +14,13 @@
     margin: 15px;
 }
 
+.photos-pagination {
+    background-color: #eee;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
 .pagination-link {
     margin: 5px;
     display: inline-block;
@@ -56,4 +63,8 @@
 .search-block {
     width: 300px;
     margin-left: 30px;
+}
+
+.placeholder-under-photo-thumbnails {
+    height: 150px;
 }

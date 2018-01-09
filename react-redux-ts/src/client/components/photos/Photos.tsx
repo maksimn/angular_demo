@@ -20,6 +20,7 @@ const Photos: React.StatelessComponent<Props> = props => {
 
     return <div>
         { thumbnails }
+        <div className="placeholder-under-photo-thumbnails"></div>
     </div>;
 };
 

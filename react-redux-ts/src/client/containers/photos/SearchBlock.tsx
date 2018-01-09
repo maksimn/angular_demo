@@ -67,5 +67,7 @@ export default () => (
     <Switch>
         <Route exact path="/photos" component={ SearchBlockConnected } />
         <Route exact path="/photos/searching/:searchParam" component={ SearchBlockConnected } />
+        <Route exact path="/photos/searching/:searchParam/:page" component={ SearchBlockConnected } />
+        <Route path="/photos"  component={ SearchBlockConnected } />
     </Switch>
 );
