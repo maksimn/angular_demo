@@ -21,15 +21,13 @@ app.get('/auth', (req, res) => {
         const repository = new Repository();
 
         repository.FindUserByToken(authToken).then(user => {
-            if (user) {
-                res.send({
-                    id: user.Id,
-                    name: user.Name,
-                    token: authToken
-                });
-            } else {
-                res.status(400).send();
-            }
+            res.send({
+                id: user.Id,
+                name: user.Name,
+                token: authToken
+            });
+        }).catch(err => {
+            res.status(400).send();
         });
     } else {
         res.status(400).send();

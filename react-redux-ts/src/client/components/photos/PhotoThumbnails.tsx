@@ -1,21 +1,25 @@
 import * as React from 'react';
 import PhotoThumbnail from './PhotoThumbnail';
 import Photo from '../../store/Photo';
+import { PhotosRenderMode } from '../../store/AppState';
 
 interface Props {
     photoData: Photo[];
     page: number;
+    renderMode: PhotosRenderMode;
+    searchParam?: string;
 }
 
-const Photos: React.StatelessComponent<Props> = props => {
-    const { page } = props;
+const PhotoThumbnails: React.StatelessComponent<Props> = props => {
+    const { page, renderMode } = props;
 
     const thumbnails = props.photoData.map((photo, i) => (
         <PhotoThumbnail key={ i }
                         thumbnailUrl={ photo.thumbnailUrl }
                         title={ photo.title }
                         page={ page }
-                        photoId={ photo.id } />
+                        photoId={ photo.id }
+                        renderMode={ renderMode } />
     ));
 
     return <div>
@@ -24,4 +28,4 @@ const Photos: React.StatelessComponent<Props> = props => {
     </div>;
 };
 
-export default Photos;
+export default PhotoThumbnails;

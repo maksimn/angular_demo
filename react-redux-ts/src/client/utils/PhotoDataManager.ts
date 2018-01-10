@@ -21,7 +21,9 @@ export default class PhotoDataManager {
     }
 
     getPhoto(photoId: number): Photo | undefined {
-        return photoId ? this.photoData[photoId - 1] : undefined;
+        const photo = this.photoData.find((ph: Photo) => ph.id === photoId);
+
+        return photo;
     }
 
     getPrevPhoto(photoId: number): Photo | undefined {

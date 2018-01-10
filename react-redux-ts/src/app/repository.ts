@@ -14,18 +14,16 @@ export default class Repository {
                 reject: (err: Error) => void
         ) => {
             this.FindUserByName(userData.username).then(user => {
-                if (user) {
-                    reject(new Error('Это имя пользователя уже занято'));
-                } else {
-                    const newUser = new User(
-                        Repository.NextUserId(),
-                        userData.username,
-                        userData.password,
-                        ''
-                    );
-                    Repository.users.push(newUser);
-                    resolve(newUser);
-                }
+                reject(new Error('Это имя пользователя уже занято'));
+            }).catch(err => {
+                const newUser = new User(
+                    Repository.NextUserId(),
+                    userData.username,
+                    userData.password,
+                    ''
+                );
+                Repository.users.push(newUser);
+                resolve(newUser);
             });
         });
     }
@@ -49,7 +47,7 @@ export default class Repository {
             }
         }
 
-        return Promise.resolve();
+        return Promise.reject(new Error('The user is not found'));
     }
 
     Authenticate(username: string, password: string): Promise<User> {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { match } from 'react-router';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import PhotosComponent from '../../components/photos/Photos';
+import PhotoThumbnails from '../../components/photos/PhotoThumbnails';
 import { photoActionCreators } from '../../actions/photos';
 import Photo from '../../store/Photo';
 import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
@@ -54,12 +54,13 @@ class Photos extends React.Component<Props, State> {
         const renderMode = photosState.photosRenderMode;
         const photoData = PhotoDataFactory(photosState);
         const photoDataManager = new PhotoDataManager(photoData);
-        const { params } = this.props.match;
+
         const page = this.getCurrentPage();
         const numPages = photoDataManager.numPages;
         const photosToRender = photoDataManager.getPhotosToRenderOnPage(page);
-        const photoId = parseInt(params.photoId ? params.photoId : '');
 
+        const { params } = this.props.match;
+        const photoId = parseInt(params.photoId ? params.photoId : '');
         const photo = photoDataManager.getPhoto(photoId);
         const prevPhoto = photoDataManager.getPrevPhoto(photoId);
         const nextPhoto = photoDataManager.getNextPhoto(photoId);
@@ -68,9 +69,11 @@ class Photos extends React.Component<Props, State> {
             <div>
                 <SearchBlock />
 
-                <PhotosComponent
+                <PhotoThumbnails
                     page={ page }
-                    photoData={ photosToRender } />
+                    photoData={ photosToRender }
+                    searchParam={ searchParam }
+                    renderMode={ renderMode } />
 
                 <PhotosPagination
                     numPages={ numPages }
