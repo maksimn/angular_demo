@@ -1,7 +1,32 @@
 import Photo from '../store/Photo';
 import { PhotosState, PhotosRenderMode } from '../store/AppState';
+import { appendFile } from 'fs';
 
 const MAX_PHOTOS_ON_PAGE = 50;
+
+interface GetThumbnailLinkHref {
+    (page: number, photoId: number, searchParam?: string): string;
+}
+
+const getGetThumbnailLinkHrefAllPhotosMode: GetThumbnailLinkHref =
+        (page: number, photoId: number, searchParam?: string) => {
+    return `/photos/${page}/photoId/${photoId}`;
+};
+
+const getGetThumbnailLinkHrefFilteredMode: GetThumbnailLinkHref =
+        (page: number, photoId: number, searchParam?: string) => {
+    return `/photos/searching/${searchParam}/${page}/photoId/${photoId}`;
+};
+
+const getThumbnailLinkHrefFactory = (renderMode: PhotosRenderMode) => {
+    if (renderMode === PhotosRenderMode.all) {
+        return getGetThumbnailLinkHrefAllPhotosMode;
+    } else if (renderMode === PhotosRenderMode.filtered) {
+        return getGetThumbnailLinkHrefFilteredMode;
+    }
+
+    throw new Error('Not implemented render mode.');
+};
 
 export default class PhotoDataManager {
     private photoData: Photo[];
@@ -11,8 +36,16 @@ export default class PhotoDataManager {
     constructor(photosState: PhotosState) {
         this.photosState = photosState;
         this.photoData = this.photoDataFactory(photosState);
+
+        const getThumbnailLinkHref = getThumbnailLinkHrefFactory(photosState.photosRenderMode);
+
         this.photoData.forEach((photo: Photo, i: number) => {
-            photo.page = Math.floor(i / MAX_PHOTOS_ON_PAGE) + 1; // set page for photo
+            const page = Math.floor(i / MAX_PHOTOS_ON_PAGE) + 1;
+            const photoId = photo.id;
+            const { searchParam } = photosState;
+            const appUrlToPhoto = getThumbnailLinkHref(page, photoId, searchParam);
+
+            photo.appUrlToPhoto = appUrlToPhoto;
         });
     }
 

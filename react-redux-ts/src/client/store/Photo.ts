@@ -4,5 +4,7 @@ export default interface Photo {
     title: string;
     url: string;
     thumbnailUrl: string;
-    page?: number; // номер страницы, на которой расположено это фото
+    appUrlToPhoto: string; // ссылка на большое фото в этом приложении,
+                           // например, /photos/somePage/photoId/somePhotoId или
+                           // /photos/searching/rep/somePage/photoId/somePhotoId
 }

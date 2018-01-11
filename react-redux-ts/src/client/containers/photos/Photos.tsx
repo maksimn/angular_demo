@@ -67,11 +67,7 @@ class Photos extends React.Component<Props, State> {
             <div>
                 <SearchBlock />
 
-                <PhotoThumbnails
-                    page={ page }
-                    photoData={ photosToRender }
-                    searchParam={ searchParam }
-                    renderMode={ renderMode } />
+                <PhotoThumbnails photoData={ photosToRender } />
 
                 <PhotosPagination
                     numPages={ numPages }
