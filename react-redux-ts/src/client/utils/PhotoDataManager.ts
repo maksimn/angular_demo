@@ -1,6 +1,5 @@
 import Photo from '../store/Photo';
 import { PhotosState, PhotosRenderMode } from '../store/AppState';
-import { appendFile } from 'fs';
 
 const MAX_PHOTOS_ON_PAGE = 50;
 
@@ -58,7 +57,7 @@ export default class PhotoDataManager {
             case PhotosRenderMode.filtered:
                 return photosState.filteredData;
             default:
-                return photosState.data;
+                return [];
         }
     }
 

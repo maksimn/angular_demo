@@ -18,7 +18,7 @@ interface PhotosRouteParams {
 
 interface Props {
     loadPhotos: () => void;
-    backToPhotosPage: (page: number) => void;
+    backToPhotosPage: (url: string) => void;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
 }
@@ -37,7 +37,35 @@ class Photos extends React.Component<Props, State> {
     }
 
     onOuterAreaClick() {
-        this.props.backToPhotosPage(this.getCurrentPage());
+        interface RedirectUrl {
+            (page: number, searchParam?: string): string;
+        }
+
+        const redirectUrlAllPhotosMode: RedirectUrl = (page: number, searchParam?: string) => {
+            return `/photos/${page}`;
+        };
+
+        const redirectUrlFilteredPhotosMode: RedirectUrl = (page: number, searchParam?: string) => {
+            return `/photos/searching/${photosState.searchParam}/${page}`;
+        };
+
+        const RedirectUrlFactory = (renderMode: PhotosRenderMode): RedirectUrl => {
+            if (renderMode === PhotosRenderMode.all) {
+                return redirectUrlAllPhotosMode;
+            } else if (renderMode === PhotosRenderMode.filtered) {
+                return redirectUrlFilteredPhotosMode;
+            }
+
+            throw new Error('Not implmented PhotosRenderMode');
+        };
+
+        const photosState = this.props.photos;
+        const page = this.getCurrentPage();
+        const { searchParam } = photosState;
+
+        const redirectUrl = RedirectUrlFactory(photosState.photosRenderMode);
+
+        this.props.backToPhotosPage(redirectUrl(page, searchParam));
     }
 
     getCurrentPage(): number {
@@ -92,8 +120,8 @@ export default connect(
         loadPhotos: () => {
             dispatch(photoActionCreators.loadPhotos());
         },
-        backToPhotosPage: (page: number) => {
-            dispatch(push(`/photos/${page}`));
+        backToPhotosPage: (url: string) => {
+            dispatch(push(url));
         }
     })
 )(Photos);
