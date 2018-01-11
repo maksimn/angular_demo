@@ -11,7 +11,7 @@ interface Props {
 }
 
 const PhotoThumbnails: React.StatelessComponent<Props> = props => {
-    const { page, renderMode } = props;
+    const { page, renderMode, searchParam } = props;
 
     const thumbnails = props.photoData.map((photo, i) => (
         <PhotoThumbnail key={ i }
@@ -19,7 +19,8 @@ const PhotoThumbnails: React.StatelessComponent<Props> = props => {
                         title={ photo.title }
                         page={ page }
                         photoId={ photo.id }
-                        renderMode={ renderMode } />
+                        renderMode={ renderMode }
+                        searchParam={ searchParam } />
     ));
 
     return <div>
