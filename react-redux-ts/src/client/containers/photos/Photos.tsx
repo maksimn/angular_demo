@@ -62,8 +62,8 @@ class Photos extends React.Component<Props, State> {
         const { params } = this.props.match;
         const photoId = parseInt(params.photoId ? params.photoId : '');
         const photo = photoDataManager.getPhoto(photoId);
-        const prevPhoto = photoDataManager.getPrevPhoto(photoId);
-        const nextPhoto = photoDataManager.getNextPhoto(photoId);
+        const prevPhoto = photoDataManager.getPrevPhoto();
+        const nextPhoto = photoDataManager.getNextPhoto();
 
         return (
             <div>

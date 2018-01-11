@@ -4,6 +4,7 @@ const MAX_PHOTOS_ON_PAGE = 50;
 
 export default class PhotoDataManager {
     private photoData: Photo[];
+    private currentPhotoIndex: number = -1;
 
     constructor(photoData: Photo[]) {
         this.photoData = photoData;
@@ -21,27 +22,29 @@ export default class PhotoDataManager {
     }
 
     getPhoto(photoId: number): Photo | undefined {
-        const photo = this.photoData.find((ph: Photo) => ph.id === photoId);
+        this.currentPhotoIndex = this.photoData.findIndex((ph: Photo) => ph.id === photoId);
 
-        return photo;
+        return this.currentPhotoIndex > -1 ? this.photoData[this.currentPhotoIndex] : undefined;
     }
 
-    getPrevPhoto(photoId: number): Photo | undefined {
-        if (!photoId) return undefined;
+    getPrevPhoto(): Photo | undefined {
+        if (this.currentPhotoIndex === -1) {
+            return undefined;
+        }
 
-        const photoIndex = photoId - 1;
         const lastPhotoIndex = this.photoData.length - 1;
-        const prevPhotoIndex = photoIndex > 0 ? photoIndex - 1 : lastPhotoIndex;
+        const prevPhotoIndex = this.currentPhotoIndex > 0 ? this.currentPhotoIndex - 1 : lastPhotoIndex;
 
         return this.photoData[prevPhotoIndex];
     }
 
-    getNextPhoto(photoId: number): Photo | undefined {
-        if (!photoId) return undefined;
+    getNextPhoto(): Photo | undefined {
+        if (this.currentPhotoIndex === -1) {
+            return undefined;
+        }
 
-        const photoIndex = photoId - 1;
         const lastPhotoIndex = this.photoData.length - 1;
-        const nextPhotoIndex = photoIndex < lastPhotoIndex ? photoIndex + 1 : 0;
+        const nextPhotoIndex = this.currentPhotoIndex < lastPhotoIndex ? this.currentPhotoIndex + 1 : 0;
 
         return this.photoData[nextPhotoIndex];
     }
