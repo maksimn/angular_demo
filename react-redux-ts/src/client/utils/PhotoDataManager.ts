@@ -1,16 +1,32 @@
 import Photo from '../store/Photo';
+import { PhotosState, PhotosRenderMode } from '../store/AppState';
 
 const MAX_PHOTOS_ON_PAGE = 50;
 
 export default class PhotoDataManager {
     private photoData: Photo[];
     private currentPhotoIndex: number = -1;
+    private photosState: PhotosState;
 
-    constructor(photoData: Photo[]) {
-        this.photoData = photoData;
+    constructor(photosState: PhotosState) {
+        this.photosState = photosState;
+        this.photoData = this.photoDataFactory(photosState);
         this.photoData.forEach((photo: Photo, i: number) => {
             photo.page = Math.floor(i / MAX_PHOTOS_ON_PAGE) + 1; // set page for photo
         });
+    }
+
+    private photoDataFactory(photosState: PhotosState) {
+        switch (photosState.photosRenderMode) {
+            case PhotosRenderMode.all:
+                return photosState.data;
+            case PhotosRenderMode.favorite:
+                return photosState.favoriteData;
+            case PhotosRenderMode.filtered:
+                return photosState.filteredData;
+            default:
+                return photosState.data;
+        }
     }
 
     get numPages(): number {

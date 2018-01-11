@@ -9,7 +9,6 @@ import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
 import PhotoDataManager from '../../utils/PhotoDataManager';
-import PhotoDataFactory from '../../utils/PhotoDataFactory';
 import SearchBlock from '../../containers/photos/SearchBlock';
 
 interface PhotosRouteParams {
@@ -52,8 +51,7 @@ class Photos extends React.Component<Props, State> {
         const photosState = this.props.photos;
         const { searchParam } = photosState;
         const renderMode = photosState.photosRenderMode;
-        const photoData = PhotoDataFactory(photosState);
-        const photoDataManager = new PhotoDataManager(photoData);
+        const photoDataManager = new PhotoDataManager(photosState);
 
         const page = this.getCurrentPage();
         const numPages = photoDataManager.numPages;
