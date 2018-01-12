@@ -30,10 +30,17 @@ const PhotoBigSize: React.StatelessComponent<Props> = props => {
             </div>
             <div className="photo-bigsize">
                 <img src={url} />
-                <div className="photo-bigsize__title">
+                <div className="photo-bigsize__controls-block">
                     <Link className="photo-bigsize__prev-photo-link btn btn-default"
                         to={ prevPhoto.appUrlToPhoto }>&lt;</Link>
-                    {title}
+                    <div className="photo-bigsize__title">
+                        {title}
+                    </div>
+                    <button
+                        type="button"
+                        className="photo-bigsize__add-to-favorites btn btn-default">
+                            &#9734;
+                    </button>
                     <Link className="photo-bigsize__next-photo-link btn btn-default"
                         to={ nextPhoto.appUrlToPhoto }>&gt;</Link>
                 </div>

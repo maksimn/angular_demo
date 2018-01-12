@@ -46,18 +46,29 @@
     opacity: 0.5;
 }
 
-.photo-bigsize__title {
+.photo-bigsize__controls-block {
     background-color: #fff;
     padding: 5px 0 5px 12px;
 }
 
 .photo-bigsize__prev-photo-link {
+    display: inline-block;
     margin-right: 10px;
 }
 
 .photo-bigsize__next-photo-link {
-    float: right;
+    display: inline-block;
     margin-right: 12px;
+}
+
+.photo-bigsize__add-to-favorites {
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.photo-bigsize__title {
+    width: 450px;
+    display: inline-block;
 }
 
 .search-block {
