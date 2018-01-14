@@ -6,7 +6,8 @@ import {
     LOAD_PHOTOS_DATA_ERROR,
     SET_PHOTOS_SEARCH_PARAM,
     UPDATE_PHOTOS_STATE,
-    ADD_PHOTO_TO_FAVORITES
+    ADD_PHOTO_TO_FAVORITES,
+    SET_FAVORITE_PHOTOS
 } from '../actions/constants';
 import Photo from '../store/Photo';
 
@@ -86,6 +87,11 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
                 favoriteData: [...beginPhotos, photo, ...endPhotos]
             };
         }
+        case SET_FAVORITE_PHOTOS:
+            return {
+                ...state,
+                favoriteData: action.favoritePhotos
+            };
         default:
             return state;
     }

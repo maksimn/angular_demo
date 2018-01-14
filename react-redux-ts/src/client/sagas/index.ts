@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 import { watchRegisterUser, watchLoginUser, authUser, watchLogoutUser } from './auth';
-import { watchLoadPhotos } from './photos';
+import { watchLoadPhotos, watchAddPhotoToFavorites } from './photos';
 
 function* saga(): any {
     yield all([
@@ -8,7 +8,8 @@ function* saga(): any {
         watchRegisterUser(),
         watchLoginUser(),
         watchLogoutUser(),
-        watchLoadPhotos()
+        watchLoadPhotos(),
+        watchAddPhotoToFavorites()
     ]);
 }
 
