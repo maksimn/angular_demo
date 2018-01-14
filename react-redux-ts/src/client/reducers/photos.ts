@@ -8,6 +8,7 @@ import {
     UPDATE_PHOTOS_STATE,
     ADD_PHOTO_TO_FAVORITES
 } from '../actions/constants';
+import Photo from '../store/Photo';
 
 const initState: PhotosState = {
     data: [],
@@ -60,8 +61,29 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
             };
         }
         case ADD_PHOTO_TO_FAVORITES: {
+            // favoriteData array must be in sorted order.
+            const { photo } = action;
+            const { favoriteData } = state;
+
+            const findIndexToInsert = (photoId: number, photos: Photo[]): number => {
+                const { length } = photos;
+
+                for (let i = 0; i < length; i++) {
+                    if (photos[i].id > photoId) {
+                        return i;
+                    }
+                }
+
+                return length;
+            };
+
+            const indexToInsert = findIndexToInsert(photo.id, favoriteData);
+            const beginPhotos = favoriteData.slice(0, indexToInsert);
+            const endPhotos = favoriteData.slice(indexToInsert, favoriteData.length);
+
             return {
-                ...state
+                ...state,
+                favoriteData: [...beginPhotos, photo, ...endPhotos]
             };
         }
         default:
