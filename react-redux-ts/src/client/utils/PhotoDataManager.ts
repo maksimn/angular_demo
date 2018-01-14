@@ -70,7 +70,35 @@ export default class PhotoDataManager {
     }
 
     getPhoto(photoId: number): Photo | undefined {
-        this.currentPhotoIndex = this.photoData.findIndex((ph: Photo) => ph.id === photoId);
+        // Binary search by id
+        const binarySearch = (photoId: number, left: number, right: number): number => {
+            if (isNaN(photoId)) {
+                return -1;
+            }
+            if (right - left < 2) {
+                if (this.photoData[left].id === photoId) {
+                    return left;
+                }
+                if (this.photoData[left + 1].id === photoId) {
+                    return left + 1;
+                }
+
+                return -1;
+            }
+
+            const middleIndex = Math.round((right + left) / 2);
+            const middlePhoto = this.photoData[middleIndex];
+
+            if (middlePhoto.id === photoId) {
+                return middleIndex;
+            } else if (middlePhoto.id > photoId) {
+                return binarySearch(photoId, left, middleIndex);
+            } else {
+                return binarySearch(photoId, middleIndex, right);
+            }
+        };
+
+        this.currentPhotoIndex = binarySearch(photoId, 0, this.photoData.length - 1);
 
         return this.currentPhotoIndex > -1 ? this.photoData[this.currentPhotoIndex] : undefined;
     }

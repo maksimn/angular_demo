@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PhotoThumbnails from '../../components/photos/PhotoThumbnails';
 import { photoActionCreators } from '../../actions/photos';
-import Photo from '../../store/Photo';
 import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';

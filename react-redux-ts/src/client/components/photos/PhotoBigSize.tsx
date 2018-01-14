@@ -26,15 +26,15 @@ const PhotoBigSize: React.StatelessComponent<Props> = props => {
         <div>
             <div
                 className="photo-bigsize__shadow"
-                onClick={onOuterAreaClick}>
+                onClick={ onOuterAreaClick }>
             </div>
             <div className="photo-bigsize">
-                <img src={url} />
+                <img src={ url } />
                 <div className="photo-bigsize__controls-block">
                     <Link className="photo-bigsize__prev-photo-link btn btn-default"
                         to={ prevPhoto.appUrlToPhoto }>&lt;</Link>
                     <div className="photo-bigsize__title">
-                        {title}
+                        { title }
                     </div>
                     <button
                         type="button"
