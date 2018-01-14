@@ -1,5 +1,5 @@
 import { LOAD_PHOTOS_DATA, LOAD_PHOTOS_DATA_SUCCESS, LOAD_PHOTOS_DATA_ERROR,
-    SET_PHOTOS_SEARCH_PARAM, UPDATE_PHOTOS_STATE } from './constants';
+    SET_PHOTOS_SEARCH_PARAM, UPDATE_PHOTOS_STATE, ADD_PHOTO_TO_FAVORITES } from './constants';
 import Photo from '../store/Photo';
 
 export interface PhotoActions {
@@ -20,6 +20,10 @@ export interface PhotoActions {
     UPDATE_PHOTOS_STATE: {
         type: typeof UPDATE_PHOTOS_STATE;
     };
+    ADD_PHOTO_TO_FAVORITES: {
+        type: typeof ADD_PHOTO_TO_FAVORITES;
+        photo: Photo;
+    };
 }
 
 export const photoActionCreators = {
@@ -37,5 +41,9 @@ export const photoActionCreators = {
     }),
     updatePhotosState: (): PhotoActions[typeof UPDATE_PHOTOS_STATE] => ({
         type: UPDATE_PHOTOS_STATE
+    }),
+    addPhotoToFavorites: (photo: Photo): PhotoActions[typeof ADD_PHOTO_TO_FAVORITES] => ({
+        type: ADD_PHOTO_TO_FAVORITES,
+        photo
     })
 };

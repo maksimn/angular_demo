@@ -5,7 +5,8 @@ import {
     LOAD_PHOTOS_DATA_SUCCESS,
     LOAD_PHOTOS_DATA_ERROR,
     SET_PHOTOS_SEARCH_PARAM,
-    UPDATE_PHOTOS_STATE
+    UPDATE_PHOTOS_STATE,
+    ADD_PHOTO_TO_FAVORITES
 } from '../actions/constants';
 
 const initState: PhotosState = {
@@ -56,6 +57,11 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
             return {
                 ...state,
                 photosRenderMode: PhotosRenderMode.all
+            };
+        }
+        case ADD_PHOTO_TO_FAVORITES: {
+            return {
+                ...state
             };
         }
         default:

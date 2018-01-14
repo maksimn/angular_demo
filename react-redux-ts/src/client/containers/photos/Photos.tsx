@@ -9,6 +9,7 @@ import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
 import PhotoDataManager from '../../utils/PhotoDataManager';
 import SearchBlock from '../../containers/photos/SearchBlock';
+import Photo from '../../store/Photo';
 
 interface PhotosRouteParams {
     page?: string;
@@ -18,6 +19,7 @@ interface PhotosRouteParams {
 interface Props {
     loadPhotos: () => void;
     backToPhotosPage: (url: string) => void;
+    addToFavorites: (photo: Photo) => void;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
 }
@@ -29,6 +31,7 @@ class Photos extends React.Component<Props, State> {
         super(props);
 
         this.onOuterAreaClick = this.onOuterAreaClick.bind(this);
+        this.addToFavoritesButtonClick = this.addToFavoritesButtonClick.bind(this);
     }
 
     componentWillMount() {
@@ -74,6 +77,10 @@ class Photos extends React.Component<Props, State> {
         return page;
     }
 
+    addToFavoritesButtonClick(photo: Photo) {
+        this.props.addToFavorites(photo);
+    }
+
     public render() {
         const photosState = this.props.photos;
         const { searchParam } = photosState;
@@ -107,7 +114,7 @@ class Photos extends React.Component<Props, State> {
                     prevPhoto={ prevPhoto }
                     nextPhoto={ nextPhoto }
                     onOuterAreaClick={ this.onOuterAreaClick }
-                />
+                    addToFavoritesButtonClick={ this.addToFavoritesButtonClick } />
             </div>
         );
     }
@@ -121,6 +128,9 @@ export default connect(
         },
         backToPhotosPage: (url: string) => {
             dispatch(push(url));
+        },
+        addToFavorites: (photo: Photo) => {
+            dispatch(photoActionCreators.addPhotoToFavorites(photo));
         }
     })
 )(Photos);
