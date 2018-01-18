@@ -6,12 +6,13 @@ interface Props {
     photo?: Photo;
     nextPhoto?: Photo;
     prevPhoto?: Photo;
+    isFavorite?: boolean;
     onOuterAreaClick: () => void;
-    addToFavoritesButtonClick: (photo: Photo) => void;
+    addToFavoritesButtonClick: (photo: Photo, isFavorite?: boolean) => void;
 }
 
 const PhotoBigSize: React.StatelessComponent<Props> = props => {
-    const { photo, prevPhoto, nextPhoto } = props;
+    const { photo, prevPhoto, nextPhoto, isFavorite } = props;
 
     if (!photo || !prevPhoto || !nextPhoto) {
        return null;
@@ -24,7 +25,7 @@ const PhotoBigSize: React.StatelessComponent<Props> = props => {
     };
 
     const addToFavoritesButtonClick = () => {
-        props.addToFavoritesButtonClick(photo);
+        props.addToFavoritesButtonClick(photo, props.isFavorite);
     };
 
     return (
@@ -45,7 +46,7 @@ const PhotoBigSize: React.StatelessComponent<Props> = props => {
                         type="button"
                         className="photo-bigsize__add-to-favorites btn btn-default"
                         onClick={ addToFavoritesButtonClick }>
-                            &#9734;
+                            { props.isFavorite ? <span>&times;</span> : <span>&#9734;</span> }
                     </button>
                     <Link className="photo-bigsize__next-photo-link btn btn-default"
                         to={ nextPhoto.appUrlToPhoto }>&gt;</Link>

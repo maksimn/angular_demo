@@ -2,7 +2,7 @@ import { call, put, takeEvery, take, select } from 'redux-saga/effects';
 import * as Cookies from 'js-cookie';
 import { loadPhotoData } from '../api/photos';
 import { photoActionCreators } from '../actions/photos';
-import { LOAD_PHOTOS_DATA, ADD_PHOTO_TO_FAVORITES } from '../actions/constants';
+import { LOAD_PHOTOS_DATA, ADD_PHOTO_TO_FAVORITES, REMOVE_PHOTO_FROM_FAVORITES } from '../actions/constants';
 import Photo from '../store/Photo';
 import { AppState } from '../store/AppState';
 
@@ -46,6 +46,16 @@ function setCookieForFavoritePhotos(favoritePhotos: Photo[]) {
 export function* watchAddPhotoToFavorites(): any {
     while (true) {
         yield take(ADD_PHOTO_TO_FAVORITES);
+
+        const favoritePhotos = yield select((state: AppState) => state.photos.favoriteData);
+
+        setCookieForFavoritePhotos(favoritePhotos);
+    }
+}
+
+export function* watchRemovePhotoFromFavorites(): any {
+    while (true) {
+        yield take(REMOVE_PHOTO_FROM_FAVORITES);
 
         const favoritePhotos = yield select((state: AppState) => state.photos.favoriteData);
 

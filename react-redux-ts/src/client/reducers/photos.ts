@@ -7,9 +7,11 @@ import {
     SET_PHOTOS_SEARCH_PARAM,
     UPDATE_PHOTOS_STATE,
     ADD_PHOTO_TO_FAVORITES,
-    SET_FAVORITE_PHOTOS
+    SET_FAVORITE_PHOTOS,
+    REMOVE_PHOTO_FROM_FAVORITES
 } from '../actions/constants';
 import Photo from '../store/Photo';
+import photoBinarySearch from '../utils/photoBinarySearch';
 
 const initState: PhotosState = {
     data: [],
@@ -85,6 +87,19 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
             return {
                 ...state,
                 favoriteData: [...beginPhotos, photo, ...endPhotos]
+            };
+        }
+        case REMOVE_PHOTO_FROM_FAVORITES: {
+            const { photo } = action;
+            const { favoriteData } = state;
+
+            const index = photoBinarySearch(photo.id, favoriteData, 0, favoriteData.length - 1);
+            const beginPhotos = favoriteData.slice(0, index);
+            const endPhotos = favoriteData.slice(index + 1, favoriteData.length);
+
+            return {
+                ...state,
+                favoriteData: [...beginPhotos, ...endPhotos]
             };
         }
         case SET_FAVORITE_PHOTOS:

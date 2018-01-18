@@ -10,6 +10,7 @@ import PhotoBigSize from '../../components/photos/PhotoBigSize';
 import PhotoDataManager from '../../utils/PhotoDataManager';
 import SearchBlock from '../../containers/photos/SearchBlock';
 import Photo from '../../store/Photo';
+import photoBinarySearch from '../../utils/photoBinarySearch';
 
 interface PhotosRouteParams {
     page?: string;
@@ -20,6 +21,7 @@ interface Props {
     loadPhotos: () => void;
     backToPhotosPage: (url: string) => void;
     addToFavorites: (photo: Photo) => void;
+    removeFromFavorites: (photo: Photo) => void;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
 }
@@ -77,8 +79,12 @@ class Photos extends React.Component<Props, State> {
         return page;
     }
 
-    addToFavoritesButtonClick(photo: Photo) {
-        this.props.addToFavorites(photo);
+    addToFavoritesButtonClick(photo: Photo, isFavorite?: boolean) {
+        if (isFavorite) {
+            this.props.removeFromFavorites(photo);
+        } else {
+            this.props.addToFavorites(photo);
+        }
     }
 
     public render() {
@@ -94,6 +100,8 @@ class Photos extends React.Component<Props, State> {
         const { params } = this.props.match;
         const photoId = parseInt(params.photoId ? params.photoId : '');
         const photo = photoDataManager.getPhoto(photoId);
+        const isFavorite = photoBinarySearch(photoId, photosState.favoriteData, 0,
+            photosState.favoriteData.length - 1) > -1;
         const prevPhoto = photoDataManager.getPrevPhoto();
         const nextPhoto = photoDataManager.getNextPhoto();
 
@@ -113,6 +121,7 @@ class Photos extends React.Component<Props, State> {
                     photo={ photo }
                     prevPhoto={ prevPhoto }
                     nextPhoto={ nextPhoto }
+                    isFavorite={ isFavorite }
                     onOuterAreaClick={ this.onOuterAreaClick }
                     addToFavoritesButtonClick={ this.addToFavoritesButtonClick } />
             </div>
@@ -131,6 +140,9 @@ export default connect(
         },
         addToFavorites: (photo: Photo) => {
             dispatch(photoActionCreators.addPhotoToFavorites(photo));
+        },
+        removeFromFavorites: (photo: Photo) => {
+            dispatch(photoActionCreators.removePhotoFromFavorites(photo));
         }
     })
 )(Photos);
