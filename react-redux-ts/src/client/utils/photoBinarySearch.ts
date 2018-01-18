@@ -1,7 +1,9 @@
 import Photo from '../store/Photo';
 
 const photoBinarySearch = (photoId: number, photos: Photo[], left: number, right: number): number => {
-    if (isNaN(photoId)) {
+    const { length } = photos;
+
+    if (isNaN(photoId) || length - 1 < left || length - 1 < right) {
         return -1;
     }
     if (right - left < 2) {
