@@ -8,12 +8,15 @@ import {
     UPDATE_PHOTOS_STATE,
     ADD_PHOTO_TO_FAVORITES,
     SET_FAVORITE_PHOTOS,
-    REMOVE_PHOTO_FROM_FAVORITES
+    REMOVE_PHOTO_FROM_FAVORITES,
+    SET_PHOTOS_RENDER_MODE
 } from '../actions/constants';
 import Photo from '../store/Photo';
 import photoBinarySearch from '../utils/photoBinarySearch';
 
 const initState: PhotosState = {
+    isDataLoading: false,
+    isDataLoaded: false,
     data: [],
     favoriteData: [],
     filteredData: [],
@@ -30,18 +33,24 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
         case LOAD_PHOTOS_DATA:
             return {
                 ...state,
-                data: initState.data
+                data: initState.data,
+                isDataLoading: true,
+                isDataLoaded: false
             };
         case LOAD_PHOTOS_DATA_SUCCESS: {
             return {
                 ...state,
-                data: action.payload
+                data: action.payload,
+                isDataLoading: false,
+                isDataLoaded: true
             };
         }
         case LOAD_PHOTOS_DATA_ERROR:
             return {
                 ...state,
-                data: initState.data
+                data: initState.data,
+                isDataLoading: false,
+                isDataLoaded: false
             };
         case SET_PHOTOS_SEARCH_PARAM: {
             return {
@@ -58,10 +67,7 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
                 };
             }
 
-            return {
-                ...state,
-                photosRenderMode: PhotosRenderMode.all
-            };
+            return state;
         }
         case ADD_PHOTO_TO_FAVORITES: {
             // favoriteData array must be in sorted order.
@@ -106,6 +112,11 @@ const photos: Reducer<PhotosState> = (state = initState, action) => {
             return {
                 ...state,
                 favoriteData: action.favoritePhotos
+            };
+        case SET_PHOTOS_RENDER_MODE:
+            return {
+                ...state,
+                photosRenderMode: action.renderMode
             };
         default:
             return state;

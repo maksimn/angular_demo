@@ -1,7 +1,8 @@
 import { LOAD_PHOTOS_DATA, LOAD_PHOTOS_DATA_SUCCESS, LOAD_PHOTOS_DATA_ERROR,
     SET_PHOTOS_SEARCH_PARAM, UPDATE_PHOTOS_STATE, ADD_PHOTO_TO_FAVORITES,
-    SET_FAVORITE_PHOTOS, REMOVE_PHOTO_FROM_FAVORITES } from './constants';
+    SET_FAVORITE_PHOTOS, REMOVE_PHOTO_FROM_FAVORITES, SET_PHOTOS_RENDER_MODE } from './constants';
 import Photo from '../store/Photo';
+import { PhotosRenderMode } from '../store/AppState';
 
 export interface PhotoActions {
     LOAD_PHOTOS_DATA: {
@@ -33,6 +34,10 @@ export interface PhotoActions {
         type: typeof REMOVE_PHOTO_FROM_FAVORITES;
         photo: Photo;
     };
+    SET_PHOTOS_RENDER_MODE: {
+        type: typeof SET_PHOTOS_RENDER_MODE;
+        renderMode: PhotosRenderMode;
+    };
 }
 
 export const photoActionCreators = {
@@ -63,4 +68,8 @@ export const photoActionCreators = {
         type: REMOVE_PHOTO_FROM_FAVORITES,
         photo
     }),
+    setPhotosRenderMode: (renderMode: PhotosRenderMode): PhotoActions[typeof SET_PHOTOS_RENDER_MODE] => ({
+        type: SET_PHOTOS_RENDER_MODE,
+        renderMode
+    })
 };

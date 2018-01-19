@@ -15,6 +15,8 @@ export enum PhotosRenderMode {
 }
 
 export interface PhotosState {
+    isDataLoading: boolean;
+    isDataLoaded: boolean;
     data: Photo[]; // array sorted by id ascending
     filteredData: Photo[]; // array sorted by id ascending
     favoriteData: Photo[]; // array sorted by id ascending

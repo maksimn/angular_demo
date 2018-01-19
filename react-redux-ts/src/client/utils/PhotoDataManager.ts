@@ -18,11 +18,18 @@ const getGetThumbnailLinkHrefFilteredMode: GetThumbnailLinkHref =
     return `/photos/searching/${searchParam}/${page}/photoId/${photoId}`;
 };
 
+const getGetThumbnailLinkHrefFavoritePhotos: GetThumbnailLinkHref =
+        (page: number, photoId: number, searchParam?: string) => {
+    return `/photos/favorite/photoId/${photoId}`;
+};
+
 const getThumbnailLinkHrefFactory = (renderMode: PhotosRenderMode) => {
     if (renderMode === PhotosRenderMode.all) {
         return getGetThumbnailLinkHrefAllPhotosMode;
     } else if (renderMode === PhotosRenderMode.filtered) {
         return getGetThumbnailLinkHrefFilteredMode;
+    } else if (renderMode === PhotosRenderMode.favorite) {
+        return getGetThumbnailLinkHrefFavoritePhotos;
     }
 
     throw new Error('Not implemented render mode.');
