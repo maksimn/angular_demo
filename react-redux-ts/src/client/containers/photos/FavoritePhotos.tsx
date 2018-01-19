@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
 import PhotoThumbnails from '../../components/photos/PhotoThumbnails';
 import { photoActionCreators } from '../../actions/photos';
+import PhotoDataManager from '../../utils/PhotoDataManager';
 
 interface Props {
     loadPhotos: () => void;
@@ -28,7 +29,9 @@ class FavoritePhotos extends React.Component<Props, State> {
     }
 
     render() {
-        const favoritePhotos = this.props.photosState.favoriteData;
+        const { photosState } = this.props;
+        const photoDataManager = new PhotoDataManager(photosState);
+        const favoritePhotos = photoDataManager.getPhotosToRenderOnPage(0);
 
         return (
             <div>

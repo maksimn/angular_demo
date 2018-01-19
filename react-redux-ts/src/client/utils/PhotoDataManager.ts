@@ -74,6 +74,11 @@ export default class PhotoDataManager {
     }
 
     getPhotosToRenderOnPage(page: number): Photo[] {
+        // no pagination for favorite photos
+        if (this.photosState.photosRenderMode === PhotosRenderMode.favorite) {
+            return this.photoData;
+        }
+
         return this.photoData.slice(MAX_PHOTOS_ON_PAGE * (page - 1), MAX_PHOTOS_ON_PAGE * page);
     }
 

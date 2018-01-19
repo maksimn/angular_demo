@@ -11,7 +11,7 @@ interface Props {
 const PhotoThumbnail: React.StatelessComponent<Props> = props => {
     return (
         <div className="photo-thumbnail-view">
-            <Link to={ props.appUrlToPhoto ? props.appUrlToPhoto : '' }>
+            <Link to={ props.appUrlToPhoto }>
                 <img src={ props.thumbnailUrl } />
             </Link>
             <div>{ props.title }</div>
