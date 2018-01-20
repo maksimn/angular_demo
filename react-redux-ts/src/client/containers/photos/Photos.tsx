@@ -42,7 +42,7 @@ class Photos extends React.Component<Props, State> {
         this.onSearchParamChange = this.onSearchParamChange.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { isDataLoaded, isDataLoading } = this.props.photos;
 
         this.props.setRenderMode(PhotosRenderMode.all);

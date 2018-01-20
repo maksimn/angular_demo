@@ -32,7 +32,7 @@ class FavoritePhotos extends React.Component<Props, State> {
         this.removeFromFavoritesClick = this.removeFromFavoritesClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { photosState, loadPhotos, setFavoritePhotosRenderMode } = this.props;
 
         setFavoritePhotosRenderMode();
