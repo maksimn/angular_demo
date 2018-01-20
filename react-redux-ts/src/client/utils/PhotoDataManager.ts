@@ -20,7 +20,7 @@ const getGetThumbnailLinkHrefFilteredMode: GetThumbnailLinkHref =
 
 const getGetThumbnailLinkHrefFavoritePhotos: GetThumbnailLinkHref =
         (page: number, photoId: number, searchParam?: string) => {
-    return `/photos/favorite/photoId/${photoId}`;
+    return `/photos/favorites/photoId/${photoId}`;
 };
 
 const getThumbnailLinkHrefFactory = (renderMode: PhotosRenderMode) => {
@@ -73,13 +73,15 @@ export default class PhotoDataManager {
         return Math.ceil(this.photoData.length / MAX_PHOTOS_ON_PAGE);
     }
 
-    getPhotosToRenderOnPage(page: number): Photo[] {
+    getPhotosToRenderOnPage(page?: number): Photo[] {
         // no pagination for favorite photos
         if (this.photosState.photosRenderMode === PhotosRenderMode.favorite) {
             return this.photoData;
         }
 
-        return this.photoData.slice(MAX_PHOTOS_ON_PAGE * (page - 1), MAX_PHOTOS_ON_PAGE * page);
+        const nPage = page ? page : 1;
+
+        return this.photoData.slice(MAX_PHOTOS_ON_PAGE * (nPage - 1), MAX_PHOTOS_ON_PAGE * nPage);
     }
 
     getPhoto(photoId: number): Photo | undefined {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import UserLogin from '../../containers/common/UserLogin';
+import { Link } from 'react-router-dom';
 
 const Header = (props: any) => {
     const redirect = props.history.push;
@@ -9,7 +10,9 @@ const Header = (props: any) => {
 
             <UserLogin redirect={ redirect } />
 
-            <h2 className="text-white">React TypeScript Демо</h2>
+            <Link className="btn btn-primary" to="/">
+                <h3 className="text-white">React TypeScript Демо</h3>
+            </Link>
 
         </div>
     );
