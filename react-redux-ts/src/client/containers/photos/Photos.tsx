@@ -8,13 +8,14 @@ import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
 import PhotosPagination from '../../components/photos/PhotosPagination';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
 import PhotoDataManager from '../../utils/PhotoDataManager';
-import SearchBlock from '../../containers/photos/SearchBlock';
+import SearchBlock from '../../components/photos/SearchBlock';
 import Photo from '../../store/Photo';
 import photoBinarySearch from '../../utils/photoBinarySearch';
 
 interface PhotosRouteParams {
     page?: string;
     photoId?: string;
+    searchParam?: string;
 }
 
 interface Props {
@@ -23,8 +24,11 @@ interface Props {
     addToFavorites: (photo: Photo) => void;
     removeFromFavorites: (photo: Photo) => void;
     setRenderMode: (renderMode: PhotosRenderMode) => void;
+    setPhotosSearchParam: (searchParam: string) => void;
+    updatePhotosState: () => void;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
+    searchParam: string;
 }
 
 interface State {}
@@ -35,6 +39,7 @@ class Photos extends React.Component<Props, State> {
 
         this.onOuterAreaClick = this.onOuterAreaClick.bind(this);
         this.addToFavoritesButtonClick = this.addToFavoritesButtonClick.bind(this);
+        this.onSearchParamChange = this.onSearchParamChange.bind(this);
     }
 
     componentWillMount() {
@@ -44,6 +49,12 @@ class Photos extends React.Component<Props, State> {
 
         if (!isDataLoaded && !isDataLoading) {
             this.props.loadPhotos();
+        }
+
+        const { searchParam } = this.props.match.params;
+
+        if (searchParam) {
+            this.props.setPhotosSearchParam(searchParam);
         }
     }
 
@@ -94,6 +105,19 @@ class Photos extends React.Component<Props, State> {
         }
     }
 
+    onSearchParamChange(searchParam: string) {
+        const { setPhotosSearchParam, updatePhotosState, backToPhotosPage } = this.props;
+
+        setPhotosSearchParam(searchParam);
+        updatePhotosState();
+
+        if (searchParam) {
+            backToPhotosPage(`/photos/searching/${searchParam}`);
+        } else {
+            backToPhotosPage('/photos');
+        }
+    }
+
     public render() {
         const photosState = this.props.photos;
         const { searchParam } = photosState;
@@ -114,7 +138,9 @@ class Photos extends React.Component<Props, State> {
 
         return (
             <div>
-                <SearchBlock />
+                <SearchBlock
+                    searchParam={ searchParam }
+                    onSearchParamChange={ this.onSearchParamChange } />
 
                 <PhotoThumbnails photoData={ photosToRender } />
 
@@ -137,7 +163,10 @@ class Photos extends React.Component<Props, State> {
 }
 
 export default connect(
-    (state: AppState) => ({ photos: state.photos }),
+    (state: AppState) => ({
+        photos: state.photos,
+        searchParam: state.photos.searchParam
+    }),
     (dispatch) => ({
         loadPhotos: () => {
             dispatch(photoActionCreators.loadPhotos());
@@ -153,6 +182,12 @@ export default connect(
         },
         setRenderMode: (renderMode: PhotosRenderMode) => {
             dispatch(photoActionCreators.setPhotosRenderMode(renderMode));
+        },
+        setPhotosSearchParam: (searchParam: string) => {
+            dispatch(photoActionCreators.setPhotosSearchParam(searchParam));
+        },
+        updatePhotosState: () => {
+            dispatch(photoActionCreators.updatePhotosState());
         }
     })
 )(Photos);
