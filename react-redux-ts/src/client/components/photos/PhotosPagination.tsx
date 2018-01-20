@@ -28,9 +28,9 @@ const PaginationLinkHrefProviderFactory = (renderMode: PhotosRenderMode): GetPag
         return GetPaginationLinkHrefForAllPhotosMode;
     } else if (renderMode === PhotosRenderMode.filtered) {
         return GetPaginationLinkHrefForFilteredPhotos;
+    } else {
+        return GetPaginationLinkHrefForAllPhotosMode;
     }
-
-    throw new Error('Not implemented photos render mode.');
 };
 
 const PhotosPagination: React.StatelessComponent<Props> = props => {

@@ -22,6 +22,7 @@ interface Props {
     backToPhotosPage: (url: string) => void;
     addToFavorites: (photo: Photo) => void;
     removeFromFavorites: (photo: Photo) => void;
+    setRenderMode: (renderMode: PhotosRenderMode) => void;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
 }
@@ -37,7 +38,13 @@ class Photos extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        this.props.loadPhotos();
+        const { isDataLoaded, isDataLoading } = this.props.photos;
+
+        this.props.setRenderMode(PhotosRenderMode.all);
+
+        if (!isDataLoaded && !isDataLoading) {
+            this.props.loadPhotos();
+        }
     }
 
     onOuterAreaClick() {
@@ -58,9 +65,9 @@ class Photos extends React.Component<Props, State> {
                 return redirectUrlAllPhotosMode;
             } else if (renderMode === PhotosRenderMode.filtered) {
                 return redirectUrlFilteredPhotosMode;
+            } else {
+                return redirectUrlAllPhotosMode;
             }
-
-            throw new Error('Not implmented PhotosRenderMode');
         };
 
         const photosState = this.props.photos;
@@ -143,6 +150,9 @@ export default connect(
         },
         removeFromFavorites: (photo: Photo) => {
             dispatch(photoActionCreators.removePhotoFromFavorites(photo));
+        },
+        setRenderMode: (renderMode: PhotosRenderMode) => {
+            dispatch(photoActionCreators.setPhotosRenderMode(renderMode));
         }
     })
 )(Photos);
