@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { AppState } from '../../store/AppState';
 import { authActionCreators } from '../../actions/authorization';
 import UserDataInput from '../../../app/models/UserDataInput';
@@ -12,8 +11,7 @@ export interface LoginFormProps {
     login: (loginData: UserDataInput) => void;
 }
 
-export interface LoginFormState extends UserDataInput {
-}
+export interface LoginFormState extends UserDataInput {}
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     constructor(props: LoginFormProps) {
@@ -27,12 +25,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         });
     }
 
-    onUsernameChange = (username: string) => {
-        this.setState({...this.state, username});
-    }
-
-    onPasswordChange = (password: string) => {
-        this.setState({...this.state, password});
+    onChange = (name: string, value: string) => {
+        this.setState({
+            ...this.state,
+            [name]: value
+        });
     }
 
     onFormSubmit = () => {
@@ -40,12 +37,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     }
 
     render() {
-        const { onUsernameChange, onPasswordChange, onFormSubmit } = this;
+        const { onChange, onFormSubmit } = this;
         const { validationErrors } = this.props;
 
         return <LoginFormComponent
-                   onUsernameChange={ onUsernameChange }
-                   onPasswordChange={ onPasswordChange }
+                   onChange={ onChange }
                    onFormSubmit={ onFormSubmit }
                    validationErrors={ validationErrors } />;
     }
@@ -53,7 +49,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
 export default connect(
     (state: AppState) => ({ validationErrors: state.auth.validationErrors }),
-    (dispatch: Dispatch<AppState>) => ({
+    (dispatch) => ({
         login: (loginData: UserDataInput) => {
             dispatch(authActionCreators.loginStart(loginData));
         }

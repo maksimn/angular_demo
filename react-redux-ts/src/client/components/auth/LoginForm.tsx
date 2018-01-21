@@ -4,18 +4,14 @@ import ValidationErrorsModel from '../../../app/models/ValidationErrors';
 import ValidationErrors from './ValidationErrors';
 
 export interface LoginFormProps {
-    onUsernameChange: (username: string) => void;
-    onPasswordChange: (password: string) => void;
+    onChange: (name: string, value: string) => void;
     onFormSubmit: () => void;
     validationErrors: ValidationErrorsModel;
 }
 
 const LoginForm: React.StatelessComponent<LoginFormProps> = props => {
-    const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        props.onUsernameChange(event.target.value);
-    },
-    onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        props.onPasswordChange(event.target.value);
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        props.onChange(event.target.name, event.target.value);
     },
     onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -30,12 +26,12 @@ const LoginForm: React.StatelessComponent<LoginFormProps> = props => {
                 <div className="form-group">
                     <label htmlFor="username">Имя:</label>
                     <input type="text" className="form-control" id="username" name="username"
-                        onChange={onUsernameChange} />
+                        onChange={onChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Пароль:</label>
                     <input type="password" className="form-control" id="password" name="password"
-                        onChange={onPasswordChange} />
+                        onChange={onChange} />
                 </div>
                 <button type="submit" className="btn btn-primary">Войти</button>
 
