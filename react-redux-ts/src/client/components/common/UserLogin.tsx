@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { userArea, userArea__link } from './UserLogin.styles';
 
 export interface UserLoginProps {
     username: string;
@@ -14,8 +15,8 @@ const UserLogin: React.StatelessComponent<UserLoginProps> = props => {
     };
 
     return (
-        <form className="user-area" onSubmit={ onFormSubmit }>
-            <Link className="user-area__link" to="/profile">
+        <form style={ userArea } onSubmit={ onFormSubmit }>
+            <Link style={ userArea__link } to="/profile">
                 { username }
             </Link>
             <input className="btn bth-success" type="submit" defaultValue="Выйти" />

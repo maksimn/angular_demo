@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { PhotosRenderMode } from '../../store/AppState';
+import * as styles from './PhotosPagination.styles';
 
 interface Props {
     numPages: number;
@@ -38,16 +39,23 @@ const PhotosPagination: React.StatelessComponent<Props> = props => {
 
     const getPaginationLinkHref = PaginationLinkHrefProviderFactory(renderMode);
 
-    const links = Array.apply(null, Array(numPages)).map((e: any, i: number) => (
-        <Link
-            key={i}
-            className={`pagination-link ${i + 1 === page ? 'active' : ''}`}
-            to={ getPaginationLinkHref(i + 1, searchParam) }>
-            {i + 1}
-        </Link>
-    ));
+    const links = Array.apply(null, Array(numPages)).map((e: any, i: number) => {
+        const isActive = i + 1 === page;
+        const linkStyle = isActive ?
+            {...styles.paginationLink, ...styles.paginationLink_active} :
+            {...styles.paginationLink};
 
-    return <div className="photos-pagination">
+        return (
+            <Link
+                key={i}
+                style={ linkStyle }
+                to={ getPaginationLinkHref(i + 1, searchParam) }>
+                {i + 1}
+            </Link>
+        );
+    });
+
+    return <div style={ styles.photosPagination }>
         {links}
     </div>;
 };

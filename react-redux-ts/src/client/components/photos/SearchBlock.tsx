@@ -1,4 +1,5 @@
 import * as React from 'react';
+import styles from './SearchBlock.styles';
 
 interface SearchBlockProps {
     onSearchParamChange: (searchParam: string) => void;
@@ -12,7 +13,7 @@ const SearchBlock: React.StatelessComponent<SearchBlockProps> = props => {
     const { searchParam } = props;
 
     return (
-        <div className="search-block">
+        <div style={ styles }>
             <h4>
                 Поиск:
                 <input type="text" onChange={ onSearchParamChange } value={ searchParam } />

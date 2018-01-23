@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Photo from '../../store/Photo';
 import { Link } from 'react-router-dom';
+import * as styles from './PhotoBigSize.styles';
 
 interface Props {
     photo?: Photo;
@@ -31,24 +32,29 @@ const PhotoBigSize: React.StatelessComponent<Props> = props => {
     return (
         <div>
             <div
-                className="photo-bigsize__shadow"
+                style={ styles.photoBigsize__shadow }
                 onClick={ onOuterAreaClick }>
             </div>
-            <div className="photo-bigsize">
+            <div style={ styles.photoBigsize }>
                 <img src={ url } />
-                <div className="photo-bigsize__controls-block">
-                    <Link className="photo-bigsize__prev-photo-link btn btn-default"
+                <div style={ styles.photoBigsize__controlsBlock }>
+                    <Link
+                        style={ styles.photoBigsize__prevPhotoLink }
+                        className="btn btn-default"
                         to={ prevPhoto.appUrlToPhoto }>&lt;</Link>
-                    <div className="photo-bigsize__title">
+                    <div style={ styles.photoBigsize__title }>
                         { title }
                     </div>
                     <button
                         type="button"
-                        className="photo-bigsize__add-to-favorites btn btn-default"
+                        style={ styles.photoBigsize__addToFavorites }
+                        className="btn btn-default"
                         onClick={ addToFavoritesButtonClick }>
                             { props.isFavorite ? <span>&times;</span> : <span>&#9734;</span> }
                     </button>
-                    <Link className="photo-bigsize__next-photo-link btn btn-default"
+                    <Link
+                        style={ styles.photoBigsize__nextPhotoLink }
+                        className="btn btn-default"
                         to={ nextPhoto.appUrlToPhoto }>&gt;</Link>
                 </div>
             </div>

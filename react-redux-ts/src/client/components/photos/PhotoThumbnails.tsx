@@ -2,6 +2,7 @@ import * as React from 'react';
 import PhotoThumbnail from './PhotoThumbnail';
 import Photo from '../../store/Photo';
 import { PhotosRenderMode } from '../../store/AppState';
+import styles from './PhotoThumbnails.styles';
 
 interface Props {
     photoData: Photo[];
@@ -15,9 +16,8 @@ const PhotoThumbnails: React.StatelessComponent<Props> = props => {
                         appUrlToPhoto={ photo.appUrlToPhoto } />
     ));
 
-    return <div>
+    return <div style={ styles }>
         { thumbnails }
-        <div className="placeholder-under-photo-thumbnails"></div>
     </div>;
 };
 
