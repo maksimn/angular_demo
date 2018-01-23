@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { PhotosRenderMode } from '../../store/AppState';
+import styles from './PhotoThumbnail.styles';
 
 interface Props {
     thumbnailUrl: string;
@@ -10,7 +11,7 @@ interface Props {
 
 const PhotoThumbnail: React.StatelessComponent<Props> = props => {
     return (
-        <div className="photo-thumbnail-view">
+        <div style={ styles }>
             <Link to={ props.appUrlToPhoto }>
                 <img src={ props.thumbnailUrl } />
             </Link>
