@@ -39,16 +39,16 @@ const serverDevBuild = {
       __filename: false,
     },
     externals: [nodeExternals()],
-    entry: path.resolve(__dirname, 'src/app.ts'),
+    entry: path.resolve(__dirname, 'src/app.tsx'),
     module: {
         rules: [{
-            test: /\.ts$/,
+            test: /\.tsx?$/,
             use: 'ts-loader',
             exclude: /node_modules/
         }]
     },
     resolve: {
-        extensions: [ '.ts', '.js' ]
+        extensions: [ '.ts', '.tsx', '.js' ]
     },
     output: {
         filename: "app.js",

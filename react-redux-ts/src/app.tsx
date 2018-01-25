@@ -1,10 +1,14 @@
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
+import * as path from 'path';
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
+
 import Repository from './app/repository';
 import {createToken} from './app/security';
 import {validateRegistrationData, validateLoginData} from './app/validation';
-import * as path from 'path';
+import IndexHtml from './client/IndexHtml';
 
 const app = express();
 const PORT = 8000;
@@ -35,7 +39,9 @@ app.get('/auth', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    const html = ReactDOMServer.renderToStaticMarkup(<IndexHtml />);
+    // res.sendFile(__dirname + '/index.html');
+    res.send(html);
 });
 
 app.post('/register', (req, res) => {

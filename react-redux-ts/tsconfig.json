@@ -11,6 +11,6 @@
         "sourceMap": true
     },
     "files": [
-        "src/app.ts"
+        "src/app.tsx"
     ]
 }
