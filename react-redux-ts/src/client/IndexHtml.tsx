@@ -1,5 +1,17 @@
 import * as React from 'react';
 
+class HeaderPlaceholder extends React.Component<any, any> {
+    constructor(props: any) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="header">Header Component will be rendered HERE</div>
+        );
+    }
+}
+
 const IndexHtml = () => (
     <html>
         <head>
@@ -9,6 +21,8 @@ const IndexHtml = () => (
             <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         </head>
         <body>
+            <HeaderPlaceholder />
+
             <div id="app"></div>
 
             <script src="/index.js"></script>

@@ -9,7 +9,6 @@ import UserView from '../../../app/models/UserView';
 interface UserLoginProps {
     user: UserView;
     logout: () => void;
-    redirect: (path: string) => void;
 }
 
 class UserLogin extends React.Component<UserLoginProps, any> {
