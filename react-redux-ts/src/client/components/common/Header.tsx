@@ -1,18 +1,27 @@
 import * as React from 'react';
-import UserLogin from '../../containers/common/UserLogin';
-import { Link } from 'react-router-dom';
+import { Link, StaticRouter } from 'react-router-dom';
 
-const Header = (props: any) => {
+interface HeaderProps {
+    location: string;
+    context: any;
+}
+
+const Header = (props: HeaderProps) => {
     return (
-        <div className="container-fluid bg-primary">
+        <StaticRouter
+                location={ props.location }
+                context={ props.context }>
 
-            <UserLogin />
+            <div className="container-fluid bg-primary">
 
-            <Link className="btn btn-primary" to="/">
-                <h3 className="text-white">React TypeScript Демо</h3>
-            </Link>
+                {/*<UserLogin />*/}
 
-        </div>
+                <Link className="btn btn-primary" to="/">
+                    <h3 className="text-white">React TypeScript Демо</h3>
+                </Link>
+
+            </div>
+        </StaticRouter>
     );
 };
 

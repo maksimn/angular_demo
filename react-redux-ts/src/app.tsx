@@ -8,7 +8,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import Repository from './app/repository';
 import {createToken} from './app/security';
 import {validateRegistrationData, validateLoginData} from './app/validation';
-import IndexHtml from './client/IndexHtml';
+import Html from './client/Html';
 
 const app = express();
 const PORT = 8000;
@@ -39,8 +39,11 @@ app.get('/auth', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    const html = ReactDOMServer.renderToStaticMarkup(<IndexHtml />);
-    // res.sendFile(__dirname + '/index.html');
+    const html = ReactDOMServer.renderToStaticMarkup(
+        <Html
+            location={ req.url }
+            context={ {} } />
+    );
     res.send(html);
 });
 

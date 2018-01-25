@@ -1,18 +1,14 @@
 import * as React from 'react';
+import { Link, StaticRouter } from 'react-router-dom';
 
-class HeaderPlaceholder extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props);
-    }
+import Header from './components/common/Header';
 
-    render() {
-        return (
-            <div id="header">Header Component will be rendered HERE</div>
-        );
-    }
+interface HtmlProps {
+    location: string;
+    context: any;
 }
 
-const IndexHtml = () => (
+const Html = (props: HtmlProps) => (
     <html>
         <head>
             <meta charSet="utf-8" />
@@ -21,7 +17,10 @@ const IndexHtml = () => (
             <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
         </head>
         <body>
-            <HeaderPlaceholder />
+
+            <Header
+                location={ props.location }
+                context={ props.context } />
 
             <div id="app"></div>
 
@@ -31,4 +30,4 @@ const IndexHtml = () => (
     </html>
 );
 
-export default IndexHtml;
+export default Html;
