@@ -5,19 +5,20 @@ import createHistory from 'history/createBrowserHistory';
 import { routerMiddleware } from 'react-router-redux';
 
 import reducers from '../reducers';
-import { authActionCreators } from '../actions/authorization';
 
 import saga from '../sagas';
 
+const preloadedState = window.__PRELOADED_STATE__;
+
 export const history = createHistory();
+
 const routingMiddleware = routerMiddleware(history);
 
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = applyMiddleware(routingMiddleware, sagaMiddleware, logger);
-const store = createStore(reducers, middleware);
+const store = createStore(reducers, preloadedState, middleware);
 
 sagaMiddleware.run(saga);
-store.dispatch(authActionCreators.authStart());
 
 export default store;

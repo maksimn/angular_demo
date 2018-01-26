@@ -5,7 +5,6 @@ import Photo from './Photo';
 export type AuthState = {
     validationErrors: ValidationErrors;
     user: UserView | null;
-    isAuthRequestPending: boolean;
 };
 
 export enum PhotosRenderMode {

@@ -4,6 +4,10 @@ import * as express from 'express';
 import * as path from 'path';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
+import { createStore } from 'redux';
+
+import reducers from './client/reducers';
+import { authActionCreators } from './client/actions/authorization';
 
 import Repository from './app/repository';
 import {createToken} from './app/security';
@@ -18,33 +22,27 @@ app.use(express.static(__dirname));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.get('/auth', (req, res) => {
+app.get('*', (req, res) => {
     const authToken = req.cookies['x-auth'];
+    const store = createStore(reducers);
 
     if (authToken) {
         const repository = new Repository();
 
         repository.FindUserByToken(authToken).then(user => {
-            res.send({
+            const userView = {
                 id: user.Id,
                 name: user.Name,
                 token: authToken
-            });
+            };
+            store.dispatch(authActionCreators.authSuccess(userView));
+            res.send(Html(req.url, {}, store, store.getState()));
         }).catch(err => {
-            res.status(400).send();
+            res.send(Html(req.url, {}, store, store.getState()));
         });
     } else {
-        res.status(400).send();
+        res.send(Html(req.url, {}, store, store.getState()));
     }
-});
-
-app.get('*', (req, res) => {
-    const html = ReactDOMServer.renderToStaticMarkup(
-        <Html
-            location={ req.url }
-            context={ {} } />
-    );
-    res.send(html);
 });
 
 app.post('/register', (req, res) => {

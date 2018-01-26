@@ -5,18 +5,9 @@ import UserRegistrationInput from '../../app/models/UserRegistrationInput';
 import ValidationErrors from '../../app/models/ValidationErrors';
 import { authActionCreators } from '../actions/authorization';
 import { REGISTRATION_START, LOGIN_START, LOGOUT_START } from '../actions/constants';
-import { registerUserApi, loginUserApi, authenticateUserApi, logoutUserApi } from '../api/auth';
+import { registerUserApi, loginUserApi, logoutUserApi } from '../api/auth';
 import UserDataInput from '../../app/models/UserDataInput';
 import UserView from '../../app/models/UserView';
-
-export function* authUser() {
-    try {
-        const user = yield call(authenticateUserApi);
-        yield put(authActionCreators.authSuccess(user));
-    } catch {
-        yield put(authActionCreators.authError());
-    }
-}
 
 export function* logoutUser() {
     try {

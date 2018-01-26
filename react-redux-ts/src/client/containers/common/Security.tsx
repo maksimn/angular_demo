@@ -9,16 +9,13 @@ class Security extends React.Component<any, any> {
     }
 
     render() {
-        const { user, isAuthRequestPending } = this.props,
-           url = this.props.location.pathname,
-           isAuthenticated = user !== null;
+        const { user } = this.props, isAuthenticated = user !== null,
+           url = this.props.location.pathname;
 
-        if (!isAuthRequestPending) {
-            if (isAuthenticated && (url === '/login' || url === '/register')) {
-                return <Redirect to="/photos" />;
-            } else if (!isAuthenticated && (url.startsWith('/photos') || url === '/profile')) {
-                return <Redirect to="/login" />;
-            }
+        if (isAuthenticated && (url === '/login' || url === '/register')) {
+            return <Redirect to="/photos" />;
+        } else if (!isAuthenticated && (url.startsWith('/photos') || url === '/profile')) {
+            return <Redirect to="/login" />;
         }
 
         return null;
@@ -27,7 +24,6 @@ class Security extends React.Component<any, any> {
 
 export default connect(
     (state: AppState) => ({
-        user: state.auth.user,
-        isAuthRequestPending: state.auth.isAuthRequestPending
+        user: state.auth.user
     })
 )(Security);
