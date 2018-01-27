@@ -6,7 +6,7 @@ import * as ReactDOMServer from 'react-dom/server';
 import Header from './components/common/Header';
 
 const Html = (location: string, context: any, preloadedState: any) => {
-    const serverRenderComponents = ReactDOMServer.renderToString(
+    const header = ReactDOMServer.renderToString(
         <Header location={ location } context={ context } />
     );
 
@@ -21,7 +21,7 @@ const Html = (location: string, context: any, preloadedState: any) => {
             </head>
             <body>
 
-                ${ serverRenderComponents }
+                ${ header }
 
                 <div id="app"></div>
 

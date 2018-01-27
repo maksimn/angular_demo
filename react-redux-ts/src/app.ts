@@ -3,12 +3,10 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as path from 'path';
 import * as React from 'react';
-import * as ReactDOMServer from 'react-dom/server';
 import { createStore } from 'redux';
 
 import reducers from './client/reducers';
 import { authActionCreators } from './client/actions/authorization';
-
 import Repository from './app/repository';
 import {createToken} from './app/security';
 import {validateRegistrationData, validateLoginData} from './app/validation';

@@ -39,7 +39,7 @@ const serverDevBuild = {
       __filename: false,
     },
     externals: [nodeExternals()],
-    entry: path.resolve(__dirname, 'src/app.tsx'),
+    entry: path.resolve(__dirname, 'src/app.ts'),
     module: {
         rules: [{
             test: /\.tsx?$/,
