@@ -36,12 +36,12 @@ app.get('*', (req, res) => {
                 token: authToken
             };
             store.dispatch(authActionCreators.authSuccess(userView));
-            res.send(Html(req.url, {}, store, store.getState()));
+            res.send(Html(req.url, {}, store.getState()));
         }).catch(err => {
-            res.send(Html(req.url, {}, store, store.getState()));
+            res.send(Html(req.url, {}, store.getState()));
         });
     } else {
-        res.send(Html(req.url, {}, store, store.getState()));
+        res.send(Html(req.url, {}, store.getState()));
     }
 });
 

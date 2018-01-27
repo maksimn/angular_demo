@@ -7,8 +7,11 @@ import { routerMiddleware } from 'react-router-redux';
 import reducers from '../reducers';
 
 import saga from '../sagas';
+import { AppState } from './AppState';
 
-const preloadedState = window.__PRELOADED_STATE__;
+declare const __PRELOADED_STATE__: AppState;
+
+const preloadedState = __PRELOADED_STATE__;
 
 export const history = createHistory();
 

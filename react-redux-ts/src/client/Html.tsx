@@ -5,11 +5,9 @@ import * as ReactDOMServer from 'react-dom/server';
 
 import Header from './components/common/Header';
 
-const Html = (location: string, context: any, store: any, preloadedState: any) => {
+const Html = (location: string, context: any, preloadedState: any) => {
     const serverRenderComponents = ReactDOMServer.renderToString(
-        <Provider store={ store }>
-            <Header location={ location } context={ context } />
-        </Provider>
+        <Header location={ location } context={ context } />
     );
 
     return (
@@ -28,7 +26,7 @@ const Html = (location: string, context: any, store: any, preloadedState: any) =
                 <div id="app"></div>
 
                 <script>
-                    window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')};
+                    __PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')};
                 </script>
 
                 <script src="/index.js"></script>

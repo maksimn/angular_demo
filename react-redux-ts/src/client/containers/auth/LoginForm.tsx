@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 import { AppState } from '../../store/AppState';
 import { authActionCreators } from '../../actions/authorization';
 import UserDataInput from '../../../app/models/UserDataInput';
@@ -7,6 +9,7 @@ import LoginFormComponent from '../../components/auth/LoginForm';
 import ValidationErrorsModel from '../../../app/models/ValidationErrors';
 
 export interface LoginFormProps {
+    isAuthorized: boolean;
     validationErrors: ValidationErrorsModel;
     login: (loginData: UserDataInput) => void;
 }
@@ -37,6 +40,10 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     }
 
     render() {
+        if (this.props.isAuthorized) {
+            return <Redirect to="/photos" />;
+        }
+
         const { onChange, onFormSubmit } = this;
         const { validationErrors } = this.props;
 
@@ -48,7 +55,10 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 }
 
 export default connect(
-    (state: AppState) => ({ validationErrors: state.auth.validationErrors }),
+    (state: AppState) => ({
+        isAuthorized: state.auth.user !== null,
+        validationErrors: state.auth.validationErrors
+    }),
     (dispatch) => ({
         login: (loginData: UserDataInput) => {
             dispatch(authActionCreators.loginStart(loginData));

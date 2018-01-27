@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Link, StaticRouter } from 'react-router-dom';
 
+import UserLogin from '../../containers/common/UserLogin';
+
 interface HeaderProps {
     location: string;
     context: any;
@@ -14,7 +16,7 @@ const Header = (props: HeaderProps) => {
 
             <div className="container-fluid bg-primary">
 
-                {/*<UserLogin />*/}
+                <div id="userLogin"></div>
 
                 <Link className="btn btn-primary" to="/">
                     <h3 className="text-white">React TypeScript Демо</h3>

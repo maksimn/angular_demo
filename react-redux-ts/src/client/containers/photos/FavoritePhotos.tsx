@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import { match } from 'react-router';
+import { Redirect } from 'react-router-dom';
+
 import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
 import PhotoThumbnails from '../../components/photos/PhotoThumbnails';
 import { photoActionCreators } from '../../actions/photos';
 import PhotoDataManager from '../../utils/PhotoDataManager';
 import PhotoBigSize from '../../components/photos/PhotoBigSize';
-import { match } from 'react-router';
 import Photo from '../../store/Photo';
 
 interface FavoritePhotosRouteParams {
@@ -18,6 +20,7 @@ interface Props {
     setFavoritePhotosRenderMode: () => void;
     removeFromFavorites: (photo: Photo) => void;
     backToPhotosPage: (path: string) => void;
+    isUserAuthorized: boolean;
     photosState: PhotosState;
     match: match<FavoritePhotosRouteParams>;
 }
@@ -51,6 +54,10 @@ class FavoritePhotos extends React.Component<Props, State> {
     }
 
     render() {
+        if (!this.props.isUserAuthorized) {
+            return <Redirect to="/login" />;
+        }
+
         const { photosState } = this.props;
         const photoDataManager = new PhotoDataManager(photosState);
         const favoritePhotos = photoDataManager.getPhotosToRenderOnPage();
@@ -81,6 +88,7 @@ class FavoritePhotos extends React.Component<Props, State> {
 
 export default connect(
     (state: AppState) => ({
+        isUserAuthorized: state.auth.user !== null,
         photosState: state.photos
     }),
     (dispatch) => ({

@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { match } from 'react-router';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { push } from 'react-router-redux';
+
 import PhotoThumbnails from '../../components/photos/PhotoThumbnails';
 import { photoActionCreators } from '../../actions/photos';
 import { AppState, PhotosState, PhotosRenderMode } from '../../store/AppState';
@@ -26,6 +28,7 @@ interface Props {
     setRenderMode: (renderMode: PhotosRenderMode) => void;
     setPhotosSearchParam: (searchParam: string) => void;
     updatePhotosState: () => void;
+    isUserAuthorized: boolean;
     photos: PhotosState;
     match: match<PhotosRouteParams>;
     searchParam: string;
@@ -119,6 +122,10 @@ class Photos extends React.Component<Props, State> {
     }
 
     public render() {
+        if (!this.props.isUserAuthorized) {
+            return <Redirect to="/login" />;
+        }
+
         const photosState = this.props.photos;
         const { searchParam } = photosState;
         const renderMode = photosState.photosRenderMode;
@@ -164,6 +171,7 @@ class Photos extends React.Component<Props, State> {
 
 export default connect(
     (state: AppState) => ({
+        isUserAuthorized: state.auth.user !== null,
         photos: state.photos,
         searchParam: state.photos.searchParam
     }),
