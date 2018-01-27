@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Link, StaticRouter } from 'react-router-dom';
 
-import UserLogin from '../../containers/common/UserLogin';
-
 interface HeaderProps {
     location: string;
     context: any;
