@@ -25,7 +25,7 @@ const photoBinarySearch = (photoId: number, photos: Photo[], left: number, right
     } else if (middlePhoto.id > photoId) {
         return photoBinarySearch(photoId, photos, left, middleIndex);
     } else {
-        return photoBinarySearch(photoId, photos, middleIndex, right);
+        return photoBinarySearch(photoId, photos, middleIndex + 1, right);
     }
 };
 

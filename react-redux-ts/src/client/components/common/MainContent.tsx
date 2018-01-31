@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import IndexView from '../pages/IndexView';
+import Index from '../../containers/pages/Index';
 import ErrorView from '../pages/ErrorView';
 
 import RegisterForm from '../../containers/auth/RegisterForm';
@@ -13,7 +13,7 @@ import FavoritePhotos from '../../containers/photos/FavoritePhotos';
 const MainContent = () => (
     <main>
         <Switch>
-            <Route exact path="/" component={IndexView}/>
+            <Route exact path="/" component={Index}/>
             <Route exact path="/register" component={RegisterForm} />
             <Route exact path="/login" component={LoginForm} />
 

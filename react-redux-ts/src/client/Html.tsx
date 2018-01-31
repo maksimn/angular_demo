@@ -4,8 +4,9 @@ import { Provider } from 'react-redux';
 import * as ReactDOMServer from 'react-dom/server';
 
 import Header from './components/common/Header';
+import { AppState } from './store/AppState';
 
-const Html = (location: string, context: any, preloadedState: any) => {
+const Html = (location: string, context: any, preloadedState: AppState) => {
     const header = ReactDOMServer.renderToString(
         <Header location={ location } context={ context } />
     );
