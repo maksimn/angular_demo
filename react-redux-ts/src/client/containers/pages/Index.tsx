@@ -8,19 +8,8 @@ interface IndexProps {
     isUserAuthorized: boolean;
 }
 
-interface IndexState {}
-
-class Index extends React.Component<IndexProps, IndexProps> {
-    constructor(props: IndexProps) {
-        super(props);
-    }
-
-    render() {
-        const { isUserAuthorized } = this.props;
-
-        return <IndexView isUserAuthorized={ isUserAuthorized } />;
-    }
-}
+const Index: React.StatelessComponent<IndexProps> = (props) =>
+    <IndexView isUserAuthorized={ props.isUserAuthorized } />;
 
 export default connect(
     (state: AppState) => ({
